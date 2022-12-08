@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LJ POS</title>
+    <!--- Bootstrap CSS -->
+    <link href="lib/css/bootstrap.min.css" rel="stylesheet">
+    <!--- Styles -->
+    <link href="css/index/navbar.css" rel="stylesheet">
+    <link href="css/index/login.css" rel="stylesheet">
+    <!--- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <!--- Font Awesome -->
+    <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <!--- Navbar -->
+      <div class="navbar navbar-expand-lg">
+        <!--- Logo and Title Div -->
+          <div class="div1">
+            <img src="assets/img/logo.png" alt="Logo" width="60rem" height="60rem">
+            <a class="navbar-brand text-white" href="#">LJ MOTORGEAR POS SYSTEM</a>
+          </div>
+          <!--- Search, Category and Login btn Div -->
+          <div class="div2">
+             <!--- Search -->
+            <div class="searchdiv">
+              <input type="text" placeholder="Search product" class="searchbox">
+                <button class="searchbutton">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                    />
+                  </svg>
+              </button>
+           </div>
+              <!---Category-->
+            <label for="category" class="text-white labelCategory">Category</label>
+            <select class="category" id="category">
+              <option value="All">All</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <!--- Profile -->
+              <button type=button class="btn profilebtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <img class="text-white" alt="profileImg" width="40rem" height="40rem" src="assets/img/user.png"/>
+              </button>
+          </div>
+      </div>
+
+      <!--- Product list display  -->
+      <div class="product" id="product">
+        <div class="container text-center">
+          <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+            <div class="col">
+              <div class="card border-danger mb-3 " style="max-width: 18rem;">
+                <img src="assets/img/Product1.jpg" class="card-img-top img-fluid" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">GT-PRO NAVY BLUE</h5>
+                  <p class="card-subtitle mb-2 text-muted">2XL</p>
+                  <h4 class="card-text">P 4,407</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card border-danger mb-3" style="max-width: 18rem;">
+                <img src="assets/img/Product2.jpg" class="card-img-top img-fluid" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">GT-PRO MATTLE BLUE</h5>
+                  <p class="card-subtitle mb-2 text-muted">XL</p>
+                  <h4 class="card-text">P 4,407</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card border-danger mb-3" style="max-width: 18rem;">
+                <img src="assets/img/Product3.jpg" class="card-img-top img-fluid" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">GT-PRO GLOSSY RED</h5>
+                  <p class="card-subtitle mb-2 text-muted">2XL, XL</p>
+                  <h4 class="card-text">P 4,407</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--- Login modal  -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Welcome to LJ POS!</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="container-sm">
+                <!-- Login Tab -->
+                <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
+                  <form action="">
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                      <label for="floatingInput">Email address</label>
+                    </div>
+                    <div class="form-floating">
+                      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                      <label for="floatingPassword">Password</label>
+                    </div>
+                    <a class="forgetpass mb-3 text-sm " href="password.html">Forgot Password?</a>
+                    <div class="mt-3">
+                      <a type="submit" href="dashboard.html" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;">Login</a>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                      <div class="small"><a href="register.html">Need an account? Register !</a></div>
+                  </div>
+                  </form>
+                </div>
+                <!-- Login Tab -->
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    
+    <!--- JQuery -->
+    <script src="lib/jquery-3.6.1.min.js"></script>
+    <!--- Popper JS -->
+    <script src="lib/popper.min.js"></script>
+    <!--- Bootstrap JS -->
+    <script src="lib/js/bootstrap.min.js"></script>
+    <!--- JS -->
+    <script src="js/index/app.js"></script>
+  </body>
