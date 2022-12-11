@@ -29,4 +29,14 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		GetItem(w, r)
 		return
 	}
+
+	if strings.HasPrefix(r.URL.Path, "edit_item") {
+		EditItem(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "delete_item") {
+		DeleteItem(w, r)
+		return
+	}
 }

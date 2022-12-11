@@ -89,7 +89,7 @@
                     <div class="container-fluid px-4">
                         <div class="product_header">
                             <h1 class="mt-4">Items</h1>
-                            <button type=button class="btn profilebtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <button type=button class="btn profilebtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">
                                 <img class="text-white" alt="profileImg" width="40rem" height="40rem" src="/static/assets/img/user.png"/>
                               </button>
                         </div>
@@ -110,8 +110,41 @@
 
      
 
-          <!--- Add Item Modal  -->
+          <!--- Delete Item Modal  -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Item</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-sm">
+                    <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
+
+                        <input type="hidden" class="form-control" id="itemID_delete">
+                        <div class="form-floating mb-3">
+                            <div class="delete_nam">
+                                <span>Are you sure to Delete <h3 id="delete_name"></h3></span>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="delete_btn">
+                                <a type="submit"  href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Delete_Yes()">YES</a>
+                                <a type="submit"  href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Delete_No()">NO</a>
+                            </div>
+                        
+                        </div>
+                    </div>
+                    <!-- Login Tab -->
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+ <!--- Add/Edit Item Modal  -->
+          <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -122,7 +155,8 @@
                   <div class="container-sm">
                     <!-- Login Tab -->
                     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
-                     
+
+                        <input type="hidden" class="form-control" id="itemID">
                         <div class="form-floating mb-3">
                           <input type="text" class="form-control" id="name" placeholder="Name">
                           <label for="floatingInput">Item Name</label>
@@ -170,7 +204,8 @@
 
             
                         <div class="mt-3">
-                          <a type="submit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Save()">Save</a>
+                          <a type="submit" id="item_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Save()">Save</a>
+                          <a type="submit" id="item_edit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Modify()">Modify</a>
                         </div>
                     </div>
                     <!-- Login Tab -->
@@ -198,7 +233,7 @@
 </html>
 
 <script>
-    function Save(){
+    function Save(){ 
      var   name = $("#name").val()
      var   description = $("#description").val()
      var   price = $("#price").val()
@@ -228,6 +263,7 @@
      }
    }
    $( document ).ready(function() {
+
     $("#item_card").empty()
     var size = ""
     $.get("/api/get_item", function(index){
@@ -255,10 +291,16 @@
     <div class="card border-danger mb-3 " style="max-width: 18rem;">
     <img src="/static/assets/img/Product1.jpg" class="card-img-top img-fluid" alt="...">
     <div class="card-body">
+        
         <h5 class="card-title">`+v.Name+`</h5>
         <p class="card-subtitle mb-2 text-muted">`+v.Description+`</p>
         <p class="card-subtitle mb-2 text-muted">`+size+`</p>
         <h4 class="card-text">P `+v.Price+`</h4>
+
+        <button type=button class="btn profilebtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Update('`+v.ID+`')">Update</button>
+        <button type=button class="btn profilebtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="Delete('`+v.ID+`')">
+        Delete
+        </button>
     </div>
     </div>
 </div>
@@ -266,6 +308,93 @@
     })
   })
 });
+
+function Validate(){
+    $("#item_edit").hide()
+    $("#item_save").show()
+}
+
+function Update(id){
+    $("#item_save").hide()
+    $("#item_edit").show()
+    size = ""
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+        if (id == v.ID){
+     $("#itemID").val(v.ID)   
+     $("#name").val(v.Name)
+     $("#description").val(v.Description)
+     $("#price").val(v.Price)
+     $("#qty").val(v.Quantity)
+     $("#size").val(v.Size)
+     $("#category").val(v.Category)
+        }
+    })
+})
+}
+
+function Modify(){
+    var   id = $("#itemID").val()
+    var   name = $("#name").val()
+     var   description = $("#description").val()
+     var   price = $("#price").val()
+     var   quantity = $("#qty").val()
+     var   size = $("#size").val()
+     var   category = $("#category").val()
+     var   image = $("#image").val()
+
+     if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
+       alert("Please Complete Required Details")
+     }else{
+       $.ajax({
+         url: "/api/edit_item",
+         data: {
+            "id": id,
+           "name": name,
+           "description":description,
+           "price": price,
+           "size": size,
+           "category": category,
+           "quantity":quantity,
+         },
+         success: function () {
+            alert("Update Item Successful")
+         window.location.reload()
+         }
+       })
+     }
+}
+
+function Delete(id){
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+        if (id == v.ID){
+     $("#itemID_delete").val(v.ID)   
+     $("#delete_name").html(v.Name)
+        }
+    })
+})
+}
+
+function Delete_No(){
+    window.location.reload()
+}
+
+function Delete_Yes(){
+    var   id = $("#itemID_delete").val()
+    $.ajax({
+         url: "/api/delete_item",
+         data: {
+            "id": id,
+         },
+         success: function () {
+            alert("Delete Item Successful")
+         window.location.reload()
+         }
+       })
+}
 
   
  </script>

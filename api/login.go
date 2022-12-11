@@ -29,6 +29,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	db.Where("user_id = ?", user.ID).Find(&employee)
 
 	if CheckPasswordHash(password, user.Password) {
+		result := "1"
+
 		newSession := uuid.NewString()
 
 		http.SetCookie(w, &http.Cookie{
@@ -42,14 +44,19 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			Name:  "id",
 			Value: fmt.Sprint(user.ID),
 		})
+		data := map[string]interface{}{
+			"status":  "ok",
+			"results": result,
+		}
+		ReturnJSON(w, r, data)
+	} else {
+		result := "0"
+		data := map[string]interface{}{
+			"status":  "error",
+			"results": result,
+		}
+		ReturnJSON(w, r, data)
 	}
-
-	length := len(employee)
-	data := map[string]interface{}{
-		"status":  "ok",
-		"results": length,
-	}
-	ReturnJSON(w, r, data)
 
 }
 
