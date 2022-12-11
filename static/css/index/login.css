@@ -1,0 +1,23 @@
+.modal-header{
+    justify-content: center;
+    }
+.modal-title{
+    font-size: xx-large;
+    font-weight: bolder;
+    color: #80190A;
+}
+
+.Logintitle{
+    font-size:medium;
+    font-weight: bold;
+    text-align: center;
+}
+.loginbtn{
+    justify-content:flex-end;
+    text-align: center;
+    width: 50%;
+    color:#ffff;
+}
+.forgetpass {
+    color: rgb(71, 71, 71) ;
+}
