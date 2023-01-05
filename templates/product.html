@@ -9,17 +9,18 @@
         <link href="/static/lib/css/bootstrap.min.css" rel="stylesheet">
         <!--- Styles -->
         <link href="/static/css/styles.css" rel="stylesheet">
+        <link href="/static/css/product.css" rel="stylesheet">
         <!--- Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
         <!--- Font Awesome -->
         <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
-      </head>
+        </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbartop">
             <!-- Navbar Brand-->
             <a class="navbar-brand text-white text-bold ps-3 text-center" href="dashboard.html">LJ TRADING POS</a>
             <!-- Sidebar Toggle-->
-            <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0 text-white" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -83,30 +84,75 @@
 
                 </nav>
             </div>
-            <!--Dashboard Content-->
+            <!--Product Content-->
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <div class="product_header">
-                            <h1 class="mt-4">Items</h1>
-                            <button type=button class="btn profilebtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">
-                                <img class="text-white" alt="profileImg" width="40rem" height="40rem" src="/static/assets/img/user.png"/>
-                              </button>
+                        <h1 class="mt-4">Product Inventory</h1>
+                        <ol class="breadcrumb ">
+                            <li class="breadcrumb-item active">Product List</li>
+                        </ol>
+                        <hr style="height:3px;border-width:0;color:gray;background-color:gray">
+                        <div class="container-fluid ">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                           <!--- Search -->
+                                            <div class="searchdiv">
+                                                <input type="text" placeholder="Search product" class="searchbox">
+                                                <button class="searchbutton">
+                                                    <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="16"
+                                                    height="16"
+                                                    fill="currentColor"
+                                                    class="bi bi-search"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                                    />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <!---Category-->
+                                            <label for="category" class="text-white labelCategory">Category</label>
+                                            <select class="category" id="category">
+                                            <option value="All">All</option>
+                                            <option value="1">Category 1</option>
+                                            <option value="2">Category 2</option>
+                                            <option value="3">Category 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <div class="product_header">
+                                                <button type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">
+                                                    ADD PRODUCT
+                                                  </button>
+                                            </div>
+                                            <div class="d-grid gap-2 d-md-block float-end">
+                                                <button class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</button>
+                                            </div>
+                                        </div>
+                                      </div>
+                                </div>
+                              </div>
                         </div>
-                       
                     </div>
 
                            <!--- Product list display  -->
-      <div class="product" id="product">
-        <div class="container text-center">
-          <div class="row row-cols-1 row-cols-md-3 g-4 mt-3 " id="item_card">
-             <!--- Item List Append Here -->
-          </div>
-        </div>
-      </div>
-                </main>
-            </div>
-        </div>
+                    <div class="product" id="product">
+                        <div class="container text-center">
+                        <div class="row row-cols-1 row-cols-md-3 g-4 mt-3 " id="item_card">
+                            <!--- Item List Append Here -->
+                        </div>
+                        </div>
+                    </div>
+                                </main>
+                            </div>
+                        </div>
 
      
 
@@ -202,7 +248,6 @@
                           <input type="file" class="form-control" id="image">
                         </div>
 
-            
                         <div class="mt-3">
                           <a type="submit" id="item_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Save()">Save</a>
                           <a type="submit" id="item_edit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Modify()">Modify</a>
@@ -243,6 +288,7 @@
      var   image = $("#image").val()
 
      if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
+       /*swal("Please Complete Required Details")*/
        alert("Please Complete Required Details")
      }else{
        $.ajax({
@@ -256,8 +302,12 @@
            "quantity":quantity,
          },
          success: function () {
-            alert("Add Item Successful")
-         window.location.reload()
+            /*swal({
+                title: "Item Added Successfully!",
+                icon: "success",
+              });*/
+              alert("Item Added Successfully!")
+         /*window.location.reload()*/
          }
        })
      }
@@ -345,6 +395,7 @@ function Modify(){
      var   image = $("#image").val()
 
      if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
+       /*swal("Please Complete Required Details")*/
        alert("Please Complete Required Details")
      }else{
        $.ajax({
@@ -359,8 +410,12 @@ function Modify(){
            "quantity":quantity,
          },
          success: function () {
-            alert("Update Item Successful")
-         window.location.reload()
+            /*swal({
+                title: "Updated Item Successfully!",
+                icon: "success",
+              });*/
+              alert("Updated Item Successfully!")
+         /*window.location.reload()*/
          }
        })
      }
@@ -390,11 +445,14 @@ function Delete_Yes(){
             "id": id,
          },
          success: function () {
-            alert("Delete Item Successful")
-         window.location.reload()
+           /* swal({
+                title: "Deleted Item Successfully!",
+                icon: "success",
+              });*/
+              alert("Deleted Item Successfully!")
+         /*window.location.reload()*/
          }
        })
 }
 
-  
  </script>

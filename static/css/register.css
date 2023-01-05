@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+
+  }
+  body {
+    width: 100%;
+    height: 100%;
+    background: #D6D4D4;
+    font-family: 'Nunito', sans-serif;
+  }
+  

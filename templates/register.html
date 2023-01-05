@@ -1,16 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{.Title}}</title>
-    <link href="/static/css/dashboard/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-</head>
+    <!--- Bootstrap CSS -->
+    <link href="/static/lib/css/bootstrap.min.css" rel="stylesheet">
+    <!--- Styles -->
+    <link href="/static/css/register.css" rel="stylesheet">
+    <!--- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <!--- Font Awesome -->
+    <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
+  </head>
 
 <body>
     <div id="layoutAuthentication">
@@ -19,12 +21,9 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Create Account</h3>
-                                </div>
+                            <div class="card  border-0 rounded-lg mt-5" style="border-radius: 15px;">
+                                <h3 class="text-center my-4 ">Create Account</h3>
                                 <div class="card-body">
-
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3 mb-md-0">
@@ -63,7 +62,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-4 mb-0">
-                                        <div class="d-grid"><button class="btn btn-primary btn-block"
+                                        <div class="d-grid btn w-100 btn-block rounded text-white" style="background-color: #80190A;"
                                                 onclick="Create()">Create Account</button></div>
                                     </div>
                                 </div>
