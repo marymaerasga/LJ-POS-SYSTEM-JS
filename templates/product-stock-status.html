@@ -123,86 +123,30 @@
                     <div class="container-fluid">
                         <h1 class="mt-4">Product Inventory</h1>
                         <ol class="breadcrumb ">
-                            <li class="breadcrumb-item active">Product List</li>
+                            <li class="breadcrumb-item active">Product Stock Status</li>
                         </ol>
                         <hr style="height:3px;border-width:0;color:gray;background-color:gray">
-                        <div class="container-fluid ">
+                        <div class="container-fluid border">
                             <div class="card shadow">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
-                                        <!--- Search -->
-                                        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                                            <div class="searchdiv">
-                                                <input type="text" placeholder="Search product" style="
-                                                    width: 17rem;
-                                                    outline: none;
-                                                    border: none;
-                                                    text-indent: 10px;
-                                                    font-family: 'Poppins', sans-serif;
-                                                    font-weight: bold;
-                                                    height: 2.5rem;
-                                                    font-size: 1rem;
-                                                    border-radius: 5rem 0rem 0rem 5rem;
-                                                    background-color: #f8fbfc;
-                                                    text-transform: capitalize;">
-                                                  <button style="
-                                                    width: 3rem;
-                                                    outline: none;
-                                                    border: none;
-                                                    height: 2.5rem;
-                                                    border-radius: 0rem 5rem 5rem 0rem;
-                                                    background-color: #f8fbfc;
-                                                    margin-left: -20px;">
-                                                    <svg
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                      width="16"
-                                                      height="16"
-                                                      fill="currentColor"
-                                                      class="bi bi-search"
-                                                      viewBox="0 0 16 16">
-                                                      <path
-                                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                                                      />
-                                                    </svg>
-                                                </button>
-                                             </div>
-                                        </form>
-                                        </div>
-                                        <div class="col">
-                                            <!---Category
-                                            <div class="container category">
-                                                <label>Select Category: </label>
-                                                <select class="form-select form-select-md category" id="category">
-                                                    <option selected>All</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
-                                                </select>
-                                            </div>
-                                            -->
-                                            <div class="row ">
-                                                <div class="col mt-2">
-                                                    <h6 for="category" class="labelCategory">Select Category:</h6>
-                                                </div>
-                                                <div class="col">
-                                                    <select class="form-select category" id="category">
-                                                        <option selected>All</option>
-                                                        <option value="1">Category 1</option>
-                                                        <option value="2">Category 2</option>
-                                                        <option value="3">Category 3</option>
-                                                    </select>
+                                        <div class="col-8">col-8</div>
+                                        <div class="col-4">
+                                            <div class="card" style="background-color:#80190A">
+                                                <div class="card-body">
+                                                  <h5 class="text-center text-white">Product Status</h5> 
+                                                  <p class="text-white" style="margin: 0; display:inline;">Low In Stocks:</p> 
+                                                  <div class="badge bg-warning" style="width: 12rem; border:none;">
+                                                    6
+                                                  </div>
+                                                  <p class="text-white" style="margin: 0; display:inline;">Out Of Stocks:</p>
+                                                  <div class="badge bg-danger" style="width: 12rem; border:none;">
+                                                    0
+                                                  </div>
                                                 </div>
                                               </div>
-
                                         </div>
-                                        <div class="col">
-                                            <div class="product_header">
-                                                <button type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">ADD PRODUCT</button>
-                                                <button class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</button>
-                                            </div>
-                                            </div>
-                                      </div>
+                                    </div>
                                 </div>
                               </div>
                         </div>
@@ -212,9 +156,23 @@
                             <div class="container-fluid mt-3 px-4 text-center">
                                 <div class="card shadow">
                                     <div class="card-body">
-                                        <div class="row row-cols-1 row-cols-md-4 g-4" id="item_card">
-                                            <!--- Item List Append Here -->
+                                         <!--- Tables -->
+                                           <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="table-dark">
+                                                    <th scope="col">Code</th>
+                                                    <th scope="col">Product Name</th>
+                                                    <th scope="col">Category</th>
+                                                    <th scope="col">Description</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Stocks</th>
+                                                </thead>
+                                                <tbody id="product_stock_status">
+                                                    
+                                                </tbody>
+                                              </table>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>

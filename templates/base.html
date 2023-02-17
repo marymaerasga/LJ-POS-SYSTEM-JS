@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{template "title" .}}
+
+        <!--- Bootstrap CSS -->
+        <link href="/static/lib/css/bootstrap.min.css" rel="stylesheet">
+        <!--- Styles -->
+        <link href="/static/css/styles.css" rel="stylesheet">
+        <!--- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
+        <!--- Font Awesome -->
+        <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
+      </head>
+
+
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbartop">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand text-white text-bold ps-3 text-center" href="station/dashboard" id="bname"></a>
+            <!-- Sidebar Toggle
+            <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button> -->
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                   <h4 id="user_name" class="user_name"></h4>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/station/account">Settings</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-left" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav" id="sidebar">
+                           <!-- Append link dashboard -->
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--- JQuery -->
+        <script src="/static/lib/jquery-3.6.1.min.js"></script>
+        <!--- Popper JS -->
+        <script src="/static/lib/popper.min.js"></script>
+        <!--- Bootstrap JS -->
+        <script src="/static/lib/js/bootstrap.min.js"></script>
+        <!--- JS -->
+        <script src="/static/js/scripts.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js" integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo=" crossorigin="anonymous"></script>
+    </body>
+</html>
+{{template "content" .}}
+<script>
+$( document ).ready(function() {
+    $.get("/api/store", function(index){
+      var result = JSON.parse(index).store
+      $.each(result, function(_,v){
+        $("#bname").html(v.Main + " " + "(" + v.Name + ")")
+      })
+  })
+
+  var value = $.cookie("id");
+  $.get("/api/get_user", function(index){
+      var result = JSON.parse(index).item
+      $.each(result, function(_,v){
+        if(v.ID == value && v.Type == "Administrator"){
+            $("#user_name").html(v.Name)
+            $("#sidebar").empty()
+            $("#sidebar").append(`
+            <a class="nav-link" href="/station/dashboard">
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                Dashboard
+            </a>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                Product Inventory
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="/station/category">Category List</a>
+                    <a class="nav-link" href="/station/product">Product List</a>
+                    <a class="nav-link" href="/station/stock">Stock In Entry</a>
+                    <a class="nav-link" href="/station/purchase">Pull Out Product History</a>
+                    <a class="nav-link" href="/station/report">Order History</a>
+                </nav>
+            </div>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapseLayouts">
+                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                Manage Account
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="/station/vat">Vat</a>
+                    <a class="nav-link" href="/station/discount">Discount</a>
+                    <a class="nav-link" href="/station/user">User</a>
+                    <a class="nav-link" href="/station/setting">Setting</a>
+                </nav>
+            </div>
+            `)
+        }else{
+            $("#user_name").html(v.Name)
+            $("#sidebar").empty()
+            $("#sidebar").append(`
+            <a class="nav-link" href="/pos">
+                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                Point of Sale (POS)
+            </a>
+            `)
+        }
+      })
+  })
+});
+</script>
+
+
+

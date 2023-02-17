@@ -24,9 +24,40 @@
             <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0 text-white" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                </div>
+                <div class="searchdiv">
+                    <input type="text" placeholder="Search" style="
+                        width: 15rem;
+                        outline: none;
+                        border: none;
+                        text-indent: 10px;
+                        font-family: 'Poppins', sans-serif;
+                        font-weight: bold;
+                        height: 2.5rem;
+                        font-size: 1rem;
+                        border-radius: 5rem 0rem 0rem 5rem;
+                        background-color: #f8fbfc;
+                        text-transform: capitalize;">
+                      <button style="
+                        width: 3rem;
+                        outline: none;
+                        border: none;
+                        height: 2.5rem;
+                        border-radius: 0rem 5rem 5rem 0rem;
+                        background-color: #f8fbfc;
+                        margin-left: -20px;">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-search"
+                          viewBox="0 0 16 16">
+                          <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                          />
+                        </svg>
+                    </button>
+                 </div>
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -34,7 +65,7 @@
                     <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="#!">POS</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="#!">Logout</a></li>
                     </ul>
@@ -62,7 +93,6 @@
                                     <a class="nav-link" href="#!">Stock In Entry</a>
                                     <a class="nav-link" href="#!">Stock In History</a>
                                     <a class="nav-link" href="#!">Product Stock Status</a>
-                                    <a class="nav-link" href="#!">Pull Out Product History</a>
                                     <a class="nav-link" href="#!">Vat and Discount</a>
                                 </nav>
                             </div>
@@ -91,112 +121,104 @@
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active">Sales Dashboard</li>
-                        </ol>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="#">Sales Dashboard</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Library</li>
+                            </ol>
+                          </nav>
                         <hr style="height:3px;border-width:0;color:gray;background-color:gray">
-                        <div class="container-fluid mt-3">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                        <div class="d-flex justify-content-start">
-                                            <div class="row">
-                                                <div class="col">
-                                                  <div class="card" style="width: 15rem;">
-                                                    <div class="card-body">
-                                                        <h6>No. of Transaction</h6>
-                                                        <h3>0</h3>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="card" style="width: 15rem;">
-                                                      <div class="card-body">
-                                                          <h6>Product Sold</h6>
-                                                          <h3>0</h3>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                <div class="col">
-                                                  <div class="card" style="width: 15rem;">
-                                                    <div class="card-body">
-                                                        <h6>Total Sales</h6>
-                                                        <h3>0.0</h3>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                            </div>
+                        <div class="container-fluid">
+                            <div class="d-flex justify-content-start">
+                                <div class="row">
+                                    <div class="col">
+                                      <div class="card" style="width: 13rem;">
+                                        <div class="card-body">
+                                            <h6>No. of Transaction</h6>
+                                            <h2>0</h2>
                                         </div>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card" style="width: 13rem;">
+                                          <div class="card-body">
+                                              <h6>Product Sold</h6>
+                                              <h2>0</h2>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <div class="col">
+                                      <div class="card" style="width: 13rem;">
+                                        <div class="card-body">
+                                            <h6>Total Sales</h6>
+                                            <h2>0.0</h2>
+                                        </div>
+                                      </div>
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                         <div class="container-fluid mt-3">
-                            <div class="card shadow">
-                                <div class="card-header">
-                                    Transactions
-                                        <div class="d-grid gap-2 d-md-block float-end">
-                                          <a href="" class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</a>
-                                        </div>
+                            Transactions
+                                <div class="d-grid d-md-block float-end">
+                                  <a href="" class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</a>
                                 </div>
-                                <div class="card-body">
+                        </div>
+                        <div class="container-fluid mt-3">
                                     <!--- Tables -->
-                                    <table id="Transactions" class="display text-center border" style="width:100%">
-                                        <thead>
-                                            <tr class="border">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
                                                 <th>Transaction ID</th>
                                                 <th>Total Amount</th>
                                                 <th>Cash</th>
                                                 <th>Change</th>
                                                 <th>Staff Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="border">
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                              </div>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border">
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
                         </div>
                         <div class="container-fluid mt-3">
-                            <div class="card shadow">
-                                <div class="card-header">Product Sold
-                                    <div class="d-grid gap-2 d-md-block float-end">
-                                        <button class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <!--- Tables -->
-                                    <table id="ProductSold" class="display text-center border" style="width:100%">
-                                        <thead>
-                                            <tr class="border">
+                            Product Sold
+                            <div class="d-grid gap-2 d-md-block float-end">
+                                <button class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</button>
+                            </div>
+                        </div>
+                        <div class="container-fluid mt-3">
+                                     <!--- Tables -->
+                                     <div class="table-responsive">
+                                        <table class="table table-hover ">
+                                            <thead class="table-dark">
                                                 <th>Product Name</th>
                                                 <th>Quantity</th>
                                                 <th>Total Amount</th>
                                                 <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="border">
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                                <td>Sample</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                              </div>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border">
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                    <td>Sample</td>
+                                                </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
                         </div>
                     </div>
                 </main>
             </div>
         </div>
-
+        
         <script>
             $("#datepicker").datepicker();
         </script>
@@ -212,7 +234,5 @@
         <script src="/static/lib/js/bootstrap.min.js"></script>
         <!--- JS -->
         <script src="/static/js/scripts.js"></script>
-        
     </body>
-    
 </html>
