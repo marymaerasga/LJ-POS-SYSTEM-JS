@@ -11,13 +11,14 @@
         <link href="/static/lib/jquery-ui.min.css" rel="stylesheet">
         <!--- Styles -->
         <link href="/static/css/styles.css" rel="stylesheet">
+        <link href="/static/css/all.min.css" rel="stylesheet">
+        <link href="/static/css/fontawesome.min.css" rel="stylesheet">
         <!--- Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
-        <!--- Font Awesome -->
-        <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
+        
       </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbartop">
+        <nav class="sb-topnav navbar navbar-expand navbartop sticky-top">
             <!-- Navbar Brand-->
             <a class="navbar-brand text-white text-bold ps-3 text-center" href="/dashboard">LJ TRADING POS</a>
             <!-- Sidebar Toggle-->
@@ -93,9 +94,14 @@
                                     <a class="nav-link" href="#!">Stock In Entry</a>
                                     <a class="nav-link" href="#!">Stock In History</a>
                                     <a class="nav-link" href="#!">Product Stock Status</a>
+                                    <a class="nav-link" href="#!">Pull Out Product History</a>
                                     <a class="nav-link" href="#!">Vat and Discount</a>
                                 </nav>
                             </div>
+                            <a class="nav-link" href="#!">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Customer
+                            </a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Manage Account
@@ -121,54 +127,108 @@
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="#">Sales Dashboard</a></li>
-                              <li class="breadcrumb-item active" aria-current="page">Library</li>
-                            </ol>
-                          </nav>
-                        <hr style="height:3px;border-width:0;color:gray;background-color:gray">
-                        <div class="container-fluid">
-                            <div class="d-flex justify-content-start">
-                                <div class="row">
-                                    <div class="col">
-                                      <div class="card" style="width: 13rem;">
-                                        <div class="card-body">
-                                            <h6>No. of Transaction</h6>
-                                            <h2>0</h2>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card" style="width: 13rem;">
-                                          <div class="card-body">
-                                              <h6>Product Sold</h6>
-                                              <h2>0</h2>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    <div class="col">
-                                      <div class="card" style="width: 13rem;">
-                                        <div class="card-body">
-                                            <h6>Total Sales</h6>
-                                            <h2>0.0</h2>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                              <button class="nav-link active" id="nav-sales-tab" data-bs-toggle="tab" data-bs-target="#nav-sales" type="button" role="tab" aria-controls="nav-sales" aria-selected="true">Sales</button>
+                              <button class="nav-link" id="nav-product_sold-tab" data-bs-toggle="tab" data-bs-target="#nav-product_sold" type="button" role="tab" aria-controls="nav-product_sold" aria-selected="false">Product Sold</button>
                             </div>
-                        </div>
-                        <div class="container-fluid mt-3">
-                            Transactions
-                                <div class="d-grid d-md-block float-end">
-                                  <a href="" class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</a>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <!--- SALES TAB -->
+                            <div class="tab-pane fade show active" id="nav-sales" role="tabpanel" aria-labelledby="nav-sales-tab" tabindex="0">
+                                <div class="container-fluid mt-3">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card" style="width: 15rem; height: 6rem">
+                                                    <div class="card-body">
+                                                        <h6>No. of Transaction</h6>
+                                                        <h2>0</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card" style="width: 15rem; height: 6rem">
+                                                    <div class="card-body">
+                                                        <h6>Total Sales</h6>
+                                                        <h2>0</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                        </div>
-                        <div class="container-fluid mt-3">
-                                    <!--- Tables -->
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead class="table-dark">
+                                <div class="container-fluid mt-3">
+                                    <div class="card border shadow">
+                                        <div class="row">
+                                            <div class="col-md-auto py-1 my-1 mx-3">
+                                                Select date:
+                                                <div class="col-sm">
+                                                    <input type="password" class="form-control" id="inputPassword">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="d-grid gap-2 d-md-block py-2 ">
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/daily.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                DAILY SALES
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/weekly.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                WEEKLY SALES
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/monthly.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            MONTHLY SALES
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/annually.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            ANNUALLY SALES
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-auto py-3 me-3">
+                                                <div class="d-grid d-md-block">
+                                                    <a href="" class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</a>
+                                                </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                  </div>
+                                <div class="container-fluid mt-3">
+                                    <div class="card shadow">
+                                        <!--- Tables -->
+                                    <div class="table-responsive py-3 ms-3 me-3">
+                                        <table class="table table-bordered">
+                                            <thead>
                                                 <th>Transaction ID</th>
                                                 <th>Total Amount</th>
                                                 <th>Cash</th>
@@ -186,18 +246,104 @@
                                             </tbody>
                                           </table>
                                     </div>
-                        </div>
-                        <div class="container-fluid mt-3">
-                            Product Sold
-                            <div class="d-grid gap-2 d-md-block float-end">
-                                <button class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="container-fluid mt-3">
-                                     <!--- Tables -->
-                                     <div class="table-responsive">
-                                        <table class="table table-hover ">
-                                            <thead class="table-dark">
+                            <!--- PRODUCT SOLD TAB -->
+                            <div class="tab-pane fade" id="nav-product_sold" role="tabpanel" aria-labelledby="nav-product_sold-tab" tabindex="0">
+                                <div class="container-fluid mt-3">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card" style="width: 15rem; height: 6rem">
+                                                    <div class="card-body">
+                                                        <h6>Product Sold</h6>
+                                                        <h2>0</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card" style="width: 15rem; height: 6rem">
+                                                    <div class="card-body">
+                                                        <h6>Total Sales</h6>
+                                                        <h2>0</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid mt-3">
+                                    <div class="card border shadow">
+                                        <div class="row">
+                                            <div class="col-md-auto py-1 my-1 mx-3">
+                                                Select date:
+                                                <div class="col-sm">
+                                                    <input type="password" class="form-control" id="inputPassword">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="d-grid gap-2 d-md-block py-2 ">
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/daily.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                DAILY SALES
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/weekly.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                WEEKLY SALES
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/monthly.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            MONTHLY SALES
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn text-white" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
+                                                        <div class="row">
+                                                            <div class="text-center">
+                                                                <img src="/static/assets/img/annually.png" class="rounded text-white" alt="..." width="30rem" height="30rem">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            ANNUALLY SALES
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-auto py-3 me-3">
+                                                <div class="d-grid d-md-block">
+                                                    <a href="" class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</a>
+                                                </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                  </div>
+                                  <div class="container-fluid mt-3">
+                                    <div class="card shadow">
+                                        <!--- Tables -->
+                                    <div class="table-responsive py-3 ms-3 me-3">
+                                        <table class="table table-bordered">
+                                            <thead>
                                                 <th>Product Name</th>
                                                 <th>Quantity</th>
                                                 <th>Total Amount</th>
@@ -213,16 +359,14 @@
                                             </tbody>
                                           </table>
                                     </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>
             </div>
         </div>
-        
-        <script>
-            $("#datepicker").datepicker();
-        </script>
-
 
         <!--- JQuery -->
         <script src="/static/lib/jquery-3.6.1.min.js"></script>
@@ -232,7 +376,10 @@
         <script src="/static/lib/popper.min.js"></script>
         <!--- Bootstrap JS -->
         <script src="/static/lib/js/bootstrap.min.js"></script>
+        <!--- Sweet Alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!--- JS -->
         <script src="/static/js/scripts.js"></script>
     </body>
+    
 </html>

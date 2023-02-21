@@ -130,12 +130,12 @@
                             <div class="card shadow">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
-                                        <!--- Search -->
+                                        <div class="col-md-auto">
+                                           <!--- Search -->
                                         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                             <div class="searchdiv">
                                                 <input type="text" placeholder="Search product" style="
-                                                    width: 17rem;
+                                                    width: 19rem;
                                                     outline: none;
                                                     border: none;
                                                     text-indent: 10px;
@@ -169,39 +169,22 @@
                                              </div>
                                         </form>
                                         </div>
-                                        <div class="col">
-                                            <!---Category
-                                            <div class="container category">
-                                                <label>Select Category: </label>
-                                                <select class="form-select form-select-md category" id="category">
-                                                    <option selected>All</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
-                                                </select>
-                                            </div>
-                                            -->
-                                            <div class="row ">
-                                                <div class="col mt-2">
-                                                    <h6 for="category" class="labelCategory">Select Category:</h6>
-                                                </div>
-                                                <div class="col">
-                                                    <select class="form-select category" id="category">
-                                                        <option selected>All</option>
-                                                        <option value="1">Category 1</option>
-                                                        <option value="2">Category 2</option>
-                                                        <option value="3">Category 3</option>
-                                                    </select>
-                                                </div>
-                                              </div>
-
+                                        <div class="col-md-auto">
+                                            <select class="form-select category" id="category">
+                                                <option selected>All</option>
+                                                <option value="1">Category 1</option>
+                                                <option value="2">Category 2</option>
+                                                <option value="3">Category 3</option>
+                                            </select>
                                         </div>
-                                        <div class="col">
-                                            <div class="product_header">
-                                                <button type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">ADD PRODUCT</button>
-                                                <button class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</button>
+                                        <div class="col-md-6 pe-5 ">
+                                            <div class="product_header d-grid d-md-flex mx-auto">
+                                                <button class="btn text-white" type="button" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">ADD PRODUCT</button>
+                                                <button class="btn text-white" onclick="pull_out_expired()" type="button" style="background-color: #80190A;">PULL OUT EXPIRED</button>
+                                                <button class="btn text-white" type="button" style="background-color: #80190A;">GENERATE REPORT</button>
                                             </div>
-                                            </div>
+                                        </div>
+                                        
                                       </div>
                                 </div>
                               </div>
@@ -282,7 +265,7 @@
                             <textarea  class="form-control " id="description" placeholder="Description" style="height: 100px"></textarea>
                             <label for="description">Description</label>
                         </div>
-                        <div class="mb-2">
+                        <div class="mb-3">
                             <select class="form-select " name="size" id="size" required>
                                 <option value="">Select Size</option>
                                 <option value="1">Extra Small</option>
@@ -292,18 +275,24 @@
                                 <option value="5">Extra Large</option>
                             </select>
                         </div>
-                        <div class="row mb-2">
+                        <div class="row mb-3">
                             <div class="col">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="price" placeholder="Prize">
-                                    <label for="floatingInput">Product Price</label>
+                                    <label for="floatingInput">Price</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="qty" placeholder="Quantity">
-                                    <label for="floatingInput">Quantity</label>
+                                    <label for="floatingInput">Initial Stocks</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Expiration Date:</label>
+                                <input type="text" class="form-control" id="expiration" placeholder="MM/YYYY">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -326,6 +315,8 @@
         <script src="/static/lib/popper.min.js"></script>
         <!--- Bootstrap JS -->
         <script src="/static/lib/js/bootstrap.min.js"></script>
+        <!--- Sweet Alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!--- JS -->
         <script src="/static/js/scripts.js"></script>
 
@@ -508,4 +499,26 @@ function Delete_Yes(){
          }
        })
 }
+
+function pull_out_expired(){
+    Swal.fire({
+        text: "10 Products have been expired, Do you want to Pull Out all Expired products?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#80190A',
+        cancelButtonColor: '#747474',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Pulled Out!',
+            'Products have been pull out.',
+            'success'
+          )
+        }
+      })
+}
  </script>
+
+
+ 
