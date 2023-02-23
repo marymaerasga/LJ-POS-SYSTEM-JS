@@ -117,136 +117,74 @@
                 </nav>
             </div>
 
-            <!--Product Content-->
+            <!--Stock In History Content-->
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Product Inventory</h1>
                         <ol class="breadcrumb ">
-                            <li class="breadcrumb-item active">Product Stock Status</li>
+                            <li class="breadcrumb-item active">Stock in History</li>
                         </ol>
                         <hr style="height:3px;border-width:0;color:gray;background-color:gray">
                         <div class="container-fluid ">
                             <div class="card shadow">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <div class="row mt-2">
+                                    <div class="row text-center">
+                                        <div class="col-md-4">
+                                            <div class="row">
                                                 <div class="col-md-auto">
-                                                    <p  style="margin: 0; display:inline;">Status:</p>
-                                                        <select id="product-status" class="form-select">
-                                                          <option selected>Total Stocks Per Product</option>
-                                                          <option>Expired Products</option>
-                                                          <option>Low In Stocks</option>
-                                                          <option>Out Of Stocks</option>
-                                                        </select>
+                                                    <label for="stock-received" class=" col-form-label">Total Stock Received:</label>
                                                 </div>
-                                                <div class="col-md-auto mt-3">
-                                                    <a href="" class="btn text-white" id="stock-report" style="background-color: #80190A;">GENERATE REPORT</a>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" id="stock-received" disabled readonly>
                                                 </div>
-                                                <div class="col mt-3">
-                                                    <button href="" class="btn text-white" id="remove-expired" onclick="remove_product_expired()" style="background-color: #80190A;">REMOVE EXPIRED PRODUCTS</button>
-                                                </div>
-                                              </div>
-                                              <div class="row mt-3">
-                                                <div class="row ">
-                                                    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                                                        <div class="searchdiv">
-                                                            <input type="text" id= "search-product" placeholder="Search ..." style="
-                                                                width: 40rem;
-                                                                outline: none;
-                                                                border: none;
-                                                                text-indent: 10px;
-                                                                font-family: 'Poppins', sans-serif;
-                                                                font-weight: bold;
-                                                                height: 2.5rem;
-                                                                font-size: 1rem;
-                                                                border-radius: 5rem 0rem 0rem 5rem;
-                                                                background-color: #f8fbfc;
-                                                                text-transform: capitalize;">
-                                                              <button style="
-                                                                width: 3rem;
-                                                                outline: none;
-                                                                border: none;
-                                                                height: 2.5rem;
-                                                                border-radius: 0rem 5rem 5rem 0rem;
-                                                                background-color: #f8fbfc;
-                                                                margin-left: -20px;">
-                                                                <svg
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  width="16"
-                                                                  height="16"
-                                                                  fill="currentColor"
-                                                                  class="bi bi-search"
-                                                                  viewBox="0 0 16 16">
-                                                                  <path
-                                                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                                                                  />
-                                                                </svg>
-                                                            </button>
-                                                         </div>
-                                                    </form>
-                                                </div>
-
-                                              </div>
+                                            </div>
                                         </div>
-                                        <div class="col-4">
-                                            <div class="card" style="background-color:#80190A">
-                                                <div class="card-body">
-                                                  <h6 class="text-center text-white">Product Status</h6> 
-                                                  <p class="text-white" style="display:inline;">Expired Products:</p> 
-                                                  <div class="badge border" id="expired-count" style="width: 11rem;">
-                                                    6
-                                                  </div>
-                                                  <p class="text-white" style="margin: 0; display:inline;">Low In Stocks:</p> 
-                                                  <div class="badge bg-warning" id="low-stock-count" style="width: 12rem; border:none;">
-                                                    6
-                                                  </div>
-                                                  <p class="text-white" style="margin: 0; display:inline;">Out Of Stocks:</p>
-                                                  <div class="badge bg-danger" id="out-stock-count" style="width: 12rem; border:none;">
-                                                    0
-                                                  </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-auto">
+                                                    <label for="date-received" class=" col-form-label">Date Received:</label>
                                                 </div>
-                                              </div>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" id="date-received" disabled readonly>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
+                                        <div class="col">
+                                            <button class="btn text-white" id= "stock-report" type="button" style="background-color: #80190A;">GENERATE REPORT</button>
+                                        </div>
+                                      </div>
                                 </div>
                               </div>
                         </div>
-                    </div>
-                        <!--- Product list display  -->
-                        <div class="product" id="product">
-                            <div class="container-fluid mt-3 px-4 text-center">
-                                <div class="card shadow">
-                                    <div class="card-body">
-                                         <!--- Tables -->
-                                           <div class="table-responsive py-3 ms-3 me-3">
-                                            <table class="table table-bordered text-center">
-                                                <thead>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Code</th>
-                                                    <th scope="col">Product Name</th>
-                                                    <th scope="col">Category</th>
-                                                    <th scope="col">Description</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Stocks</th>
-                                                </thead>
-                                                <tbody id="product_stock_status">
-                                                    
-                                                </tbody>
-                                              </table>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
+
+                        <div class="container-fluid mt-3">
+                            <div class="card shadow">
+                                <!--- Tables -->
+                            <div class="table-responsive py-3 ms-3 me-3">
+                                <table class="table table-bordered text-center">
+                                    <thead>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Stocks</th>
+                                        <th scope="col">Date Received</th>
+                                    </thead>
+                                    <tbody id="stock-details">
+                                        <tr class="border">
+                                            
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
                             </div>
                         </div>
+                    </div>
                     </main>
                 </div>
             </div>
 
-
+      
         <!--- JQuery -->
         <script src="/static/lib/jquery-3.6.1.min.js"></script>
         <!--- Popper JS -->
@@ -265,23 +203,7 @@
     </body>
 </html>
 
-<script>
-    function remove_product_expired(){
-        Swal.fire({
-            text: "10 Products have been expired, Do you want to Remove all Expired Products?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#80190A',
-            cancelButtonColor: '#747474',
-            confirmButtonText: 'Yes'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire(
-                'Pulled Out!',
-                'Products have been pull out.',
-                'success'
-              )
-            }
-          })
-    }
-</script>
+
+
+
+ 

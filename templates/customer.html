@@ -17,7 +17,7 @@
         <!--- Font Awesome -->
         <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
       </head>
-    <body class="sb-nav-fixed">
+    <body class="sb-nav-fixed" style="background: #f4f4f4;">
         <nav class="sb-topnav navbar navbar-expand navbartop">
             <!-- Navbar Brand-->
             <a class="navbar-brand text-white text-bold ps-3 text-center" href="/dashboard">LJ TRADING POS</a>
@@ -121,19 +121,33 @@
             <!--Customer Content-->
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4">
+                    <div class="container-fluid">
                         <h1 class="mt-4">Customer</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active">Customer Details</li>
+                        </ol>
                         <hr style="height:3px;border-width:0;color:gray;background-color:gray">
+
+                        <div class="container-fluid mt-3 ">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-end">
+                                    <div class="row text-center">
+                                        <div class=" d-flex justify-content-end">
+                                            <div class="d-grid gap-2 d-md-block ">
+                                                <a href="" type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                onclick="Validate()">ADD CUSTOMER</a>
+                                                <a href="" class="btn text-white" id="customer-report" style="background-color: #80190A;">GENERATE REPORT</a>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                        </div>
+
                         <div class="container-fluid mt-3">
                             <div class="card shadow">
-                                <div class="card-header">
-                                        <div class="d-grid gap-2 d-md-block float-end">
-                                          <a href="" type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                          onclick="Validate()">ADD CUSTOMER</a>
-                                          <a href="" class="btn text-white" style="background-color: #80190A;">GENERATE REPORT</a>
-                                        </div>
-                                    </div>
-
                                     <div class="customer" id="customer">
                                            <!--- Tables -->
                                            <div class="table-responsive py-3 ms-3 me-3">
@@ -164,18 +178,18 @@
                                               <div class="container">
                                                 <!-- INPUT FORM -->
                                                 <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
-                                                    <input type="hidden" class="form-control" id="itemID">
+                                                    <input type="hidden" class="form-control" id="customerID">
                                                     <div class="form-floating mb-2">
                                                       <input type="text" class="form-control" id="name" placeholder="Name" required>
                                                       <label for="floatingInput">Name</label>
                                                     </div>
                                                     <div class="form-floating mb-2">
-                                                        <input type="text" class="form-control" id="price" placeholder="Prize">
-                                                        <label for="floatingInput">Mobile No.</label>
+                                                        <input type="text" class="form-control" id="mobile-no" placeholder="Prize">
+                                                        <label for="mobile-no">Mobile No.</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control" id="qty" placeholder="Quantity">
-                                                        <label for="floatingInput">Address</label>
+                                                        <input type="text" class="form-control" id="address" placeholder="Quantity">
+                                                        <label for="address">Address</label>
                                                     </div>
                                                     <div class="mt-3">
                                                         <a type="submit" id="customer_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;">Save</a>
@@ -188,7 +202,7 @@
                                       </div>
         
 
-                                      <!--- Delete Item Modal  -->
+                                      <!--- Delete Item Modal  
                                     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -219,12 +233,12 @@
 
                                                 </div>
                                             </div>
-                                            <!-- Delete category Tab -->
                                             </div>
                                         </div>
                                         </div>
                                     </div>
                                     </div>
+                                      -->
                                     </div>
 
                               </div>

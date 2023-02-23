@@ -16,7 +16,7 @@
         <!--- Font Awesome -->
         <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
       </head>
-    <body class="sb-nav-fixed">
+    <body class="sb-nav-fixed" style="background: #f4f4f4;">
         <nav class="sb-topnav navbar navbar-expand navbartop">
             <!-- Navbar Brand-->
             <a class="navbar-brand text-white text-bold ps-3 text-center" href="/dashboard">LJ TRADING POS</a>
@@ -117,7 +117,8 @@
                 </nav>
             </div>
 
-            <!--Product Content-->
+            <!---PRODUCT CONTENT--->
+
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
@@ -385,11 +386,10 @@
         }
         $("#item_card").append(`
         <div class="col">
-        <div class="card border-danger mb-3 " style="max-width: 15rem">
-        <img src="/static/assets/img/Product1.jpg" class="img-fluid" style="height: 200px;" alt="...">
+        <div class="card border-danger rounded-5 mb-3 " style="max-width: 15rem">
+        <img src="/static/assets/img/Product1.jpg" class="img-fluid mx-auto mt-2" style="height: 100px; width:150px" alt="...">
         <div class="card-body">
         <h5 class="card-title bold">`+v.Name+`</h5>
-        <p class="card-subtitle mb-2 text-muted">`+v.Description+`</p>
         <p class="card-subtitle mb-2 text-muted">`+size+`</p>
         <h4 class="card-text">P `+v.Price+`</h4>
         <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Update('`+v.ID+`')" style="background-color: #80190A;">Update</button>
