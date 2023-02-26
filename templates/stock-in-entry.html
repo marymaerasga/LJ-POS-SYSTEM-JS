@@ -1,264 +1,186 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{.Title}}</title>
+{{define "title"}}
+<title>{{.Title}}</title>
+{{end}} {{define "content"}}
 
-        <!--- Bootstrap CSS -->
-        <link href="/static/lib/css/bootstrap.min.css" rel="stylesheet">
-        <!--- Jquery UI -->
-        <link href="/static/lib/jquery-ui.min.css" rel="stylesheet">
-        <!--- Styles -->
-        <link href="/static/css/styles.css" rel="stylesheet">
-        <!--- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
-        <!--- Font Awesome -->
-        <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
-      </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbartop">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand text-white text-bold ps-3 text-center" href="/dashboard">LJ TRADING POS</a>
-            <!-- Sidebar Toggle-->
-            <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0 text-white" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="searchdiv">
-                    <input type="text" placeholder="Search ..." style="
-                        width: 15rem;
-                        outline: none;
-                        border: none;
-                        text-indent: 10px;
-                        font-family: 'Poppins', sans-serif;
-                        font-weight: bold;
-                        height: 2.5rem;
-                        font-size: 1rem;
-                        border-radius: 5rem 0rem 0rem 5rem;
-                        background-color: #f8fbfc;
-                        text-transform: capitalize;">
-                      <button style="
-                        width: 3rem;
-                        outline: none;
-                        border: none;
-                        height: 2.5rem;
-                        border-radius: 0rem 5rem 5rem 0rem;
-                        background-color: #f8fbfc;
-                        margin-left: -20px;">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          class="bi bi-search"
-                          viewBox="0 0 16 16">
-                          <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                          />
-                        </svg>
-                    </button>
-                 </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-left" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <a class="nav-link" href="/dashboard">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Product Inventory
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/product">Product List</a>
-                                    <a class="nav-link" href="#">Product Category</a>
-                                    <a class="nav-link" href="#!">Stock In Entry</a>
-                                    <a class="nav-link" href="#!">Stock In History</a>
-                                    <a class="nav-link" href="#!">Product Stock Status</a>
-                                    <a class="nav-link" href="#!">Vat and Discount</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Manage Account
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#!">Staff Account</a>
-                                    <a class="nav-link" href="#!">Admin Account</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link" href="#!">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Point of Sale (POS)
-                            </a>
-                        </div>
+<!--Stock-in Entry Content-->
+<div id="layoutSidenav_content" style="background: #f4f4f4">
+  <main>
+    <div class="container-fluid">
+      <h1 class="mt-4">Product Inventory</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Stock-in Entry</li>
+      </ol>
+      <hr
+        style="
+          height: 3px;
+          border-width: 0;
+          color: gray;
+          background-color: gray;
+        "
+      />
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="text-center">STOCK IN ENTRY</h5>
+                <form class="row">
+                  <div class="row">
+                    <div class="col-md-auto">
+                      <label for="stock-received" class="col-form-label"
+                        >Total Stock Received:</label
+                      >
                     </div>
-
-                </nav>
+                    <div class="col">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="stock-received"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-6">
+                      <label for="date-received" class="col-form-label"
+                        >Date Received:</label
+                      >
+                    </div>
+                    <div class="col-6">
+                      <input
+                        class="form-control"
+                        id="date-received"
+                        type="date"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mt-2 text-center float-center">
+                    <form
+                      class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
+                    >
+                      <div class="searchdiv">
+                        <input
+                          type="text"
+                          id="search-product"
+                          placeholder="Search ..."
+                          style="
+                            width: 14rem;
+                            outline: none;
+                            border: none;
+                            text-indent: 10px;
+                            font-family: 'Poppins', sans-serif;
+                            font-weight: bold;
+                            height: 2.5rem;
+                            font-size: 1rem;
+                            border-radius: 5rem 0rem 0rem 5rem;
+                            background-color: #f8fbfc;
+                            text-transform: capitalize;
+                          "
+                        />
+                        <button
+                          style="
+                            width: 3rem;
+                            outline: none;
+                            border: none;
+                            height: 2.5rem;
+                            border-radius: 0rem 5rem 5rem 0rem;
+                            background-color: #f8fbfc;
+                            margin-left: -20px;
+                          "
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-search"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="product" id="product">
+                      <div
+                        class="container-fluidtext-center border"
+                        style="height: 19rem"
+                      >
+                        <h6 class="text-center">PRODUCT INFORMATION</h6>
+                        <div class="card">
+                          <div class="product" id="product-display">
+                            <!---WHEN CLICK THE PRODUCT IT WILL ADD TO THE STOCK IN PRODUCT LIST-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
-
-            <!--Stock-in Entry Content-->
-            <div id="layoutSidenav_content" style="background: #f4f4f4;">
-                <main>
-                    <div class="container-fluid">
-                        <h1 class="mt-4">Product Inventory</h1>
-                        <ol class="breadcrumb ">
-                            <li class="breadcrumb-item active">Stock-in Entry</li>
-                        </ol>
-                        <hr style="height:3px;border-width:0;color:gray;background-color:gray">
-                        <div class="container-fluid ">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="text-center">STOCK IN ENTRY</h5>
-                                            <form class="row">
-                                                <div class="row">
-                                                    <div class="col-md-auto">
-                                                    <label for="stock-received" class=" col-form-label">Total Stock Received:</label>
-                                                    </div>
-                                                    <div class="col">
-                                                    <input type="number" class="form-control" id="stock-received">
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-2">
-                                                    <div class="col-6">
-                                                        <label for="date-received" class=" col-form-label">Date Received:</label>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <input class="form-control" id="date-received"  type="date">
-                                                        </div>
-                                                </div>
-                                                <div class="row mt-2 text-center float-center">
-                                                    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                                                        <div class="searchdiv">
-                                                            <input type="text" id="search-product" placeholder="Search ..." style="
-                                                                width: 14rem;
-                                                                outline: none;
-                                                                border: none;
-                                                                text-indent: 10px;
-                                                                font-family: 'Poppins', sans-serif;
-                                                                font-weight: bold;
-                                                                height: 2.5rem;
-                                                                font-size: 1rem;
-                                                                border-radius: 5rem 0rem 0rem 5rem;
-                                                                background-color: #f8fbfc;
-                                                                text-transform: capitalize;">
-                                                              <button style="
-                                                                width: 3rem;
-                                                                outline: none;
-                                                                border: none;
-                                                                height: 2.5rem;
-                                                                border-radius: 0rem 5rem 5rem 0rem;
-                                                                background-color: #f8fbfc;
-                                                                margin-left: -20px;">
-                                                                <svg
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  width="16"
-                                                                  height="16"
-                                                                  fill="currentColor"
-                                                                  class="bi bi-search"
-                                                                  viewBox="0 0 16 16">
-                                                                  <path
-                                                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                                                                  />
-                                                                </svg>
-                                                            </button>
-                                                         </div>
-                                                    </form>
-                                                </div>
-                                                <div class="row mt-2">
-                                                   <div class="product" id="product">
-                                                    <div class="container-fluidtext-center border" style=" height: 19rem">
-                                                        <h6 class="text-center ">PRODUCT INFORMATION</h6>
-                                                        <div class="card">
-                                                            <div class="product" id="product-display">
-                                                                <!---WHEN CLICK THE PRODUCT IT WILL ADD TO THE STOCK IN PRODUCT LIST-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </form>
-
-                                        </div>
-                                      </div>
-                                  </div>
-                                <div class="col-md-8">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="text-center ">STOCK IN PRODUCT LIST</h5>
-                                                    <!---PRODUCT LIST-->
-                                                    <div class="product" id="product">
-                                                        <div class="container-fluidtext-center" style=" height: 24rem; 
-                                                        border-right:solid rgb(240, 240, 240) 2px;
-                                                        border-bottom:solid rgb(240, 240, 240) 2px;">
-                                                          <!--- Tables -->
-                                                          <div class="table-responsive">
-                                                            <table class="table table-bordered text-center">
-                                                                <thead>
-                                                                    <th scope="col">Code</th>
-                                                                    <th scope="col">Product Name</th>
-                                                                    <th scope="col">Category</th>
-                                                                    <th scope="col">Stock</th>
-                                                                    <th scope="col">Button</th>
-                                                                </thead>
-                                                                <tbody id="stock-in-product-list">
-                                                                    
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                <div class="container text-center mt-4">
-                                                    <div class="row">
-                                                      <div class="col">
-                                                        <button class="btn text-white" id="stock-save" type="button" style="background-color: #80190A;">SAVE STOCK IN ENTRY</button>
-                                                      </div>
-                                                      <div class="col">
-                                                        <button class="btn text-white" id="stock-cancel" type="button" style="background-color: #80190A;">CANCEL STOCK IN ENTRY</button>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                        </div>
-                                      </div>
-                                </div>
-                              </div>
-                        </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="text-center">STOCK IN PRODUCT LIST</h5>
+                <!---PRODUCT LIST-->
+                <div class="product" id="product">
+                  <div
+                    class="container-fluidtext-center"
+                    style="
+                      height: 24rem;
+                      border-right: solid rgb(240, 240, 240) 2px;
+                      border-bottom: solid rgb(240, 240, 240) 2px;
+                    "
+                  >
+                    <!--- Tables -->
+                    <div class="table-responsive">
+                      <table class="table table-bordered text-center">
+                        <thead>
+                          <th scope="col">Code</th>
+                          <th scope="col">Product Name</th>
+                          <th scope="col">Category</th>
+                          <th scope="col">Stock</th>
+                          <th scope="col">Button</th>
+                        </thead>
+                        <tbody id="stock-in-product-list"></tbody>
+                      </table>
                     </div>
-                </main>
-        <!--- JQuery -->
-        <script src="/static/lib/jquery-3.6.1.min.js"></script>
-        <!--- Popper JS -->
-        <script src="/static/lib/popper.min.js"></script>
-        <!--- Bootstrap JS -->
-        <script src="/static/lib/js/bootstrap.min.js"></script>
-        <!--- JS -->
-        <script src="/static/js/scripts.js"></script>
-
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-        <script type="text/javascript"
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    </body>
-</html>
+                  </div>
+                </div>
+                <div class="container text-center mt-4">
+                  <div class="row">
+                    <div class="col">
+                      <button
+                        class="btn text-white"
+                        id="stock-save"
+                        type="button"
+                        style="background-color: #80190a"
+                      >
+                        SAVE STOCK IN ENTRY
+                      </button>
+                    </div>
+                    <div class="col">
+                      <button
+                        class="btn text-white"
+                        id="stock-cancel"
+                        type="button"
+                        style="background-color: #80190a"
+                      >
+                        CANCEL STOCK IN ENTRY
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  {{end}}
+</div>
