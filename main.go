@@ -69,11 +69,12 @@ func MigrateDB() {
 	employees := models.Employee{}
 	user := models.User{}
 	item := models.Item{}
+	customer := models.Customer{}
 
 	dsn := "root:a@tcp(127.0.0.1:3306)/pos_system?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.AutoMigrate(&employees, &user, &item)
+	db.AutoMigrate(&employees, &user, &item, &customer)
 }

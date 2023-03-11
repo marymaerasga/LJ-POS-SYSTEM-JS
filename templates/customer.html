@@ -54,7 +54,43 @@
                                         </div>
                                     </div>
 
-                                     <!---ADD CUSTOMER MODAL--->
+
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm  modal-dialog-centered">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Customer </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab"
+                                                tabindex="0">
+                                                <input type="hidden" class="form-control" id="customerID">
+                                                <div class="form-floating mb-2">
+                                                    <input type="text" class="form-control" id="name" placeholder="name" required>
+                                                    <label for="floatingInput">Name</label>
+                                                  </div>
+                                                  <div class="form-floating mb-2">
+                                                      <input type="text" class="form-control" id="mobileNo" placeholder="mobileNo">
+                                                      <label for="mobile-no">Mobile No.</label>
+                                                  </div>
+                                                  <div class="form-floating">
+                                                      <input type="text" class="form-control" id="address" placeholder="address">
+                                                      <label for="address">Address</label>
+                                                  </div>
+                                                <div class="mt-3">
+                                                    <div class=" text-center">
+                                                            <a type="submit" id="customer_save" href="#" class="btn mb-2 w-100 btn-block rounded text-white"
+                                                            style="background-color: #80190A;" onclick="Save()">Save</a>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                     <!---ADD CUSTOMER MODAL
                                      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-sm modal-dialog-centered">
                                           <div class="modal-content">
@@ -64,30 +100,29 @@
                                             </div>
                                             <div class="modal-body">
                                               <div class="container">
-                                                <!-- INPUT FORM -->
                                                 <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
                                                     <input type="hidden" class="form-control" id="customerID">
                                                     <div class="form-floating mb-2">
-                                                      <input type="text" class="form-control" id="name" placeholder="Name" required>
+                                                      <input type="text" class="form-control" id="name" placeholder="" required>
                                                       <label for="floatingInput">Name</label>
                                                     </div>
                                                     <div class="form-floating mb-2">
-                                                        <input type="text" class="form-control" id="mobile-no" placeholder="Prize">
+                                                        <input type="text" class="form-control" id="mobileNo" placeholder="">
                                                         <label for="mobile-no">Mobile No.</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control" id="address" placeholder="Quantity">
+                                                        <input type="text" class="form-control" id="address" placeholder="">
                                                         <label for="address">Address</label>
                                                     </div>
                                                     <div class="mt-3">
-                                                        <a type="submit" id="customer_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;">Save</a>
+                                                        <a type="submit" href="#" class="btn w-100 btn-block rounded text-white" onclick="Save()" style="background-color: #80190A;">Save</a>
                                                     </div>
                                                 </div>
                                             </div>
                                           </div>
                                         </div>
                                         </div>
-                                      </div>
+                                      </div>--->
         
 
                                       <!--- Delete Item Modal  
@@ -136,4 +171,33 @@
             </div>
 
   {{end}}
- 
+<!----ADD DATA IN DB-->
+<script>
+    function Save(){
+        var   name = $("#name").val()
+        var   mobileNo = $("#mobileNo").val()
+        var   address = $("#address").val()
+       
+        if ( name == "" || mobileNo == "" || address == ""){
+          /*swal("Please Complete Required Details")*/
+          alert("Please Complete Required Details")
+        }else{
+          $.ajax({
+            url: "/api/customer",
+            data: {
+              "name": name,
+              "mobileNo":mobileNo,
+              "address": address,
+            },
+            success: function () {
+               /*swal({
+                   title: "Item Added Successfully!",
+                   icon: "success",
+                 });*/
+                 alert("Customer Added Successfully!")
+                 window.location.reload()
+            }
+          })
+        }
+      }
+</script>

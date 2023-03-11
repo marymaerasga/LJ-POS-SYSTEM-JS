@@ -39,4 +39,8 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		DeleteItem(w, r)
 		return
 	}
+	if strings.HasPrefix(r.URL.Path, "customer") {
+		CreateCustomer(w, r)
+		return
+	}
 }
