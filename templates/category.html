@@ -121,28 +121,38 @@
             </div>
 
 <script>
-    function Save(){
-        var   name = $("#category-name").val()
-
-        if ( name == ""){
-        alert("Please Complete Required Details")
-        }else{
-        $.ajax({
+    function Save() {
+        var name = $("#category-name").val();
+        if (name == "") {
+          // use SweetAlert2 to show an error dialog
+          Swal.fire({
+            title: 'Error!',
+            text: 'Please Complete Required Details',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        } else {
+          $.ajax({
             url: "/api/category",
             data: {
-            "name": name,
+              "name": name,
             },
             success: function () {
-            /*swal({
-                title: "Item Added Successfully!",
-                icon: "success",
-                });*/
-                alert("Item Added Successfully!")
-            window.location.reload()
+              // use SweetAlert2 to show a success dialog
+              Swal.fire({
+                title: 'Success!',
+                text: 'Category Added Successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              });
             }
-        })
+          });
         }
-    }
+      }
     $( document ).ready(function() {
         $("#category-modify").hide();
     $("#category-details").empty()
@@ -186,30 +196,41 @@ function Validate(id){
 })
 }
 
-function Modify(){
-    var   id = $("#itemID").val()
-    var   name = $("#category-name").val()
-
-        if ( name == ""){
-        alert("Please Complete Required Details")
-        }else{
-        $.ajax({
-            url: "/api/edit_category",
-            data: {
-            "id": id,
-            "name": name,
-            },
-            success: function () {
-            /*swal({
-                title: "Updated Item Successfully!",
-                icon: "success",
-                });*/
-                alert("Updated Item Successfully!")
-            window.location.reload()
+function Modify() {
+    var id = $("#itemID").val();
+    var name = $("#category-name").val();
+  
+    if (name == "") {
+      // use SweetAlert2 to show an error dialog
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please Complete Required Details',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } else {
+      $.ajax({
+        url: "/api/edit_category",
+        data: {
+          "id": id,
+          "name": name,
+        },
+        success: function () {
+          // use SweetAlert2 to show a success dialog
+          Swal.fire({
+            title: 'Success!',
+            text: 'Catgeory Updated Successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
             }
-        })
+          });
         }
-}
+      });
+    }
+  }
 
 function Delete(id){
     $.get("/api/get_category", function(index){
@@ -227,23 +248,28 @@ function Delete_No(){
     window.location.reload()
 }
 
-function Delete_Yes(){
-    var   id = $("#itemID_delete").val()
+function Delete_Yes() {
+    var id = $("#itemID_delete").val();
     $.ajax({
-            url: "/api/delete_category",
-            data: {
-            "id": id,
-            },
-            success: function () {
-            /* swal({
-                title: "Deleted Item Successfully!",
-                icon: "success",
-                });*/
-                alert("Deleted Item Successfully!")
-            window.location.reload()
-            }
-        })
-}
+      url: "/api/delete_category",
+      data: {
+        "id": id,
+      },
+      success: function () {
+        // use SweetAlert2 to show a success dialog
+        Swal.fire({
+          title: 'Success!',
+          text: 'Category Deleted Successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      }
+    });
+  }
     </script>
 
             {{end}}
