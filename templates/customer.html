@@ -66,7 +66,6 @@
                                         <div class="modal-body">
                                             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab"
                                                 tabindex="0">
-                                                <input type="hidden" class="form-control" id="customerID">
                                                 <div class="form-floating mb-2">
                                                     <input type="text" class="form-control" id="name" placeholder="name" required>
                                                     <label for="floatingInput">Name</label>
@@ -90,12 +89,12 @@
                                         </div>
                                         </div>
                                     </div>
-                                     <!---ADD CUSTOMER MODAL
-                                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                     <!-- -EDIT CUSTOMER MODAL -->
+                                     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-sm modal-dialog-centered">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Customer </h1>
+                                              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modify Customer </h1>
                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -103,30 +102,30 @@
                                                 <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
                                                     <input type="hidden" class="form-control" id="customerID">
                                                     <div class="form-floating mb-2">
-                                                      <input type="text" class="form-control" id="name" placeholder="" required>
+                                                      <input type="text" class="form-control" id="name1" placeholder="" required>
                                                       <label for="floatingInput">Name</label>
                                                     </div>
                                                     <div class="form-floating mb-2">
-                                                        <input type="text" class="form-control" id="mobileNo" placeholder="">
+                                                        <input type="text" class="form-control" id="mobileNo1" placeholder="">
                                                         <label for="mobile-no">Mobile No.</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control" id="address" placeholder="">
+                                                        <input type="text" class="form-control" id="address1" placeholder="">
                                                         <label for="address">Address</label>
                                                     </div>
                                                     <div class="mt-3">
-                                                        <a type="submit" href="#" class="btn w-100 btn-block rounded text-white" onclick="Save()" style="background-color: #80190A;">Save</a>
+                                                        <a type="submit" href="#" class="btn w-100 btn-block rounded text-white" onclick="Modify()" style="background-color: #80190A;">Modify</a>
                                                     </div>
                                                 </div>
                                             </div>
                                           </div>
                                         </div>
                                         </div>
-                                      </div>--->
+                                      </div>-
         
 
-                                      <!--- Delete Item Modal  
-                                    <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                      <!-- - Delete Item Modal   -->
+                                    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-sm modal-dialog-centered">
                                         <div class="modal-content">
@@ -138,9 +137,7 @@
                                             <div class="container-sm">
                                             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab"
                                                 tabindex="0">
-
                                                 <input type="hidden" class="form-control" id="itemID_delete">
-                                                <input type="hidden" class="form-control" id="productID_delete">
                                                 <div class="form-floating mb-3">
                                                 <div class="delete_nam">
                                                     <span>Are you sure to Delete <h3 id="delete_name"></h3></span>
@@ -161,7 +158,7 @@
                                         </div>
                                     </div>
                                     </div>
-                                      -->
+                                     
                                     </div>
 
                               </div>
@@ -170,34 +167,139 @@
                 </main>
             </div>
 
-  {{end}}
-<!----ADD DATA IN DB-->
+
+            <!----ADD DATA IN DB-->
 <script>
-    function Save(){
-        var   name = $("#name").val()
-        var   mobileNo = $("#mobileNo").val()
-        var   address = $("#address").val()
-       
+  function Save(){
+      var   name = $("#name").val()
+      var   mobileNo = $("#mobileNo").val()
+      var   address = $("#address").val()
+     
+      if ( name == "" || mobileNo == "" || address == ""){
+        /*swal("Please Complete Required Details")*/
+        alert("Please Complete Required Details")
+      }else{
+        $.ajax({
+          url: "/api/customer",
+          data: {
+            "name": name,
+            "mobileNo":mobileNo,
+            "address": address,
+          },
+          success: function () {
+             /*swal({
+                 title: "Item Added Successfully!",
+                 icon: "success",
+               });*/
+               alert("Customer Added Successfully!")
+               window.location.reload()
+          }
+        })
+      }
+    }
+
+  $( document ).ready(function() {
+    $("tbody").empty()
+    $.get("/api/get_customer", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+        $("#customer_details").append(`
+        <tr class="border">
+            <td>`+v.ID+`</td>
+            <td>`+v.Name+` </td>
+            <td>`+v.MobileNo+`</td>
+            <td>`+v.Address+`</td>
+            <td>
+                <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`)"><i class="fa-solid fa-trash"></i></button>
+                <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" style="background-color: #80190A;" onclick="Edit(`+v.ID+`)"><i class="fa-solid fa-pen-to-square"></i></button>
+            </td>
+        </tr>
+        `)
+    })
+    })
+});
+
+
+function Edit(id){
+  $.get("/api/get_customer", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if (id == v.ID){
+        $("#customerID").val(v.ID)
+      $("#name1").val(v.Name)
+     $("#mobileNo1").val(v.MobileNo)
+      $("#address1").val(v.Address)
+      }
+
+    })
+  })
+
+}
+
+
+function Modify(){
+  var   name = $("#name1").val()
+  var   mobileNo = $("#mobileNo1").val()
+  var   address = $("#address1").val()
+  var   id = $("#customerID").val()
+
         if ( name == "" || mobileNo == "" || address == ""){
-          /*swal("Please Complete Required Details")*/
-          alert("Please Complete Required Details")
+        alert("Please Complete Required Details")
         }else{
-          $.ajax({
-            url: "/api/customer",
+        $.ajax({
+            url: "/api/edit_customer",
             data: {
-              "name": name,
-              "mobileNo":mobileNo,
-              "address": address,
+            "id": id,
+            "name": name,
+            "number": mobileNo,
+            "address": address,
             },
             success: function () {
-               /*swal({
-                   title: "Item Added Successfully!",
-                   icon: "success",
-                 });*/
-                 alert("Customer Added Successfully!")
-                 window.location.reload()
+            /*swal({
+                title: "Updated Item Successfully!",
+                icon: "success",
+                });*/
+                alert("Updated Item Successfully!")
+            window.location.reload()
             }
-          })
+        })
         }
+}
+
+function Delete(id){
+  $.get("/api/get_customer", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if (id == v.ID){
+       $("#itemID_delete").val(id)
+      $("#delete_name").html(v.Name)
       }
+
+    })
+  })
+
+}
+
+function Delete_No(){
+    window.location.reload()
+}
+
+function Delete_Yes(){
+    var   id = $("#itemID_delete").val()
+    $.ajax({
+            url: "/api/delete_customer",
+            data: {
+            "id": id,
+            },
+            success: function () {
+            /* swal({
+                title: "Deleted Item Successfully!",
+                icon: "success",
+                });*/
+                alert("Deleted Item Successfully!")
+            window.location.reload()
+            }
+        })
+}
 </script>
+  {{end}}
