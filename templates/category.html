@@ -133,13 +133,18 @@
             "name": name,
             },
             success: function () {
-            /*swal({
-                title: "Item Added Successfully!",
-                icon: "success",
-                });*/
-                alert("Item Added Successfully!")
-            window.location.reload()
-            }
+                // use SweetAlert2 to show a success dialog
+                Swal.fire({
+                  title: 'Success!',
+                  text: 'Category Added Successfully!',
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  }
+                });
+              }
         })
         }
     }
