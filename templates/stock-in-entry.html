@@ -24,7 +24,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="text-center">STOCK IN ENTRY</h5>
-                <form class="row">
+                <form class="row" id="stock_in">
                   <div class="row">
                     <div class="col-md-auto">
                       <label for="stock-received" class="col-form-label"
@@ -86,6 +86,7 @@
                             background-color: #f8fbfc;
                             margin-left: -20px;
                           "
+                          type="submit"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -111,9 +112,17 @@
                       >
                         <h6 class="text-center">PRODUCT INFORMATION</h6>
                         <div class="card">
-                          <div class="product" id="product-display">
-                            <!---WHEN CLICK THE PRODUCT IT WILL ADD TO THE STOCK IN PRODUCT LIST-->
-                          </div>
+                          <div
+                            class="product"
+                            id="product-display"
+                            style="
+                              display: flex;
+                              flex-direction: column;
+                              justify-content: space-between;
+                              padding: 2rem;
+                              gap: 2.3rem;
+                            "
+                          ></div>
                         </div>
                       </div>
                     </div>
@@ -140,11 +149,10 @@
                     <div class="table-responsive">
                       <table class="table table-bordered text-center">
                         <thead>
-                          <th scope="col">Code</th>
+                          <th scope="col">ID</th>
                           <th scope="col">Product Name</th>
                           <th scope="col">Category</th>
                           <th scope="col">Stock</th>
-                          <th scope="col">Button</th>
                         </thead>
                         <tbody id="stock-in-product-list"></tbody>
                       </table>
@@ -159,6 +167,7 @@
                         id="stock-save"
                         type="button"
                         style="background-color: #80190a"
+                        onclick="Save()"
                       >
                         SAVE STOCK IN ENTRY
                       </button>
@@ -169,6 +178,7 @@
                         id="stock-cancel"
                         type="button"
                         style="background-color: #80190a"
+                        onclick="Cancel()"
                       >
                         CANCEL STOCK IN ENTRY
                       </button>
@@ -182,5 +192,106 @@
       </div>
     </div>
   </main>
+
+  <script>
+    $(document).ready(function () {
+      $("#stock-received").attr("disabled", "disabled");
+      $("#date-received").attr("disabled", "disabled");
+      $("tbody").empty();
+
+      $.get("/api/get_item", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          appendData(v.ID, v.Name, v.Category.Name, v.Quantity);
+        });
+      });
+    });
+
+    function appendData(ID, Name, Category, Quantity) {
+      $("#stock-in-product-list").append(
+        `
+          <tr>
+            <td>` +
+          ID +
+          `</td>
+            <td>` +
+          Name +
+          ` </td>
+            <td>` +
+          Category +
+          `</td>
+            <td>` +
+          Quantity +
+          `</td>
+          </tr>
+          `
+      );
+    }
+
+    $("#stock_in").submit(function (e) {
+      e.preventDefault();
+      $("tbody").empty();
+      $("#product-display").empty();
+      var search = $("#search-product").val();
+      $.get("/api/get_item", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          if (search == v.Name) {
+            $("#stock-received").removeAttr("disabled");
+            $("#date-received").removeAttr("disabled");
+            appendData(v.ID, v.Name, v.Category.Name, v.Quantity);
+            $("#product-display").append(
+              `
+            <span id="pID">` +
+                v.ID +
+                `</span>
+            <span>Product: ` +
+                v.Name +
+                `</span>
+            <span>Category: ` +
+                v.Category.Name +
+                `</span>
+            <span>Stock: ` +
+                v.Quantity +
+                `</span>
+            `
+            );
+          }
+        });
+      });
+    });
+
+    function Cancel() {
+      window.location.reload();
+    }
+
+    function Save() {
+      var id1 = $("#pID").html();
+      var total1 = $("#stock-received").val();
+      var date1 = $("#date-received").val();
+
+      if (id1 == "" || total1 == "" || date1 == "") {
+        /*swal("Please Complete Required Details")*/
+        alert("Please Complete Required Details");
+      } else {
+        $.ajax({
+          url: "/api/stockin",
+          data: {
+            id: id1,
+            total: total1,
+            date: date1,
+          },
+          success: function () {
+            /*swal({
+                title: "Item Added Successfully!",
+                icon: "success",
+              });*/
+            alert("StockIn Added Successfully!");
+            window.location.reload();
+          },
+        });
+      }
+    }
+  </script>
   {{end}}
 </div>

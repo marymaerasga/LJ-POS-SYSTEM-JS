@@ -1,5 +1,7 @@
 package models
 
+import "gorm.io/gorm"
+
 type Item struct {
 	ID          uint `gorm:"primaryKey"`
 	Name        string
@@ -7,8 +9,13 @@ type Item struct {
 	Price       uint
 	Quantity    uint
 	Size        Size
+	User    User
+	UserID  string
 	Category    Category
+	CategoryID  string
+	Expiration string
 	Image       string
+	Deleted gorm.DeletedAt
 }
 
 type Size int
@@ -29,17 +36,4 @@ func (Size) ExtraLarge() int {
 	return 5
 }
 
-type Category int
 
-func (Category) Category1() int {
-	return 1
-}
-func (Category) Category2() int {
-	return 2
-}
-func (Category) Category3() int {
-	return 3
-}
-
-func (e *Item) Save() {
-}

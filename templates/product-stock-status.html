@@ -22,10 +22,10 @@
                                                 <div class="col-md-auto">
                                                     <p  style="margin: 0; display:inline;">Status:</p>
                                                         <select id="product-status" class="form-select">
-                                                          <option selected>Total Stocks Per Product</option>
-                                                          <option>Expired Products</option>
-                                                          <option>Low In Stocks</option>
-                                                          <option>Out Of Stocks</option>
+                                                          <option selected value="0">Total Stocks Per Product</option>
+                                                          <!-- <option>Expired Products</option> -->
+                                                          <option value="1">Low In Stocks</option>
+                                                          <option value="2">Out Of Stocks</option>
                                                         </select>
                                                 </div>
                                                 <div class="col-md-auto mt-3">
@@ -37,7 +37,7 @@
                                               </div>
                                               <div class="row mt-3">
                                                 <div class="row ">
-                                                    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                                                    <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                                         <div class="searchdiv">
                                                             <input type="text" id= "search-product" placeholder="Search ..." style="
                                                                 width: 40rem;
@@ -50,7 +50,7 @@
                                                                 font-size: 1rem;
                                                                 border-radius: 5rem 0rem 0rem 5rem;
                                                                 background-color: #f8fbfc;
-                                                                text-transform: capitalize;">
+                                                                ">
                                                               <button style="
                                                                 width: 3rem;
                                                                 outline: none;
@@ -58,7 +58,7 @@
                                                                 height: 2.5rem;
                                                                 border-radius: 0rem 5rem 5rem 0rem;
                                                                 background-color: #f8fbfc;
-                                                                margin-left: -20px;">
+                                                                margin-left: -20px;" onclick="Search()">
                                                                 <svg
                                                                   xmlns="http://www.w3.org/2000/svg"
                                                                   width="16"
@@ -72,26 +72,27 @@
                                                                 </svg>
                                                             </button>
                                                          </div>
-                                                    </form>
+                                                        </div>
                                                 </div>
 
                                               </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="card" style="background-color:#80190A">
-                                                <div class="card-body">
+                                                <div class="card-body" style="display: flex;
+                                                flex-direction: column;">
                                                   <h6 class="text-center text-white">Product Status</h6> 
-                                                  <p class="text-white" style="display:inline;">Expired Products:</p> 
+                                                  <!-- <p class="text-white" style="display:inline;">Expired Products:</p> 
                                                   <div class="badge border" id="expired-count" style="width: 11rem;">
-                                                    6
-                                                  </div>
+                                                    
+                                                  </div> -->
                                                   <p class="text-white" style="margin: 0; display:inline;">Low In Stocks:</p> 
                                                   <div class="badge bg-warning" id="low-stock-count" style="width: 12rem; border:none;">
-                                                    6
+                                                    
                                                   </div>
                                                   <p class="text-white" style="margin: 0; display:inline;">Out Of Stocks:</p>
                                                   <div class="badge bg-danger" id="out-stock-count" style="width: 12rem; border:none;">
-                                                    0
+                                                    
                                                   </div>
                                                 </div>
                                               </div>
@@ -112,7 +113,6 @@
                                             <table class="table table-bordered text-center">
                                                 <thead>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Code</th>
                                                     <th scope="col">Product Name</th>
                                                     <th scope="col">Category</th>
                                                     <th scope="col">Description</th>
@@ -132,9 +132,72 @@
                     </main>
                 </div>
             </div>
-            {{end}}
+           
 
 <script>
+
+$( document ).ready(function() {
+    $("tbody").empty()
+    var low = 0;
+    var out = 0;
+    var expired = 0
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        low += parseFloat(1)
+        $("#low-stock-count").html(low)
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+      }else if(parseFloat(v.Quantity) == 0){
+        out += parseFloat(1)
+        $("#out-stock-count").html(out)
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+      }else{
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity)
+      }
+     
+    })
+  })
+
+})
+
+function AppendData(id,name,category,desc,price,count,color){
+  if (color == "yellow"){
+    $("#product_stock_status").append(`
+        <tr class="border" style="background-color:yellow">
+              <td>`+id+`</td>
+              <td>`+name+`</td>
+              <td>`+category+`</td>
+              <td>`+desc+`</td>
+              <td>`+price+`</td>
+              <td>`+count+`</td>
+          </tr>
+        `)
+  }else if(color == "red"){
+    $("#product_stock_status").append(`
+        <tr class="border" style="background-color:red">
+              <td>`+id+`</td>
+              <td>`+name+`</td>
+              <td>`+category+`</td>
+              <td>`+desc+`</td>
+              <td>`+price+`</td>
+              <td>`+count+`</td>
+          </tr>
+        `)
+  }else{
+    $("#product_stock_status").append(`
+        <tr class="border">
+              <td>`+id+`</td>
+              <td>`+name+`</td>
+              <td>`+category+`</td>
+              <td>`+desc+`</td>
+              <td>`+price+`</td>
+              <td>`+count+`</td>
+          </tr>
+        `)
+  }
+  }
+
     function remove_product_expired(){
         Swal.fire({
             text: "10 Products have been expired, Do you want to Remove all Expired Products?",
@@ -153,4 +216,77 @@
             }
           })
     }
+
+    $("#product-status").change(function () {   
+      var status = $("#product-status").val()
+
+      $("tbody").empty()
+    var low = 0;
+    var out = 0;
+    var expired = 0
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if (status == 1){
+        if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        low += parseFloat(1)
+        $("#low-stock-count").html(low)
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+      }
+    }
+
+      else if (status == 2){
+        if(parseFloat(v.Quantity) == 0){
+        out += parseFloat(1)
+        $("#out-stock-count").html(out)
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        }
+      }
+
+      else{
+        if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        low += parseFloat(1)
+        $("#low-stock-count").html(low)
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+         }
+        else if(parseFloat(v.Quantity) == 0){
+        out += parseFloat(1)
+        $("#out-stock-count").html(out)
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        }
+        else{
+          AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity)
+        }
+      }
+    })
+  })
+
+    })
+
+
+function Search(){
+    var search = $("#search-product").val()
+
+    $("tbody").empty()
+  $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if (search == v.Name){
+        if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+         }
+        else if(parseFloat(v.Quantity) == 0){
+        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        }
+        else{
+          AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity)
+        }
+      }
+
+    })
+  })
+
+}
 </script>
+
+{{end}}

@@ -20,9 +20,9 @@
                                     <div class="row">
                                         <div class="col-md-auto">
                                            <!--- Search -->
-                                        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                                        <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                             <div class="searchdiv">
-                                                <input type="text" placeholder="Search product" style="
+                                                <input type="text" id="searchdata" placeholder="Search Product Name" style="
                                                     width: 19rem;
                                                     outline: none;
                                                     border: none;
@@ -41,7 +41,7 @@
                                                     height: 2.5rem;
                                                     border-radius: 0rem 5rem 5rem 0rem;
                                                     background-color: #f8fbfc;
-                                                    margin-left: -20px;">
+                                                    margin-left: -20px;" onclick="CatSearch()">
                                                     <svg
                                                       xmlns="http://www.w3.org/2000/svg"
                                                       width="16"
@@ -55,14 +55,10 @@
                                                     </svg>
                                                 </button>
                                              </div>
-                                        </form>
+                                            </div>
                                         </div>
                                         <div class="col-md-auto">
-                                            <select class="form-select category" id="category">
-                                                <option selected>All</option>
-                                                <option value="1">Category 1</option>
-                                                <option value="2">Category 2</option>
-                                                <option value="3">Category 3</option>
+                                            <select class="form-select category" id="category_search" >
                                             </select>
                                         </div>
                                         <div class="col-md-6 pe-5 ">
@@ -142,11 +138,8 @@
                           <label for="floatingInput">Product Name</label>
                         </div>
                         <div class="mb-2">
-                            <select class="form-select " name="category" id="category" required>
-                                <option value="">Select Category</option>
-                                <option value="1">Category 1</option>
-                                <option value="2">Category 2</option>
-                                <option value="3">Category 3</option>
+                            <select class="form-select " name="category" id="category_list" required>
+                               
                             </select>
                         </div>
                         <div class="form-floating mb-2">
@@ -197,7 +190,9 @@
             </div>
             </div>
           </div>
-          {{end}}
+         
+        
+
 <script>
     function Save(){
      var   name = $("#name").val()
@@ -205,7 +200,8 @@
      var   price = $("#price").val()
      var   quantity = $("#qty").val()
      var   size = $("#size").val()
-     var   category = $("#category").val()
+     var   category = $("#category_list").val()
+     var   expiration = $("#expiration").val()
      var   image = $("#image").val()
 
      if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
@@ -221,6 +217,7 @@
            "size": size,
            "category": category,
            "quantity":quantity,
+           "expiration": expiration,
          },
          success: function () {
             /*swal({
@@ -228,30 +225,57 @@
                 icon: "success",
               });*/
               alert("Item Added Successfully!")
-         /*window.location.reload()*/
+         window.location.reload()
          }
        })
      }
    }
-   $( document ).ready(function() {
+  $( document ).ready(function() {
     $("#item_card").empty()
-    var size = ""
+    
     $.get("/api/get_item", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-        if (v.Size == 1){
+      AppendData(v.Size, v.Name, v.Price, v.ID)
+    })
+  })
+  $("#category_list").empty();
+  $("#category_search").empty();
+  $("#category_list").append(`
+      <option value="">Select Category</option>
+    `)
+    $("#category_search").append(`
+      <option value="0">Select All</option>
+    `)
+  $.get("/api/get_category", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      $("#category_list").append(`
+      <option value="`+v.ID+`">`+v.Name+`</option>
+    `)
+    $("#category_search").append(`
+      <option value="`+v.ID+`">`+v.Name+`</option>
+    `)
+    })
+  })
+
+});
+
+function AppendData(Size,Name,Price,ID){
+  var size = ""
+  if (Size == 1){
             size = "Extra Small"
         }
-        if (v.Size == 2){
+        if (Size == 2){
             size = "Small"
         }
-        if (v.Size == 3){
+        if (Size == 3){
             size = "Medium"
         }
-        if (v.Size == 4){
+        if (Size == 4){
             size = "Large"
         }
-        if (v.Size == 5){
+        if (Size == 5){
             size = "Extra Large"
         }
         $("#item_card").append(`
@@ -259,20 +283,18 @@
         <div class="card border-danger rounded-5 mb-3 " style="max-width: 15rem">
         <img src="/static/assets/img/Product1.jpg" class="img-fluid mx-auto mt-2" style="height: 100px; width:150px" alt="...">
         <div class="card-body">
-        <h5 class="card-title bold">`+v.Name+`</h5>
+        <h5 class="card-title bold">`+Name+`</h5>
         <p class="card-subtitle mb-2 text-muted">`+size+`</p>
-        <h4 class="card-text">P `+v.Price+`</h4>
-        <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Update('`+v.ID+`')" style="background-color: #80190A;">Update</button>
-        <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="Delete('`+v.ID+`') " style="background-color: #80190A;">
+        <h4 class="card-text">P `+Price+`</h4>
+        <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Update('`+ID+`')" style="background-color: #80190A;">Update</button>
+        <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="Delete('`+ID+`') " style="background-color: #80190A;">
         Delete
         </button>
     </div>
     </div>
-</div>
+    </div>
         `)
-    })
-  })
-});
+}
 
 function Validate(){
     $("#item_edit").hide()
@@ -293,7 +315,8 @@ function Update(id){
      $("#price").val(v.Price)
      $("#qty").val(v.Quantity)
      $("#size").val(v.Size)
-     $("#category").val(v.Category)
+     $("#category_list").val(v.CategoryID)
+     $("#expiration").val(v.Expiration)
         }
     })
 })
@@ -306,7 +329,8 @@ function Modify(){
      var   price = $("#price").val()
      var   quantity = $("#qty").val()
      var   size = $("#size").val()
-     var   category = $("#category").val()
+     var   category = $("#category_list").val()
+     var   expiration = $("#expiration").val()
      var   image = $("#image").val()
 
      if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
@@ -323,6 +347,7 @@ function Modify(){
            "size": size,
            "category": category,
            "quantity":quantity,
+           "expiration": expiration,
          },
          success: function () {
             /*swal({
@@ -330,7 +355,7 @@ function Modify(){
                 icon: "success",
               });*/
               alert("Updated Item Successfully!")
-         /*window.location.reload()*/
+         window.location.reload()
          }
        })
      }
@@ -365,7 +390,7 @@ function Delete_Yes(){
                 icon: "success",
               });*/
               alert("Deleted Item Successfully!")
-         /*window.location.reload()*/
+         window.location.reload()
          }
        })
 }
@@ -388,7 +413,44 @@ function pull_out_expired(){
         }
       })
 }
+
+$("#category_search").change(function () {        
+  var search = $("#category_search").val()
+
+ $("#item_card").empty()
+    var size = ""
+  $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(search == v.CategoryID){
+        AppendData(v.Size, v.Name, v.Price, v.ID)
+      }
+      if (search == 0){
+        AppendData(v.Size, v.Name, v.Price, v.ID)
+      }
+    })
+  })
+})
+
+function CatSearch(){
+  var search = $("#searchdata").val()
+  $("#item_card").empty()
+    var size = ""
+  $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(search == v.Name){
+        AppendData(v.Size, v.Name, v.Price, v.ID)
+      }
+      if (search == ""){
+        AppendData(v.Size, v.Name, v.Price, v.ID)
+      }
+    })
+  })
+  
+}
+
  </script>
 
-
+{{end}}
  

@@ -51,16 +51,14 @@
                             <div class="table-responsive py-3 ms-3 me-3">
                                 <table class="table table-bordered text-center">
                                     <thead>
-                                        <th scope="col">Code</th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Product Name</th>
-                                        <th scope="col">Category</th>
                                         <th scope="col">Stocks</th>
                                         <th scope="col">Date Received</th>
+                                        <th scope="col">Action</th>
                                     </thead>
                                     <tbody id="stock-details">
-                                        <tr class="border">
-                                            
-                                        </tr>
+                                       
                                     </tbody>
                                   </table>
                             </div>
@@ -71,6 +69,213 @@
                 </div>
             </div>
 
+
+             <!--- Add Category Modal  -->
+             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+             <div class="modal-dialog modal-sm  modal-dialog-centered">
+                 <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab"
+                         tabindex="0">
+                         <div class="form-floating">
+                            <input type="text" class="form-control" id="stockID" placeholder="Enter Category Name" hidden>
+                            <input type="text" class="form-control" id="count" placeholder="Enter Category Name" hidden>
+                             <input type="text" class="form-control" id="itemID" placeholder="Enter Category Name" hidden>
+                             <input type="text" class="form-control" id="stock-total" placeholder="">
+                             <label for="cat-name">Stock</label>
+                           </div>
+                         <div class="mt-3">
+                             <div class=" text-center">
+                                     <a type="submit" id="category-modify" href="#" class="btn mb-2 w-100 btn-block rounded text-white"
+                                 style="background-color: #80190A;" onclick="Modify()">Modify</a>
+                               </div>
+                         </div>
+                     </div>
+                     </div>
+                 </div>
+                 </div>
+             </div> 
+
+               <!--- Delete Item Modal  -->
+         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <div class="modal-dialog modal-sm modal-dialog-centered">
+                 <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div class="container-sm">
+                     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab"
+                         tabindex="0">
+                         <div class="form-floating mb-3">
+                         <div class="delete_name">
+                            <input type="text" class="form-control" id="stockID_delete" placeholder="Enter Category Name" hidden>
+                             <input type="text" class="form-control" id="itemID_delete" placeholder="Enter Category Name" hidden>
+                             <span>Are you sure to Delete <h3 id="categoryname"></h3></span>
+                         </div>
+                         </div>
+                         <div class="mt-3">
+                         <div class="delete_btn">
+                             <a type="submit" href="#" class="btn w-100 btn-block rounded text-white"
+                             style="background-color: #80190A;" onclick="Delete_Yes()">YES</a>
+                             <a type="submit" href="#" class="btn w-100 btn-block rounded text-white"
+                             style="background-color: #80190A;" onclick="Delete_No()">NO</a>
+                         </div>
+
+                         </div>
+                     </div>
+                     <!-- Delete category Tab -->
+                     </div>
+                 </div>
+                 </div>
+             </div>
+             </div>
+             </div>
+
+       </div>
+
+<script>
+    $(document).ready(function () {
+      $("tbody").empty();
+
+      $.get("/api/get_stockin", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          $("#stock-details").append(`
+          <tr class="border">
+          <td>` +
+          v.Item.ID +
+          `</td>
+            <td>` +
+          v.Item.Name +
+          ` </td>
+            <td>` +
+          v.Stock +
+          `</td>
+          <td>` +
+          v.Date +
+          `</td>
+          <td>
+            <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-trash"></i></button>
+                <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #80190A;" onclick="Validate(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-pen-to-square"></i></button>
+            </td>
+        </tr>
+          `)
+        });
+      });
+    });
+
+    function Validate(id,tID,stock){
+        $("#itemID").val(tID)
+        $("#stock-total").val(stock)
+        $("#count").val(stock)
+        $("#stockID").val(id)
+        
+    }
+
+
+    function Modify(){
+       var iID = $("#itemID").val()
+       var change = $("#stock-total").val()
+       var current = $("#count").val()
+        var sID = $("#stockID").val()
+
+        if ( change == "" || change == current){
+        alert("Please Complete Required Details")
+        }else{
+        $.ajax({
+            url: "/api/edit_stockin",
+            data: {
+            "itemID": iID,
+            "CurrentCount": current,
+            "NewCount": change,
+            "stockID": sID
+            },
+            success: function () {
+            /*swal({
+                title: "Updated Item Successfully!",
+                icon: "success",
+                });*/
+                alert("Updated Item Successfully!")
+            window.location.reload()
+            }
+        })
+        }
+    }
+
+    function Delete(id,tID,stock){
+        $("#itemID_delete").val(tID)  
+        $("#stockID_delete").val(id)  
+        $("#categoryname").html(stock)
+
+    }
+
+    function Delete_No(){
+    window.location.reload()
+}
+
+function Delete_Yes(){
+        var iID = $("#itemID_delete").val()  
+      var sID =   $("#stockID_delete").val()  
+        var count = $("#categoryname").html()
+    $.ajax({
+            url: "/api/delete_stockin",
+            data: {
+            "itemID": iID,
+            "stockID": sID,
+            "new": count,
+            },
+            success: function () {
+            /* swal({
+                title: "Deleted Item Successfully!",
+                icon: "success",
+                });*/
+                alert("Deleted Item Successfully!")
+            window.location.reload()
+            }
+        })
+}
+
+$("#date-received").change(function () {    
+  var search = $("#date-received").val()
+  $("tbody").empty();
+  var count = 0;
+
+$.get("/api/get_stockin", function (index) {
+  var result = JSON.parse(index).item;
+  $.each(result, function (_, v) {
+    if (search == v.Date){
+        count += parseFloat(v.Stock)
+        $("#stock-received").val(count)
+        $("#stock-details").append(`
+        <tr class="border">
+        <td>` +
+        v.Item.ID +
+        `</td>
+          <td>` +
+        v.Item.Name +
+        ` </td>
+          <td>` +
+        v.Stock +
+        `</td>
+        <td>` +
+        v.Date +
+        `</td>
+        <td>
+          <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-trash"></i></button>
+              <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #80190A;" onclick="Validate(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-pen-to-square"></i></button>
+          </td>
+      </tr>
+        `)
+    }
+  });
+});
+})
+</script>
       
    {{end}}
 

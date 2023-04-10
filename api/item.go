@@ -20,7 +20,7 @@ func GetItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	item := []models.Item{}
-	db.Find(&item)
+	db.Preload("Category").Find(&item)
 
 	data := map[string]interface{}{
 		"status": "ok",
@@ -45,7 +45,7 @@ func EditItem(w http.ResponseWriter, r *http.Request) {
 	qty, _ := strconv.Atoi(r.FormValue("quantity"))
 	price, _ := strconv.Atoi(r.FormValue("price"))
 	size, _ := strconv.Atoi(r.FormValue("size"))
-	category, _ := strconv.Atoi(r.FormValue("category"))
+	category :=r.FormValue("category")
 
 	item := models.Item{}
 	db.Where("id", id).Find(&item)
@@ -54,7 +54,7 @@ func EditItem(w http.ResponseWriter, r *http.Request) {
 	item.Quantity = uint(qty)
 	item.Price = uint(price)
 	item.Size = models.Size(size)
-	item.Category = models.Category(category)
+	item.CategoryID = category
 
 	db.Save(&item)
 
@@ -70,6 +70,6 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 	}
 	id, _ := strconv.Atoi(r.FormValue("id"))
 	item := models.Item{}
-	db.Where("id", id).Delete(&item)
+	db.Where("id", id).Statement.Delete(&item)
 
 }

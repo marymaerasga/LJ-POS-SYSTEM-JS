@@ -25,14 +25,18 @@ func CreateItem(w http.ResponseWriter, r *http.Request) {
 	qty, _ := strconv.Atoi(r.FormValue("quantity"))
 	price, _ := strconv.Atoi(r.FormValue("price"))
 	size, _ := strconv.Atoi(r.FormValue("size"))
-	category, _ := strconv.Atoi(r.FormValue("category"))
+	category := r.FormValue("category")
+	user, _ := r.Cookie("id")
+	expiration := r.FormValue("expiration")
 
 	item.Name = name
 	item.Description = description
 	item.Quantity = uint(qty)
 	item.Price = uint(price)
 	item.Size = models.Size(size)
-	item.Category = models.Category(category)
+	item.CategoryID = category
+	item.Expiration = expiration
+	item.UserID = user.Value
 
 	db.Save(&item)
 
