@@ -19,14 +19,41 @@ func GetItem(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Faied to Connect to the Database ", err)
 	}
 
+	
+
 	item := []models.Item{}
-	db.Preload("Category").Find(&item)
+	db.Preload("Category").Where("status", "0").Find(&item)
+
+	expired := []models.Item{}
+	db.Preload("Category").Where("status", "1").Find(&expired)
 
 	data := map[string]interface{}{
 		"status": "ok",
 		"item":   item,
+		"expired": expired,
 	}
 	ReturnJSON(w, r, data)
+
+}
+
+func ExpiredItem(w http.ResponseWriter, r *http.Request) {
+
+	dsn := "root:a@tcp(127.0.0.1:3306)/pos_system?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		fmt.Println("Faied to Connect to the Database ", err)
+	}
+
+	
+
+	item := models.Item{}
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	db.Preload("Category").Where("id", id).Find(&item)
+
+	item.Status = "1";
+
+	db.Save(&item)
 
 }
 

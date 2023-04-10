@@ -15,6 +15,8 @@ type Item struct {
 	CategoryID  string
 	Expiration string
 	Image       string
+	Status		string
+	Code 		string
 	Deleted gorm.DeletedAt
 }
 

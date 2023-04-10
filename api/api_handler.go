@@ -30,6 +30,11 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.HasPrefix(r.URL.Path, "expired") {
+		ExpiredItem(w, r)
+		return
+	}
+
 	if strings.HasPrefix(r.URL.Path, "edit_item") {
 		EditItem(w, r)
 		return
@@ -41,6 +46,21 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if strings.HasPrefix(r.URL.Path, "customer") {
 		CreateCustomer(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "get_customer") {
+		GetCustomer(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "edit_customer") {
+		EditCustomer(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "delete_customer") {
+		DeleteCustomer(w, r)
 		return
 	}
 

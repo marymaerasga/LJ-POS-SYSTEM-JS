@@ -154,6 +154,22 @@
         }
       }
     $( document ).ready(function() {
+                // use SweetAlert2 to show a success dialog
+                Swal.fire({
+                  title: 'Success!',
+                  text: 'Category Added Successfully!',
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  }
+                });
+              }
+        })
+        }
+    }
+ $( document ).ready(function() {
         $("#category-modify").hide();
     $("#category-details").empty()
     $.get("/api/get_category", function(index){

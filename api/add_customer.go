@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/dafalo/LJ-POS-SYSTEM-JS/models"
 	"gorm.io/driver/mysql"
@@ -17,7 +18,7 @@ func CreateCustomer(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Faied to Connect to the Database ", err)
 	}
-	var user_id = 1
+	user, _ := r.Cookie("id")
 	customer := models.Customer{}
 
 	name := r.FormValue("name")
@@ -28,8 +29,59 @@ func CreateCustomer(w http.ResponseWriter, r *http.Request) {
 	customer.Name = name
 	customer.MobileNo = mobileNo
 	customer.Address = address
-	customer.UserID = user_id
+	customer.UserID = user.Value
 	db.Save(&customer)
+}
+
+func GetCustomer(w http.ResponseWriter, r *http.Request) {
+
+	db := GormDB()
+
+	item := []models.Customer{}
+	db.Preload("User").Find(&item)
+
+	data := map[string]interface{}{
+		"status": "ok",
+		"item":   item,
+	}
+	ReturnJSON(w, r, data)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+
+}
+
+func EditCustomer(w http.ResponseWriter, r *http.Request) {
+
+	db := GormDB()
+	category := models.Customer{}
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	name := r.FormValue("name")
+	number := r.FormValue("number")
+	address := r.FormValue("address")
+
+	db.Where("id", id).Find(&category)
+
+	category.Name = name
+	category.MobileNo= number
+	category.Address = address
+
+	db.Save(&category)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+}
+
+func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
+	db := GormDB()
+
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	item := models.Customer{}
+	db.Where("id", id).Statement.Delete(&item)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+
 }
 
 

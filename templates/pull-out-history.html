@@ -18,7 +18,7 @@
                                 <div class="card-body">
                                     <div class="row text-center">
                                         <div class="col-md-auto">
-                                            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                                            <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                                 <div class="searchdiv">
                                                     <input type="text" id="search-product" placeholder="Search ..." style="
                                                         width: 42rem;
@@ -39,7 +39,7 @@
                                                         height: 2.5rem;
                                                         border-radius: 0rem 5rem 5rem 0rem;
                                                         background-color: #f8fbfc;
-                                                        margin-left: -20px;">
+                                                        margin-left: -20px;" onclick="Search()">
                                                         <svg
                                                           xmlns="http://www.w3.org/2000/svg"
                                                           width="16"
@@ -53,7 +53,7 @@
                                                         </svg>
                                                     </button>
                                                  </div>
-                                            </form>
+                                                </div>
                                         </div>
                                         <div class="col">
                                             <button class="btn text-white" type="button" id="pull-out-report" style="background-color: #80190A;">GENERATE REPORT</button>
@@ -73,11 +73,10 @@
                                         <th scope="col">Product Name</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Price</th>
+                                        <th scope="col">Expiration</th>
                                     </thead>
                                     <tbody id= "pull-out-details">
-                                        <tr class="border">
-                                            
-                                        </tr>
+                                       
                                     </tbody>
                                   </table>
                             </div>
@@ -88,6 +87,66 @@
                 </div>
             </div>
 
+
+    <script>
+$( document ).ready(function() {
+    $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).expired
+    $.each(result, function(_,v){
+     $("#pull-out-details").append(`
+     <tr class="border">
+        <td>`+v.Code+`</td>
+        <td>`+v.Name+`</td>
+        <td>`+v.Category.Name+`</td>
+        <td>`+v.Price+`</td>   
+        <td>`+v.Expiration+`</td>                              
+    </tr>
+     `)
+     
+    })
+  })
+
+})
+
+function Search(){
+
+    var search = $("#search-product").val()
+
+    $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).expired
+    $.each(result, function(_,v){
+        if (search == v.Name){
+    $("#pull-out-details").append(`
+        <tr class="border">
+            <td>`+v.Code+`</td>
+            <td>`+v.Name+`</td>
+            <td>`+v.Category.Name+`</td>
+            <td>`+v.Price+`</td>   
+            <td>`+v.Expiration+`</td>                              
+        </tr>
+    `)
+        }
+    if (search == "" || search == " "){
+        $("#pull-out-details").append(`
+        <tr class="border">
+            <td>`+v.Code+`</td>
+            <td>`+v.Name+`</td>
+            <td>`+v.Category.Name+`</td>
+            <td>`+v.Price+`</td>   
+            <td>`+v.Expiration+`</td>                              
+        </tr>
+        `)
+    }
+   
+     
+     
+    })
+  })
+
+}
+    </script>
       
       {{end}}
 

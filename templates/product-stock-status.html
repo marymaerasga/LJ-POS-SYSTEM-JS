@@ -112,12 +112,13 @@
                                            <div class="table-responsive py-3 ms-3 me-3">
                                             <table class="table table-bordered text-center">
                                                 <thead>
-                                                    <th scope="col">#</th>
+                                                    <th scope="col">Promo Code</th>
                                                     <th scope="col">Product Name</th>
                                                     <th scope="col">Category</th>
                                                     <th scope="col">Description</th>
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Stocks</th>
+                                                    <th scope="col">Expiration</th>
                                                 </thead>
                                                 <tbody id="product_stock_status">
                                                     
@@ -133,7 +134,7 @@
                 </div>
             </div>
            
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
 
 $( document ).ready(function() {
@@ -147,13 +148,13 @@ $( document ).ready(function() {
       if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
         low += parseFloat(1)
         $("#low-stock-count").html(low)
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
       }else if(parseFloat(v.Quantity) == 0){
         out += parseFloat(1)
         $("#out-stock-count").html(out)
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
       }else{
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity)
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration)
       }
      
     })
@@ -161,60 +162,87 @@ $( document ).ready(function() {
 
 })
 
-function AppendData(id,name,category,desc,price,count,color){
+function AppendData(code,name,category,desc,price,count,expiration,color){
   if (color == "yellow"){
     $("#product_stock_status").append(`
         <tr class="border" style="background-color:yellow">
-              <td>`+id+`</td>
+              <td>`+code+`</td>
               <td>`+name+`</td>
               <td>`+category+`</td>
               <td>`+desc+`</td>
               <td>`+price+`</td>
               <td>`+count+`</td>
+              <td>`+expiration+`</td>
           </tr>
         `)
   }else if(color == "red"){
     $("#product_stock_status").append(`
         <tr class="border" style="background-color:red">
-              <td>`+id+`</td>
+              <td>`+code+`</td>
               <td>`+name+`</td>
               <td>`+category+`</td>
               <td>`+desc+`</td>
               <td>`+price+`</td>
               <td>`+count+`</td>
+              <td>`+expiration+`</td>
           </tr>
         `)
   }else{
     $("#product_stock_status").append(`
         <tr class="border">
-              <td>`+id+`</td>
+              <td>`+code+`</td>
               <td>`+name+`</td>
               <td>`+category+`</td>
               <td>`+desc+`</td>
               <td>`+price+`</td>
               <td>`+count+`</td>
+              <td>`+expiration+`</td>
           </tr>
         `)
   }
   }
 
     function remove_product_expired(){
-        Swal.fire({
-            text: "10 Products have been expired, Do you want to Remove all Expired Products?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#80190A',
-            cancelButtonColor: '#747474',
-            confirmButtonText: 'Yes'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire(
-                'Pulled Out!',
-                'Products have been pull out.',
-                'success'
-              )
-            }
-          })
+      var now = new Date();
+var dateString = moment(now).format('YYYY-MM-DD');
+
+     
+  let date2 = new Date(dateString).getTime();
+
+var count = 0;
+  $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      let date1 = new Date(v.Expiration).getTime();
+      if (date1 <= date2){
+        count += parseFloat(1)
+        $.ajax({
+         url: "/api/expired",
+         data: {
+           "id": v.ID,
+         },
+       })
+      }
+    })
+    alert("Remove" + " " + count + " " + "Expired Item")
+    window.location.reload()
+  })
+        // Swal.fire({
+        //     text: "10 Products have been expired, Do you want to Remove all Expired Products?",
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#80190A',
+        //     cancelButtonColor: '#747474',
+        //     confirmButtonText: 'Yes'
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       Swal.fire(
+        //         'Pulled Out!',
+        //         'Products have been pull out.',
+        //         'success'
+        //       )
+        //     }
+        //   })
     }
 
     $("#product-status").change(function () {   
@@ -231,7 +259,7 @@ function AppendData(id,name,category,desc,price,count,color){
         if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
         low += parseFloat(1)
         $("#low-stock-count").html(low)
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
       }
     }
 
@@ -239,7 +267,7 @@ function AppendData(id,name,category,desc,price,count,color){
         if(parseFloat(v.Quantity) == 0){
         out += parseFloat(1)
         $("#out-stock-count").html(out)
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
         }
       }
 
@@ -247,15 +275,15 @@ function AppendData(id,name,category,desc,price,count,color){
         if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
         low += parseFloat(1)
         $("#low-stock-count").html(low)
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
          }
         else if(parseFloat(v.Quantity) == 0){
         out += parseFloat(1)
         $("#out-stock-count").html(out)
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
         }
         else{
-          AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity)
+          AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration)
         }
       }
     })
@@ -273,13 +301,13 @@ function Search(){
     $.each(result, function(_,v){
       if (search == v.Name){
         if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"yellow")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
          }
         else if(parseFloat(v.Quantity) == 0){
-        AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,"red")
+        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
         }
         else{
-          AppendData(v.ID,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity)
+          AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration)
         }
       }
 

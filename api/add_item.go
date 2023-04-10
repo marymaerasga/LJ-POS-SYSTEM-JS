@@ -28,6 +28,7 @@ func CreateItem(w http.ResponseWriter, r *http.Request) {
 	category := r.FormValue("category")
 	user, _ := r.Cookie("id")
 	expiration := r.FormValue("expiration")
+	
 
 	item.Name = name
 	item.Description = description
@@ -37,6 +38,8 @@ func CreateItem(w http.ResponseWriter, r *http.Request) {
 	item.CategoryID = category
 	item.Expiration = expiration
 	item.UserID = user.Value
+	item.Status = "0"
+	item.Code = "I" + category + name[0:2] ;
 
 	db.Save(&item)
 
