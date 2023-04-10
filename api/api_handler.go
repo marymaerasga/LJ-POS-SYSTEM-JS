@@ -15,6 +15,23 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.HasPrefix(r.URL.Path, "get_employee") {
+		GetEmployee(w, r)
+		return
+	}
+
+	
+	if strings.HasPrefix(r.URL.Path, "edit_employee") {
+		EditEmployee(w, r)
+		return
+	}
+
+	
+	if strings.HasPrefix(r.URL.Path, "delete_employee") {
+		DeleteEmployee(w, r)
+		return
+	}
+
 	if strings.HasPrefix(r.URL.Path, "login") {
 		Login(w, r)
 		return

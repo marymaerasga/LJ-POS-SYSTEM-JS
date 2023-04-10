@@ -1,22 +1,17 @@
 package models
 
+import "gorm.io/gorm"
+
 type Employee struct {
 	ID           uint `gorm:"primaryKey"`
 	User         User
 	UserID       uint
-	EmployeeType EmployeeType
-}
+	Sex			string
+	MobileNo	string
+	Address		string
+	Status		string
+	Deleted gorm.DeletedAt
 
-type EmployeeType int
-
-func (EmployeeType) Admin() int {
-	return 1
-}
-func (EmployeeType) User() int {
-	return 2
-}
-
-func (e *Employee) Save() {
 }
 
 func (e *Employee) String() string {
