@@ -29,10 +29,10 @@
                                                         </select>
                                                 </div>
                                                 <div class="col-md-auto mt-3">
-                                                    <a href="" class="btn text-white" id="stock-report" style="background-color: #80190A;">GENERATE REPORT</a>
+                                                    <a href="" class="btn text-white p-3" id="stock-report" style="background-color: #80190A;">GENERATE REPORT</a>
                                                 </div>
                                                 <div class="col mt-3">
-                                                    <button href="" class="btn text-white" id="remove-expired" onclick="remove_product_expired()" style="background-color: #80190A;">REMOVE EXPIRED PRODUCTS</button>
+                                                    <button href="" class="btn text-white" id="remove-expired" onclick="remove_product_expired()" style="background-color: #80190A;">PULL OUT ALL EXPIRED PRODUCTS</button>
                                                 </div>
                                               </div>
                                               <div class="row mt-3">
@@ -40,7 +40,7 @@
                                                     <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                                         <div class="searchdiv">
                                                             <input type="text" id= "search-product" placeholder="Search ..." style="
-                                                                width: 40rem;
+                                                                width: 35rem;
                                                                 outline: none;
                                                                 border: none;
                                                                 text-indent: 10px;
@@ -208,8 +208,7 @@ var dateString = moment(now).format('YYYY-MM-DD');
 
      
   let date2 = new Date(dateString).getTime();
-
-var count = 0;
+  var count = 0;
   $.get("/api/get_item", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
@@ -217,16 +216,25 @@ var count = 0;
       if (date1 <= date2){
         count += parseFloat(1)
         $.ajax({
-         url: "/api/expired",
-         data: {
-           "id": v.ID,
-         },
-       })
+          url: "/api/expired",
+          data: {
+            "id": v.ID,
+          },
+        })
       }
     })
-    alert("Remove" + " " + count + " " + "Expired Item")
-    window.location.reload()
+    Swal.fire({
+      title: 'Expired Item',
+      text: `Remove ${count} Expired Item`,
+      icon: 'warning',
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload()
+      }
+    })
   })
+  
         // Swal.fire({
         //     text: "10 Products have been expired, Do you want to Remove all Expired Products?",
         //     icon: 'warning',
