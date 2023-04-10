@@ -63,7 +63,8 @@
                                                 </div>
                                                 <div class="col">
                                                     <select id="acc-status" class="form-select">
-                                                        <option selected value="Active">ACTIVE</option>
+                                                        <option selected value="0">All</option>
+                                                        <option  value="Active">ACTIVE</option>
                                                         <option value="Deactivate">DEACTIVATE</option>
                                                     </select>
                                                 </div>
@@ -439,6 +440,26 @@ $("tbody").empty()
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
         if(status == v.Status){
+            $("#staff-details").append(`
+            <tr class="border">
+                <td>`+v.ID+`</td>
+                <td>`+v.User.FirstName+` </td>
+                <td>`+v.User.LastName+`</td>
+                <td>`+v.Sex+`</td>
+                <td>`+v.MobileNo+`</td>
+                <td>`+v.Address+` </td>
+                <td>`+v.User.Username+`</td>
+                <td>`+v.User.Position+`</td>
+                <td>`+v.Status+`</td>
+                <td>
+                    <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`)"><i class="fa-solid fa-trash"></i></button>
+                    <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" style="background-color: #80190A;" onclick="Edit(`+v.ID+`)"><i class="fa-solid fa-pen-to-square"></i></button>
+                </td>
+            </tr>
+            `)
+        }
+
+        if (status == 0){
             $("#staff-details").append(`
             <tr class="border">
                 <td>`+v.ID+`</td>

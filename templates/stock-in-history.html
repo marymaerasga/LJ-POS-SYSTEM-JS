@@ -85,7 +85,7 @@
                             <input type="text" class="form-control" id="stockID" placeholder="Enter Category Name" hidden>
                             <input type="text" class="form-control" id="count" placeholder="Enter Category Name" hidden>
                              <input type="text" class="form-control" id="itemID" placeholder="Enter Category Name" hidden>
-                             <input type="text" class="form-control" id="stock-total" placeholder="">
+                             <input type="number" class="form-control" id="stock-total" placeholder="" pattern="^[a-zA-Z0-9]+$" min="0" oninput="validity.valid||(value='');">
                              <label for="cat-name">Stock</label>
                            </div>
                          <div class="mt-3">

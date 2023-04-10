@@ -34,6 +34,9 @@
                     <div class="col">
                       <input
                         type="number"
+                        pattern="^[a-zA-Z0-9]+$"
+                        min="0"
+                        oninput="validity.valid||(value='');"
                         class="form-control"
                         id="stock-received"
                       />
@@ -202,7 +205,7 @@
       $.get("/api/get_item", function (index) {
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
-          appendData(v.ID, v.Name, v.Category.Name, v.Quantity);
+          appendData(v.Code, v.Name, v.Category.Name, v.Quantity);
         });
       });
     });
@@ -239,7 +242,7 @@
           if (search == v.Name) {
             $("#stock-received").removeAttr("disabled");
             $("#date-received").removeAttr("disabled");
-            appendData(v.ID, v.Name, v.Category.Name, v.Quantity);
+            appendData(v.Code, v.Name, v.Category.Name, v.Quantity);
             $("#product-display").append(
               `
             <span id="pID">` +
@@ -282,18 +285,18 @@
             date: date1,
           },
           success: function () {
-              // use SweetAlert2 to show a success dialog
-              Swal.fire({
-                title: 'Success!',
-                text: 'Stock-in Added Successfully!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  window.location.reload();
-                }
-              });
-            }
+            // use SweetAlert2 to show a success dialog
+            Swal.fire({
+              title: "Success!",
+              text: "Stock-in Added Successfully!",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload();
+              }
+            });
+          },
         });
       }
     }

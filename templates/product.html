@@ -64,7 +64,7 @@
                                         <div class="col-md-6 pe-5 ">
                                             <div class="product_header d-grid d-md-flex mx-auto">
                                                 <button class="btn text-white" type="button" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">ADD PRODUCT</button>
-                                                <button class="btn text-white" type="button" style="background-color: #80190A;">GENERATE REPORT</button>
+                                                <!-- <button class="btn text-white" type="button" style="background-color: #80190A;">GENERATE REPORT</button> -->
                                                 <!-- <button class="btn text-white" onclick="pull_out_expired()" type="button" style="background-color: #80190A;">PULL OUT EXPIRED</button> -->
                                               
                                             </div>
@@ -135,7 +135,7 @@
                     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
                         <input type="hidden" class="form-control" id="itemID">
                         <div class="form-floating mb-2">
-                          <input type="text" class="form-control" id="name" placeholder="Name" required>
+                          <input type="text" class="form-control" id="name" pattern="[A-Za-z]" placeholder="Name" required>
                           <label for="floatingInput">Product Name</label>
                         </div>
                         <div class="mb-2">
@@ -144,7 +144,7 @@
                             </select>
                         </div>
                         <div class="form-floating mb-2">
-                            <textarea  class="form-control " id="description" placeholder="Description" style="height: 100px"></textarea>
+                            <textarea  class="form-control " id="description" pattern="[A-Za-z] placeholder="Description" style="height: 100px"></textarea>
                             <label for="description">Description</label>
                         </div>
                         <div class="mb-3">
@@ -160,13 +160,13 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" id="price" placeholder="Prize">
+                                    <input type="number" class="form-control" id="price" placeholder="Prize" pattern="^[a-zA-Z0-9]+$" min="0" oninput="validity.valid||(value='');">
                                     <label for="floatingInput">Price</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" id="qty" placeholder="Quantity">
+                                    <input type="number" class="form-control" id="qty" placeholder="Quantity" pattern="^[a-zA-Z0-9]+$" min="0" oninput="validity.valid||(value='');">
                                     <label for="floatingInput">Initial Stocks</label>
                                 </div>
                             </div>
