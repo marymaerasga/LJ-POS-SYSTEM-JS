@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/dafalo/LJ-POS-SYSTEM-JS/models"
 	"golang.org/x/crypto/bcrypt"
@@ -25,15 +26,24 @@ func CreateEmployee(w http.ResponseWriter, r *http.Request) {
 	lname := r.FormValue("lname")
 	username := r.FormValue("username")
 	password := r.FormValue("password")
+	position := r.FormValue("position")
+	sex := r.FormValue("sex")
+	number := r.FormValue("mobileNo")
+	address := r.FormValue("address")
+
 
 	user.FirstName = fname
 	user.LastName = lname
 	user.Username = username
 	user.Password = hashPassword(password)
+	user.Position = position
 	db.Save(&user)
 
 	employee.UserID = user.ID
-	employee.EmployeeType = models.EmployeeType(2)
+	employee.Address = address
+	employee.Sex = sex
+	employee.MobileNo = number
+	employee.Status = "Active"
 	db.Save(&employee)
 
 }
@@ -41,4 +51,73 @@ func CreateEmployee(w http.ResponseWriter, r *http.Request) {
 func hashPassword(pass string) string {
 	bytes, _ := bcrypt.GenerateFromPassword([]byte(pass), 14)
 	return string(bytes)
+}
+
+func GetEmployee(w http.ResponseWriter, r *http.Request) {
+
+	db := GormDB()
+
+	item := []models.Employee{}
+	db.Preload("User").Find(&item)
+
+	data := map[string]interface{}{
+		"status": "ok",
+		"item":   item,
+	}
+	ReturnJSON(w, r, data)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+
+}
+
+func EditEmployee(w http.ResponseWriter, r *http.Request) {
+
+	db := GormDB()
+	user := models.User{}
+	employee := models.Employee{}
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	fname := r.FormValue("fname")
+	lname := r.FormValue("lname")
+	username := r.FormValue("username")
+	status := r.FormValue("status")
+	position := r.FormValue("position")
+	sex := r.FormValue("sex")
+	number := r.FormValue("mobileNo")
+	address := r.FormValue("address")
+
+	db.Where("username", username).Find(&user)
+	user.FirstName = fname
+	user.LastName = lname
+	user.Username = username
+	user.Position = position
+	db.Save(&user)
+
+
+	db.Where("id", id).Find(&employee)
+
+	employee.Address = address
+	employee.Sex = sex
+	employee.MobileNo = number
+	employee.Status = status
+	db.Save(&employee)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+}
+
+func DeleteEmployee(w http.ResponseWriter, r *http.Request) {
+	db := GormDB()
+
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	uid, _ := strconv.Atoi(r.FormValue("uid"))
+	item := models.Employee{}
+	db.Where("id", id).Statement.Delete(&item)
+
+	user := models.User{}
+	db.Where("id", uid).Statement.Delete(&user)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+
 }

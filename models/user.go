@@ -6,6 +6,7 @@ type User struct {
 	Password  string
 	FirstName string
 	LastName  string
+	Position  string
 }
 
 func (u *User) String() string {
