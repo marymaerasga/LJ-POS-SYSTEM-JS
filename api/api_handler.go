@@ -30,6 +30,11 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.HasPrefix(r.URL.Path, "expired") {
+		ExpiredItem(w, r)
+		return
+	}
+
 	if strings.HasPrefix(r.URL.Path, "edit_item") {
 		EditItem(w, r)
 		return
