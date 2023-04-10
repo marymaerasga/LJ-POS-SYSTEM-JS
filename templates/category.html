@@ -21,7 +21,7 @@
                                             <div class="d-grid gap-2 d-md-block ">
                                                 <a href="" type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                                 onclick="Validate()">ADD CATEGORY</a>
-                                                <a href="" class="btn text-white" id="category-report" style="background-color: #80190A;">GENERATE REPORT</a>
+                                                <a href="#" class="btn text-white" id="category-report" style="background-color: #80190A;" onclick="PDF()">GENERATE REPORT</a>
                                             </div>
                                         </div>
                                       </div>
@@ -34,6 +34,7 @@
                                     <div class="category" id="category">
                                            <!--- Tables -->
                                            <div class="table-responsive py-3 ms-3 me-3">
+                                          <div id="divToExport">
                                             <table class="table table-bordered text-center">
                                                 <thead>
                                                     <th scope="col">#</th>
@@ -45,6 +46,7 @@
                                                  
                                                 </tbody>
                                               </table>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -269,6 +271,23 @@ function Delete_Yes() {
         });
       }
     });
+  }
+
+  function PDF(){
+    var element = document.getElementById('divToExport');
+    element.style.width = '100%';
+    element.style.height = '100%';
+
+    var opt = {
+      margin: 0.5,
+      filename: 'Category_Report.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 1 },
+      jsPDF: { unit: 'in', format: 'legal', orientation: 'landscape', precision: '12' }
+    };
+
+    // choose the element and pass it to html2pdf() function and call the save() on it to save as pdf.
+    html2pdf().set(opt).from(element).save();
   }
     </script>
 
