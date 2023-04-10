@@ -105,7 +105,7 @@
                         <input type="hidden" class="form-control" id="itemID_delete">
                         <div class="form-floating mb-3">
                             <div class="delete_nam">
-                                <span>Are you sure to Delete <h3 id="delete_name"></h3></span>
+                                <span>Are you sure you want to delete <h3 id="delete_name"> ?</h3></span>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -195,42 +195,53 @@
         
 
 <script>
-    function Save(){
-     var   name = $("#name").val()
-     var   description = $("#description").val()
-     var   price = $("#price").val()
-     var   quantity = $("#qty").val()
-     var   size = $("#size").val()
-     var   category = $("#category_list").val()
-     var   expiration = $("#expiration").val()
-     var   image = $("#image").val()
-
-     if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
-       /*swal("Please Complete Required Details")*/
-       alert("Please Complete Required Details")
-     }else{
-       $.ajax({
-         url: "/api/item",
-         data: {
-           "name": name,
-           "description":description,
-           "price": price,
-           "size": size,
-           "category": category,
-           "quantity":quantity,
-           "expiration": expiration,
-         },
-         success: function () {
-            /*swal({
-                title: "Item Added Successfully!",
-                icon: "success",
-              });*/
-              alert("Item Added Successfully!")
-         window.location.reload()
-         }
-       })
-     }
-   }
+  function Save(){
+    var name = $("#name").val();
+    var description = $("#description").val();
+    var price = $("#price").val();
+    var quantity = $("#qty").val();
+    var size = $("#size").val();
+    var category = $("#category_list").val();
+    var expiration = $("#expiration").val();
+    var image = $("#image").val();
+  
+    if (name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
+      // use SweetAlert2 to show an error message
+      Swal.fire({
+        title: 'Incomplete Details!',
+        text: 'Please Complete Required Details',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } else {
+      $.ajax({
+        url: "/api/item",
+        data: {
+          "name": name,
+          "description":description,
+          "price": price,
+          "size": size,
+          "category": category,
+          "quantity":quantity,
+          "expiration": expiration,
+        },
+        success: function () {
+          // use SweetAlert2 to show a success message
+          Swal.fire({
+            title: 'Success!',
+            text: 'Item Added Successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
+      });
+    }
+  }
+  
   $( document ).ready(function() {
     $("#item_card").empty()
     
@@ -335,8 +346,13 @@ function Modify(){
      var   image = $("#image").val()
 
      if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
-       /*swal("Please Complete Required Details")*/
-       alert("Please Complete Required Details")
+       // use SweetAlert2 to show an error message
+      Swal.fire({
+        title: 'Incomplete Details!',
+        text: 'Please Complete Required Details',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
      }else{
        $.ajax({
          url: "/api/edit_item",
@@ -351,13 +367,18 @@ function Modify(){
            "expiration": expiration,
          },
          success: function () {
-            /*swal({
-                title: "Updated Item Successfully!",
-                icon: "success",
-              });*/
-              alert("Updated Item Successfully!")
-         window.location.reload()
-         }
+          // use SweetAlert2 to show a success message
+          Swal.fire({
+            title: 'Success!',
+            text: 'Item Updated Successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
        })
      }
 }
@@ -386,13 +407,18 @@ function Delete_Yes(){
             "id": id,
          },
          success: function () {
-           /* swal({
-                title: "Deleted Item Successfully!",
-                icon: "success",
-              });*/
-              alert("Deleted Item Successfully!")
-         window.location.reload()
-         }
+          // use SweetAlert2 to show a success message
+          Swal.fire({
+            title: 'Success!',
+            text: 'Item Deleted Successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
        })
 }
 

@@ -282,13 +282,18 @@
             date: date1,
           },
           success: function () {
-            /*swal({
-                title: "Item Added Successfully!",
-                icon: "success",
-              });*/
-            alert("StockIn Added Successfully!");
-            window.location.reload();
-          },
+              // use SweetAlert2 to show a success dialog
+              Swal.fire({
+                title: 'Success!',
+                text: 'Stock-in Added Successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              });
+            }
         });
       }
     }

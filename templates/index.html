@@ -9,17 +9,12 @@
     <!--- Styles -->
     <link href="/static/css/index.css" rel="stylesheet" />
     <!--- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet"/>
     <!--- Font Awesome -->
-    <script
-      src="https://kit.fontawesome.com/6fa6ee6fa5.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
     <!--- SweetAlert -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
   </head>
   <body>
     <!--- Navbar -->
@@ -184,11 +179,17 @@
     function Login() {
       var username = $("#floatingInput").val();
       var password = $("#floatingPassword").val();
-
+    
       console.log(username, password);
-
+    
       if (username == "" || password == "") {
-        alert("Please Complete Required Details");
+        // use SweetAlert2 to show an error dialog
+        Swal.fire({
+          title: 'Error!',
+          text: 'Please Complete Required Details',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       } else {
         $.ajax({
           url: "/api/login",
@@ -198,25 +199,33 @@
           },
           success: function (res) {
             var result = JSON.parse(res).results;
-
+    
             if (result == 1) {
-              /*swal({
-                title: "Login Successfully!",
-                icon: "success",
-              });*/
-              alert("Login Successfully!");
-              window.location.replace("/dash/dashboard");
+              // use SweetAlert2 to show a success dialog
+              Swal.fire({
+                title: 'Success!',
+                text: 'Login Successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.replace("/dash/dashboard");
+                }
+              });
             } else {
-              /*swal({
-                title: "Please Check your Email and Password!",
-                icon: "error",
-              });*/
-              alert("Please Check your Email and Password!");
+              // use SweetAlert2 to show an error dialog
+              Swal.fire({
+                title: 'Error!',
+                text: 'Please Check your Email and Password!',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
             }
           },
         });
       }
     }
+    
 
     $(document).ready(function () {
       $("#item_card").empty();
