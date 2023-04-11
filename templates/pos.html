@@ -110,9 +110,16 @@
                                     </div>
                                     <div class="row mt-1">
                                         <div class="container-fluid" style=" height: 11rem; width: 21rem; ">
+                                          <div style="display: flex;
+                                          justify-content: space-between;">
                                             <p style="margin: 0">Subtotal: </p>
-                                            <!--id="subtotal"-->
-                                            <p style="margin: 0;display:inline">Discount </p>
+                                            <p style="margin: 0" id="subtotal"> </p>
+                                          </div>  
+                                           
+                                            <div style="display: flex;
+                                            justify-content: space-between;">
+                                            <div>
+                                             <p style="margin: 0;display:inline">Discount </p>
                                             <button class="btn text-white" id ="add-discount" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"
                                             style="background-color: #80190A;
                                             text-align: center;
@@ -121,10 +128,30 @@
                                             font-size: 7px;">
                                             <i class="fas fa-plus"></i>
                                             </button>
-                                            <p style="margin: 0">Vat: </p>
-                                            <!--id="vat"-->
-                                            <h5>Grand Total: </h5>
-                                            <!--id="gtotal"-->
+                                          </div>
+                                            <p style="margin: 0" id="total_discount"> </p>
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between;">
+                                            <div style="display: flex;
+                                            gap: 5px;">
+                                              <p style="margin: 0">Vat: </p>
+                                              <button class="btn text-white" id ="add-discount" data-bs-toggle="modal" data-bs-target="#vat"
+                                              style="background-color: #80190A;
+                                              text-align: center;
+                                              text-decoration: none;
+                                              display: inline-block;
+                                              font-size: 7px;">
+                                              <i class="fas fa-plus"></i>
+                                              </button>
+                                            </div>
+                                            <p style="margin: 0" id="total_vat"> </p>
+                                          </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between;">
+                                              <h5>Grand Total: </h5>
+                                              <p style="margin: 0" id="grand_total"> </p>
+                                            </div>
                                             <div class="row mb-3">
                                                 <div class="col">
                                                     <p style="display:inline">Cash Received</p>
@@ -201,12 +228,79 @@
                 </div>
                 <div class="modal-body">
                   <div class="container">
-                    <!-- INPUT FORM -->
+                    <div class="col">
+                      <input
+                        type="number"
+                        pattern="^[a-zA-Z0-9]+$"
+                        min="0"
+                        oninput="validity.valid||(value='');"
+                        class="form-control"
+                        id="discount"
+                      />
+                    </div>
+                    <div class="col" style="width: 100%;
+                    text-align: center;
+                    padding: 1rem;">
+                      <button
+                        class="btn text-white"
+                        id="stock-save"
+                        type="button"
+                        style="background-color: #80190a"
+                        onclick="Discount()"
+                      >
+                        Apply
+                      </button>
+                    </div>
                 </div>
               </div>
             </div>
             </div>
           </div>
+
+               <!---ADD VAT--->
+        <div class="modal fade" id="vat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Vat</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div class="col">
+                    <div style="margin-bottom: 1rem;">
+                      <select class="form-select form-select-md category" id="vat_type" aria-describedby="button-addon2">
+                               <option value="1">Inclusive</option>  
+                               <option value="2">Exclusive</option>                          
+                      </select>
+                    </div>
+                    <input
+                      type="number"
+                      pattern="^[a-zA-Z0-9]+$"
+                      min="0"
+                      oninput="validity.valid||(value='');"
+                      class="form-control"
+                      id="vat_amount"
+                    />
+                  </div>
+                  <div class="col" style="width: 100%;
+                  text-align: center;
+                  padding: 1rem;">
+                    <button
+                      class="btn text-white"
+                      id="stock-save"
+                      type="button"
+                      style="background-color: #80190a"
+                      onclick="Vat()"
+                    >
+                      Apply
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
 
              <!---ADD TO CART--->
         <div class="modal fade" id="addtocart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -265,6 +359,7 @@
         <script>
        
 $( document ).ready(function() {
+  $("#changed").attr("disabled", "disabled");
     $("tbody").empty()
     $.get("/api/get_item", function(index){
     var result = JSON.parse(index).item
@@ -303,7 +398,11 @@ $( document ).ready(function() {
     } else {
       cart = JSON.parse(cart);
       $("#itemList").empty()
+      var subtotal = 0.00
+      var itemcount = 0.00
       $.each(cart, function (k, v) {
+        subtotal += parseFloat(v.total)
+        itemcount += parseFloat(v.quantity)
         $("#itemList").append(`
         <div style="display: flex;
             justify-content: space-between;">
@@ -326,6 +425,44 @@ $( document ).ready(function() {
           </div>
         `)
       })
+      // Display of subtotal
+      $("#subtotal").html(subtotal.toFixed(2))
+
+      // Display of Discount
+      var discount = 0;
+      var disc = localStorage.getItem("Discount")
+
+      if (disc === null || disc === "" || disc === " "){
+        $("#total_discount").html("0.00")
+      }else{
+        discount = parseFloat(subtotal) * parseFloat(disc)      
+        $("#total_discount").html(discount.toFixed(2))
+      }
+
+
+       // Display of Vat
+       var vat = 0;
+       var vat_total = 0;
+       var type = localStorage.getItem("Type")
+      var vat_val = localStorage.getItem("Vat")
+
+      if (type === null || type === "" || type === " "){
+        $("#total_vat").html("0.00")
+      }else{  
+        if(type == 1){
+          vat = (parseFloat(subtotal) - parseFloat(discount)) * parseFloat(vat_val)
+          $("#total_vat").html( "(" + vat.toFixed(2) + ")")
+        }else{
+          vat_total = (parseFloat(subtotal) - parseFloat(discount)) - ((parseFloat(subtotal) - parseFloat(discount)) / (parseFloat(1) + parseFloat(vat_val)))
+          $("#total_vat").html(vat_total.toFixed(2))
+        }
+      }
+
+
+       // Display of Grand Total
+      var g_total = 0;
+      g_total = parseFloat(subtotal) + parseFloat(vat_total) - parseFloat(discount)
+      $("#grand_total").html(g_total.toFixed(2))
     }
 
 })
@@ -523,10 +660,54 @@ function Remove(id){
 
     if (cart == null || cart == "" || cart == " ") {
       localStorage.removeItem("cart")
+      localStorage.removeItem("Discount")
+      localStorage.removeItem("Vat")
+      localStorage.removeItem("Type")
     }
 
     window.location.reload()
   }
+
+  function Discount(){
+    var subtotal = $("#subtotal").html()
+    var discount = $("#discount").val()
+    var total =  (parseFloat(discount) / 100)
+    localStorage.setItem("Discount",total)
+    $("#discount").val("")
+    $(".fade").hide()
+    window.location.reload()
+
+  }
+
+
+  function Vat(){
+    var type = $("#vat_type").val()
+    var vat = $("#vat_amount").val()
+    var total =  (parseFloat(vat) / 100)
+    localStorage.setItem("Vat",total)
+    localStorage.setItem("Type",type)
+    $("#vat_amount").val("")
+    $(".fade").hide()
+    window.location.reload()
+  }
+
+    //* Search bar event
+$("#cash-received").on("keypress", function(e){
+  var total = $("#grand_total").html()
+  var cash = $("#cash-received").val()
+  if (e.which == 13){
+    if (this.value == "" || this.value == " "){
+     alert("Input Required Amount")
+    }else if(cash < total){
+      alert("Input Required Amount")
+    } else {
+      var change = 0;
+     change = parseFloat(cash) - parseFloat(total)
+     $("#change").val(change.toFixed(2))
+
+    }
+  }
+})
   
 </script>
 {{end}}
