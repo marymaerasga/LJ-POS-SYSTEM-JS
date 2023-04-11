@@ -47,7 +47,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		http.SetCookie(w, &http.Cookie{
 			Path:  "/",
-			Name:  "position",
+			Name:  "try",
 			Value: user.Position,
 		})
 		data := map[string]interface{}{

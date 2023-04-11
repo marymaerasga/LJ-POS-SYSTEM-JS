@@ -223,7 +223,8 @@
                 confirmButtonText: "OK",
               }).then((result) => {
                 if (result.isConfirmed) {
-                  var value = $.cookie("position");
+                  var value = $.cookie("try");
+                  alert(value);
                   if (value == "Cashier") {
                     window.location.replace("/dash/pos");
                   } else if (value == "Staff") {
