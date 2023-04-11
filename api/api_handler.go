@@ -20,6 +20,16 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.HasPrefix(r.URL.Path, "get_order") {
+		GetOrder(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "search") {
+		SearchOrder(w, r)
+		return
+	}
+
 	if strings.HasPrefix(r.URL.Path, "get_employee") {
 		GetEmployee(w, r)
 		return

@@ -5,6 +5,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/dafalo/LJ-POS-SYSTEM-JS/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -16,24 +17,24 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 		panic("failed to connect database")
 	}
 
-	// session := r.FormValue("session")
-	// if session != "" {
-	// 	http.SetCookie(w, &http.Cookie{
-	// 		Name:  "session",
-	// 		Value: session,
-	// 		Path:  "/",
-	// 	})
-	// }
+	session := r.FormValue("session")
+	if session != "" {
+		http.SetCookie(w, &http.Cookie{
+			Name:  "session",
+			Value: session,
+			Path:  "/",
+		})
+	}
 
-	// user := models.User{}
-	// users, _ := r.Cookie("id")
-	// db.Where("id = ?", users.Value).Find(&user)
+	user := models.User{}
+	users, _ := r.Cookie("id")
+	db.Where("id = ?", users.Value).Find(&user)
 
-	// activeSession := GetActiveSession(r)
-	// if activeSession == nil {
-	// 	http.Redirect(w, r, "/", http.StatusSeeOther)
-	// 	return
-	// } else {
+	activeSession := GetActiveSession(r)
+	if activeSession == nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	} else {
 	
 			r.URL.Path = strings.TrimPrefix(r.URL.Path, "/dash/")
 			page := strings.TrimSuffix(r.URL.Path, "/")
@@ -69,7 +70,7 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 			}
 
 			ParseMultiHTML(w, r, page, context)
-		// }
+		}
 
 	
 

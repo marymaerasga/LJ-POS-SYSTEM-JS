@@ -169,3 +169,54 @@ func CreateOrder(w http.ResponseWriter, r *http.Request) {
 	sqlDB, _ := db.DB()
 	sqlDB.Close()
 }
+
+func GetOrder(w http.ResponseWriter, r *http.Request) {
+
+	dsn := "root:a@tcp(127.0.0.1:3306)/pos_system?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		fmt.Println("Faied to Connect to the Database ", err)
+	}
+
+	item := []models.Order{}
+	db.Preload("User").Find(&item)
+
+	orderlines := []models.Orderlines{}
+	db.Preload("Order").Preload("Item").Find(&orderlines)
+
+	data := map[string]interface{}{
+		"status": "ok",
+		"order":   item,
+		"orderlines": orderlines,
+	}
+	ReturnJSON(w, r, data)
+
+}
+
+
+func SearchOrder(w http.ResponseWriter, r *http.Request) {
+
+	dsn := "root:a@tcp(127.0.0.1:3306)/pos_system?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		fmt.Println("Faied to Connect to the Database ", err)
+	}
+
+	item := []models.Order{}
+	to := r.FormValue("to")
+	from := r.FormValue("from")
+	db.Preload("User").Where("date BETWEEN ? and ?", from, to).Find(&item)
+
+	orderlines := []models.Orderlines{}
+	db.Preload("Order").Find(&orderlines)
+
+	data := map[string]interface{}{
+		"status": "ok",
+		"order":   item,
+		"orderlines": orderlines,
+	}
+	ReturnJSON(w, r, data)
+
+}

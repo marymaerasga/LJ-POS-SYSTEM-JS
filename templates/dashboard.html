@@ -12,8 +12,8 @@
                         <h1 class="mt-4">Dashboard</h1>
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                              <button class="nav-link active" id="nav-sales-tab" data-bs-toggle="tab" data-bs-target="#nav-sales" type="button" role="tab" aria-controls="nav-sales" aria-selected="true">Sales</button>
-                              <button class="nav-link" id="nav-product_sold-tab" data-bs-toggle="tab" data-bs-target="#nav-product_sold" type="button" role="tab" aria-controls="nav-product_sold" aria-selected="false">Product Sold</button>
+                              <button class="nav-link active" id="nav-sales-tab" data-bs-toggle="tab" data-bs-target="#nav-sales" type="button" role="tab" aria-controls="nav-sales" aria-selected="true" onclick="Pick()">Sales</button>
+                              <button class="nav-link" id="nav-product_sold-tab" data-bs-toggle="tab" data-bs-target="#nav-product_sold" type="button" role="tab" aria-controls="nav-product_sold" aria-selected="false" onclick="Set()">Product Sold</button>
                             </div>
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
@@ -26,7 +26,7 @@
                                                 <div class="card" style="width: 15rem; height: 6rem">
                                                     <div class="card-body">
                                                         <h6>No. of Transaction</h6>
-                                                        <h2 id="transaction-count">1</h2>
+                                                        <h2 id="transaction-count"></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -34,7 +34,7 @@
                                                 <div class="card" style="width: 15rem; height: 6rem">
                                                     <div class="card-body">
                                                         <h6>Total Sales</h6>
-                                                        <h2 id="sales-gtotal">123.0</h2>
+                                                        <h2 id="sales-gtotal"></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -45,12 +45,19 @@
                                     <div class="card border shadow">
                                         <div class="row">
                                             <div class="col-md-auto py-1 my-1 mx-3">
-                                                Select date:
+                                                Date From:
                                                 <div class="col-sm">
-                                                    <input class="form-control" id="sales-date-picker"  type="date">
+                                                    <input class="form-control" id="from"  type="date">
                                                 </div>
                                             </div>
-                                            <div class="col">
+
+                                            <div class="col-md-auto py-1 my-1 mx-3">
+                                                Date To:
+                                                <div class="col-sm">
+                                                    <input class="form-control" id="to"  type="date">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col">
                                                 <div class="d-grid gap-2 d-md-block py-2 ">
                                                     <button class="btn text-white" id="daily-sales" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
                                                         <div class="row">
@@ -98,7 +105,7 @@
                                                             ANNUALLY SALES
                                                         </div>
                                                     </button>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div class="col-md-auto py-3 me-3">
                                                 <div class="d-grid d-md-block">
@@ -111,9 +118,10 @@
                                 <div class="container-fluid mt-3">
                                     <div class="card shadow">
                                         <!--- Tables -->
-                                    <div class="table-responsive py-3 ms-3 me-3">
-                                        <table class="table table-bordered">
+                                    <div class="table-responsive py-3 ms-3 me-3" id="trans">
+                                        <table class="table table-bordered" >
                                             <thead>
+                                                <th>Date</th>
                                                 <th>Transaction ID</th>
                                                 <th>Total Amount</th>
                                                 <th>Cash</th>
@@ -121,13 +129,7 @@
                                                 <th>Staff Name</th>
                                             </thead>
                                             <tbody id="transaction-details">
-                                                <tr class="border">
-                                                    <td>12345</td>
-                                                    <td>123</td>
-                                                    <td>200</td>
-                                                    <td>77</td>
-                                                    <td>Mae Erasga</td>
-                                                </tr>
+                                               
                                             </tbody>
                                           </table>
                                     </div>
@@ -162,12 +164,18 @@
                                     <div class="card border shadow">
                                         <div class="row">
                                             <div class="col-md-auto py-1 my-1 mx-3">
-                                                Select date:
+                                                From:
                                                 <div class="col-sm">
-                                                    <input class="form-control" id="product-date-picker"  type="date">
+                                                    <input class="form-control" id="from1"  type="date">
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                             <div class="col-md-auto py-1 my-1 mx-3">
+                                                To:
+                                                <div class="col-sm">
+                                                    <input class="form-control" id="to1"  type="date">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col">
                                                 <div class="d-grid gap-2 d-md-block py-2 ">
                                                     <button class="btn  text-white" id="daily-sales" type="button" style="background-color: #80190A; height: 4rem; width: 9rem">
                                                         <div class="row">
@@ -218,7 +226,7 @@
                                                         </div>
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-auto py-3 me-3">
                                                 <div class="d-grid d-md-block">
                                                     <a href="" class="btn text-white" id="product-report" style="background-color: #80190A;">GENERATE REPORT</a>
@@ -230,7 +238,7 @@
                                   <div class="container-fluid mt-3">
                                     <div class="card shadow">
                                         <!--- Tables -->
-                                    <div class="table-responsive py-3 ms-3 me-3">
+                                    <div class="table-responsive py-3 ms-3 me-3" id="item">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <th>Product Name</th>
@@ -239,14 +247,7 @@
                                                 <th>Date</th>
                                             </thead>
                                             <tbody id="product-sold-details">
-                                                <tr class="border">
-                                                    <td>Product1</td>
-                                                    <td>1</td>
-                                                    <td>123</td>
-                                                    <td>
-                                                        2023/04/10
-                                                    </td>
-                                                </tr>
+                                               
                                             </tbody>
                                           </table>
                                     </div>
@@ -258,4 +259,136 @@
                 </main>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script>
+
+$( document ).ready(function() {
+    
+    $("tbody").empty()
+    var count = 0;
+    var total = 0;
+    $.get("/api/get_order", function(index){
+        var result = JSON.parse(index).order
+        $.each(result, function(_,v){
+            count += 1
+            total += v.GrandTotal
+            
+            $("#transaction-details").append(`
+            <tr class="border">
+                <td>`+v.Date+`</td>
+                <td>`+v.ID+`</td>
+                <td>`+v.GrandTotal+`</td>
+                <td>`+v.Payment+`</td>
+                <td>`+v.Change+`</td>
+                <td>`+v.User.FirstName+` `+v.User.LastName+`</td>
+            </tr>
+        `)
+        })
+        $("#transaction-count").html(count)
+        $("#sales-gtotal").html(total.toFixed(2))
+
+        var result1 = JSON.parse(index).orderlines
+        var count1 = 0;
+    var total1 = 0;
+        $.each(result1, function(_,v){
+            
+            $("#product-sold-details").append(`
+            <tr class="border">
+
+            <td>`+v.Item.Name+`</td>
+            <td>`+v.Quantity+`</td>
+            <td>123</td>
+            <td>
+                `+v.Date+`
+            </td>
+                                                
+            </tr>
+        `)
+        })
+
+    })
+        
+})
+
+
+$("#from").change(function () {  
+var from = $("#from").val()
+var dateString = moment(from).format('YYYY-DD-MM');
+
+$("tbody").empty()
+    var count = 0;
+    var total = 0;
+    $.get("/api/get_order", function(index){
+        var result = JSON.parse(index).order
+        $.each(result, function(_,v){
+            if(dateString == v.Date){
+                count += 1
+                total += v.GrandTotal
+                
+                $("#transaction-details").append(`
+                <tr class="border">
+                    <td>`+v.Date+`</td>
+                    <td>`+v.ID+`</td>
+                    <td>`+v.GrandTotal+`</td>
+                    <td>`+v.Payment+`</td>
+                    <td>`+v.Change+`</td>
+                    <td>`+v.User.FirstName+` `+v.User.LastName+`</td>
+                </tr>
+            `)
+            }
+        })
+        $("#transaction-count").html(count)
+        $("#sales-gtotal").html(total.toFixed(2))
+
+    })
+
+})
+
+$("#to").change(function () {  
+var from = $("#from").val()
+var dateString = moment(from).format('YYYY-DD-MM');
+var to = $("#to").val()
+var dateString1 = moment(to).format('YYYY-DD-MM');
+
+$.ajax({
+        url: "/api/search",
+        data: {
+          "from": dateString,
+          "to":dateString1,
+        },
+        success: function (res) {
+    var result = JSON.parse(res).order
+    $("tbody").empty()
+    var count = 0;
+    var total = 0;
+      $.each(result, function (_, v) {
+        count += 1
+        total += v.GrandTotal
+        
+        $("#transaction-details").append(`
+        <tr class="border">
+            <td>`+v.Date+`</td>
+            <td>`+v.ID+`</td>
+            <td>`+v.GrandTotal+`</td>
+            <td>`+v.Payment+`</td>
+            <td>`+v.Change+`</td>
+            <td>`+v.User.FirstName+` `+v.User.LastName+`</td>
+        </tr>
+        `)
+      })
+      $("#transaction-count").html(count)
+        $("#sales-gtotal").html(total.toFixed(2))
+    }
+    })
+})
+function Set(){
+    $("#trans").hide()
+    $("#item").show()
+}
+
+function Pick(){
+    $("#trans").show()
+    $("#item").hide()
+}
+</script>
         {{end}}
