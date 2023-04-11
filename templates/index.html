@@ -44,8 +44,13 @@
       <div class="div2">
         <!--- Search -->
         <div class="searchdiv">
-          <input type="text" placeholder="Search product" class="searchbox" />
-          <button class="searchbutton">
+          <input
+            type="text"
+            placeholder="Search product"
+            id="searchdata"
+            class="searchbox"
+          />
+          <button class="searchbutton" onclick="CatSearch()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -62,12 +67,7 @@
         </div>
         <!---Category-->
 
-        <select class="category" id="category">
-          <option value="All">All</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+        <select class="category" id="category"></select>
         <!--- Profile -->
         <button
           type="button"
@@ -241,51 +241,107 @@
     }
 
     $(document).ready(function () {
+      $("#category").empty();
+      $("#category").append(`
+      <option value="0">Select All</option>
+    `);
+      $.get("/api/get_category", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          $("#category").append(
+            `
+      <option value="` +
+              v.ID +
+              `">` +
+              v.Name +
+              `</option>
+    `
+          );
+        });
+      });
+
       $("#item_card").empty();
       var size = "";
       $.get("/api/get_item", function (index) {
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
-          if (v.Size == 1) {
-            size = "Extra Small";
-          }
-          if (v.Size == 2) {
-            size = "Small";
-          }
-          if (v.Size == 3) {
-            size = "Medium";
-          }
-          if (v.Size == 4) {
-            size = "Large";
-          }
-          if (v.Size == 5) {
-            size = "Extra Large";
-          }
-          $("#item_card").append(
-            `
-        <div class="col">
-    <div class="card border-danger rounded-5 mb-3 " style="max-width: 18rem;">
-      <img src="/static/assets/img/Product1.jpg" class="img-fluid mx-auto mt-2 " style="height: 150px; width:200px; " alt="...">
-    <div class="card-body">
-        <h5 class="card-title">` +
-              v.Name +
-              `</h5>
-        <p class="card-subtitle mb-2 text-muted">` +
-              v.Description +
-              `</p>
-        <p class="card-subtitle mb-2 text-muted">` +
-              size +
-              `</p>
-        <h4 class="card-text">P ` +
-              v.Price +
-              `</h4>
-    </div>
-    </div>
-</div>
-        `
-          );
+          AppendData(v.Size, v.Name, v.Price, v.ID);
         });
       });
     });
+
+    function AppendData(Size, Name, Price, ID) {
+      var size = "";
+      if (Size == 1) {
+        size = "Extra Small";
+      }
+      if (Size == 2) {
+        size = "Small";
+      }
+      if (Size == 3) {
+        size = "Medium";
+      }
+      if (Size == 4) {
+        size = "Large";
+      }
+      if (Size == 5) {
+        size = "Extra Large";
+      }
+      $("#item_card").append(
+        `
+        <div class="col">
+        <div class="card border-danger rounded-5 mb-3 " style="max-width: 15rem">
+        <img src="/static/assets/img/Product1.jpg" class="img-fluid mx-auto mt-2" style="height: 100px; width:150px" alt="...">
+        <div class="card-body">
+        <h5 class="card-title bold">` +
+          Name +
+          `</h5>
+        <p class="card-subtitle mb-2 text-muted">` +
+          size +
+          `</p>
+        <h4 class="card-text">P ` +
+          Price +
+          `</h4>
+    </div>
+    </div>
+    </div>
+        `
+      );
+    }
+
+    $("#category_search").change(function () {
+      var search = $("#category_search").val();
+
+      $("#item_card").empty();
+      var size = "";
+      $.get("/api/get_item", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          if (search == v.CategoryID) {
+            AppendData(v.Size, v.Name, v.Price, v.ID);
+          }
+          if (search == 0) {
+            AppendData(v.Size, v.Name, v.Price, v.ID);
+          }
+        });
+      });
+    });
+
+    function CatSearch() {
+      var search = $("#searchdata").val();
+      $("#item_card").empty();
+      var size = "";
+      $.get("/api/get_item", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          if (search == v.Name) {
+            AppendData(v.Size, v.Name, v.Price, v.ID);
+          }
+          if (search == "") {
+            AppendData(v.Size, v.Name, v.Price, v.ID);
+          }
+        });
+      });
+    }
   </script>
 </html>
