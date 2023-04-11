@@ -13,10 +13,11 @@
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                               <button class="nav-link active" id="nav-sales-tab" data-bs-toggle="tab" data-bs-target="#nav-sales" type="button" role="tab" aria-controls="nav-sales" aria-selected="true" onclick="Pick()">Sales</button>
+                              <button class="nav-link" id="nav-product_sold-tab" data-bs-toggle="tab" data-bs-target="#nav-product_sold" type="button" role="tab" aria-controls="nav-product_sold" aria-selected="false" onclick="Set()">Product Sold</button>
                               </div>
 
-                              <!---- <button class="nav-link" id="nav-product_sold-tab" data-bs-toggle="tab" data-bs-target="#nav-product_sold" type="button" role="tab" aria-controls="nav-product_sold" aria-selected="false" onclick="Set()">Product Sold</button>
-                           -->
+                              
+                          
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
                             <!--- SALES TAB -->
@@ -147,7 +148,7 @@
                                                 <div class="card" style="width: 15rem; height: 6rem">
                                                     <div class="card-body">
                                                         <h6>Product Sold</h6>
-                                                        <h2 id="pcs">1</h2>
+                                                        <h2 id="pcs"></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,7 +156,7 @@
                                                 <div class="card" style="width: 15rem; height: 6rem">
                                                     <div class="card-body">
                                                         <h6>Total Sales</h6>
-                                                        <h2 id="gtotal">123.0</h2>
+                                                        <h2 id="pcs_total"></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -291,15 +292,19 @@ $( document ).ready(function() {
 
         var result1 = JSON.parse(index).orderlines
         var count1 = 0;
-    var total1 = 0;
+        var total1 = 0;
+        var result2 = 0;
         $.each(result1, function(_,v){
-            
+            count1 += parseFloat(v.Quantity)
+           
+            total1 = parseFloat(v.Quantity) * parseFloat(v.Item.Price)
+            result2 += parseFloat(total1)
             $("#product-sold-details").append(`
             <tr class="border">
 
             <td>`+v.Item.Name+`</td>
             <td>`+v.Quantity+`</td>
-            <td>123</td>
+            <td>`+total1+`</td>
             <td>
                 `+v.Date+`
             </td>
@@ -307,7 +312,8 @@ $( document ).ready(function() {
             </tr>
         `)
         })
-
+        $("#pcs").html(count1)
+        $("#pcs_total").html(result2.toFixed(2))
     })
         
 })
@@ -392,5 +398,84 @@ function Pick(){
     $("#trans").show()
     $("#item").hide()
 }
+
+$("#from1").change(function () {  
+var from = $("#from1").val()
+var dateString = moment(from).format('YYYY-DD-MM');
+
+$("tbody").empty()
+        var count1 = 0;
+        var total1 = 0;
+        var result2 = 0;
+    $.get("/api/get_order", function(index){
+        var result = JSON.parse(index).orderlines
+        $.each(result, function(_,v){
+            if(dateString == v.Date){
+                count1 += parseFloat(v.Quantity)
+           
+           total1 = parseFloat(v.Quantity) * parseFloat(v.Item.Price)
+           result2 += parseFloat(total1)
+           $("#product-sold-details").append(`
+           <tr class="border">
+
+           <td>`+v.Item.Name+`</td>
+           <td>`+v.Quantity+`</td>
+           <td>`+total1+`</td>
+           <td>
+               `+v.Date+`
+           </td>
+                                               
+           </tr>
+       `)
+            }
+        })
+        $("#pcs").html(count1)
+        $("#pcs_total").html(result2.toFixed(2))
+
+    })
+
+})
+
+$("#to1").change(function () {  
+var from = $("#from1").val()
+var dateString = moment(from).format('YYYY-DD-MM');
+var to = $("#to1").val()
+var dateString1 = moment(to).format('YYYY-DD-MM');
+
+$.ajax({
+        url: "/api/search",
+        data: {
+          "from": dateString,
+          "to":dateString1,
+        },
+        success: function (res) {
+    var result = JSON.parse(res).orderlines
+    $("tbody").empty()
+    var count1 = 0;
+        var total1 = 0;
+        var result2 = 0;
+      $.each(result, function (_, v) {
+        count1 += parseFloat(v.Quantity)
+           
+           total1 = parseFloat(v.Quantity) * parseFloat(v.Item.Price)
+           result2 += parseFloat(total1)
+           $("#product-sold-details").append(`
+           <tr class="border">
+
+           <td>`+v.Item.Name+`</td>
+           <td>`+v.Quantity+`</td>
+           <td>`+total1+`</td>
+           <td>
+               `+v.Date+`
+           </td>
+                                               
+           </tr>
+       `)
+      })
+      $("#pcs").html(count1)
+        $("#pcs_total").html(result2.toFixed(2))
+    }
+    })
+})
 </script>
         {{end}}

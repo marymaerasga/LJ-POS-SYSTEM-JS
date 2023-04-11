@@ -210,7 +210,7 @@ func SearchOrder(w http.ResponseWriter, r *http.Request) {
 	db.Preload("User").Where("date BETWEEN ? and ?", from, to).Find(&item)
 
 	orderlines := []models.Orderlines{}
-	db.Preload("Order").Find(&orderlines)
+	db.Preload("Order").Preload("Item").Where("date BETWEEN ? and ?", from, to).Find(&orderlines)
 
 	data := map[string]interface{}{
 		"status": "ok",
