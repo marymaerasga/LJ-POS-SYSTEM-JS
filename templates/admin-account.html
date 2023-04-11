@@ -10,7 +10,7 @@
                     <div class="container-fluid">
                         <h1 class="mt-4">Manage Account</h1>
                         <ol class="breadcrumb ">
-                            <li class="breadcrumb-item active">Admin Account</li>
+                            <li class="breadcrumb-item active">User Account</li>
                         </ol>
                         <hr style="height:3px;border-width:0;color:gray;background-color:gray">
                         <div class="container-fluid d-flex justify-content-center">
@@ -31,7 +31,7 @@
                                                     <input type="password" class="form-control" id="inputPassword5">
                                                 </div>
                                                 <div class="col-12 mt-3">
-                                                    <button class="btn text-white" type="button" id="admin-update" style="background-color: #80190A;" onclick="Update()">UPDATE</button>
+                                                    <button class="btn text-white" type="button" id="admin-update" style="background-color: #387dff" onclick="Update()">UPDATE</button>
                                                 </div>
                                             </div>
                                 </div>
@@ -71,13 +71,18 @@ function Update(){
             "password": password,
             },
             success: function () {
-            /*swal({
-                title: "Updated Item Successfully!",
-                icon: "success",
-                });*/
-                alert("Updated Account Successfully!")
-            window.location.reload()
-            }
+                // use SweetAlert2 to show a success dialog
+                Swal.fire({
+                  title: 'Success!',
+                  text: 'You Updated your Info Successfully!',
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  }
+                });
+              }
         })
     }
 }

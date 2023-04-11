@@ -19,9 +19,9 @@
                                     <div class="row text-center">
                                         <div class=" d-flex justify-content-end">
                                             <div class="d-grid gap-2 d-md-block ">
-                                                <a href="" type=button class="btn text-white" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                <a href="" type=button class="btn text-white" style="background-color: #1fa708;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                                 onclick="Validate()">ADD CATEGORY</a>
-                                                <a href="#" class="btn text-white" id="category-report" style="background-color: #80190A;" onclick="PDF()">GENERATE REPORT</a>
+                                                <a href="#" class="btn text-white" id="category-report" style="background-color: #1fa708;" onclick="PDF()">GENERATE REPORT</a>
                                             </div>
                                         </div>
                                       </div>
@@ -70,9 +70,9 @@
                                                     <div class=" text-center">
                                                         
                                                             <a type="submit" id="category-save" href="#" class="btn mb-2 w-100 btn-block rounded text-white"
-                                                            style="background-color: #80190A;" onclick="Save()">Save</a>
+                                                            style="background-color: #7a7a7a;" onclick="Save()">Save</a>
                                                             <a type="submit" id="category-modify" href="#" class="btn mb-2 w-100 btn-block rounded text-white"
-                                                        style="background-color: #80190A;" onclick="Modify()">Modify</a>
+                                                        style="background-color: #7a7a7a;" onclick="Modify()">Modify</a>
                                                       </div>
                                                 </div>
                                             </div>
@@ -101,7 +101,7 @@
                                                 <div class="mt-3">
                                                 <div class="delete_btn">
                                                     <a type="submit" href="#" class="btn w-100 btn-block rounded text-white"
-                                                    style="background-color: #80190A;" onclick="Delete_Yes()">YES</a>
+                                                    style="background-color: #7a7a7a;" onclick="Delete_Yes()">YES</a>
                                                     <a type="submit" href="#" class="btn w-100 btn-block rounded text-white"
                                                     style="background-color: #80190A;" onclick="Delete_No()">NO</a>
                                                 </div>
@@ -167,9 +167,10 @@
             <td>`+v.User.FirstName+` `+v.User.LastName+` </td>
             <td>`+v.Name+`</td>
             <td>
-                <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`)"><i class="fa-solid fa-trash"></i></button>
-                <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #80190A;" onclick="Validate(`+v.ID+`)"><i class="fa-solid fa-pen-to-square"></i></button>
-            </td>
+               <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #1357bc" onclick="Validate(`+v.ID+`)"><i class="fa-solid fa-pen-to-square"></i></button>
+               <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`)"><i class="fa-solid fa-trash"></i></button>
+                
+              </td>
         </tr>
         `)
     })

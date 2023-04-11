@@ -105,7 +105,7 @@
     text-transform: capitalize;
   }
   .searchbutton {
-    display: none;
+    display: 2rem;
   }
   .div2 {
     width: 100%;
