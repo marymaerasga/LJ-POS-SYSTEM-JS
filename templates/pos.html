@@ -212,7 +212,7 @@
                             <label for="address">Address</label>
                         </div>
                         <div class="mt-3">
-                            <a type="submit" id="customer_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;">Save</a>
+                            <a type="submit" id="customer_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Update()">Save</a>
                         </div>
                     </div>
                 </div>
@@ -759,6 +759,40 @@ function Payment(){
     localStorage.removeItem("Vat")
     localStorage.removeItem("Type")
     window.location.reload()
+  }
+
+
+  function Update(){
+    var   name = $("#name").val()
+      var   mobileNo = $("#mobile-no").val()
+      var   address = $("#address").val()
+
+    
+   
+     
+      if ( name == ""){
+        /*swal("Please Complete Required Details")*/
+        alert("Please Complete Required Details")
+      }
+      else{
+        
+        $.ajax({
+          url: "/api/customer",
+          data: {
+            "name": name,
+            "mobileNo":mobileNo,
+            "address": address,
+          },
+          success: function () {
+             /*swal({
+                 title: "Item Added Successfully!",
+                 icon: "success",
+               });*/
+               alert("Customer Added Successfully!")
+               window.location.reload()
+          }
+        })
+      }
   }
   
 </script>

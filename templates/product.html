@@ -153,6 +153,7 @@
                                 <option value="3">Medium</option>
                                 <option value="4">Large</option>
                                 <option value="5">Extra Large</option>
+                                <option value="6">None</option>
                             </select>
                         </div>
                         <div class="row mb-3">
@@ -203,7 +204,7 @@
     var expiration = $("#expiration").val();
     var image = $("#image").val();
   
-    if (name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
+    if (name == "" || description == "" || price == "" || quantity == "" || size == "" || category == ""  || expiration == "" || image == ""){
       // use SweetAlert2 to show an error message
       Swal.fire({
         title: 'Incomplete Details!',
@@ -343,7 +344,7 @@ function Modify(){
      var   expiration = $("#expiration").val()
      var   image = $("#image").val()
 
-     if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || image == ""){
+     if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || expiration == "" || image == ""){
        // use SweetAlert2 to show an error message
       Swal.fire({
         title: 'Incomplete Details!',

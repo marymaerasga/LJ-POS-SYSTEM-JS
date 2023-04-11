@@ -37,5 +37,8 @@ func (Size) Large() int {
 func (Size) ExtraLarge() int {
 	return 5
 }
+func (Size) None() int {
+	return 6
+}
 
 
