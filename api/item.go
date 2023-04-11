@@ -180,10 +180,22 @@ func GetOrder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	item := []models.Order{}
-	db.Preload("User").Find(&item)
+	user, _ := r.Cookie("id")
+	position, _ := r.Cookie("try")
+
+	if(position.Value == "" || position.Value == " " || position.Value == "Admin"){
+		db.Preload("User").Find(&item)
+	}else{
+		db.Preload("User").Where("user_id", user.Value).Find(&item)
+	}
+	
 
 	orderlines := []models.Orderlines{}
+	if(position.Value == "" || position.Value == " " || position.Value == "Admin"){
 	db.Preload("Order").Preload("Item").Find(&orderlines)
+	}else{
+		db.Preload("Order").Preload("Item").Where("user_id", user.Value).Find(&orderlines)
+	}
 
 	data := map[string]interface{}{
 		"status": "ok",
@@ -207,11 +219,20 @@ func SearchOrder(w http.ResponseWriter, r *http.Request) {
 	item := []models.Order{}
 	to := r.FormValue("to")
 	from := r.FormValue("from")
+	user, _ := r.Cookie("id")
+	position, _ := r.Cookie("try")
+	if(position.Value == "" || position.Value == " " || position.Value == "Admin"){
 	db.Preload("User").Where("date BETWEEN ? and ?", from, to).Find(&item)
+	}else{
+		db.Preload("User").Where("user_id and date BETWEEN ? and ?",user.Value, from, to).Find(&item)
+	}
 
 	orderlines := []models.Orderlines{}
+	if(position.Value == "" || position.Value == " " || position.Value == "Admin"){
 	db.Preload("Order").Preload("Item").Where("date BETWEEN ? and ?", from, to).Find(&orderlines)
-
+	}else{
+		db.Preload("Order").Preload("Item").Where("user_id,date BETWEEN ? and ?",user.Value, from, to).Find(&orderlines)
+	}
 	data := map[string]interface{}{
 		"status": "ok",
 		"order":   item,

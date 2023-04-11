@@ -43,6 +43,8 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 			context := map[string]interface{}{}
 
 			switch page {
+			case "dashboard":
+				context = DashboardHandler(w, r)
 			case "product":
 				context = ProductHandler(w, r)
 			case "stock-in-entry":
@@ -64,7 +66,7 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 			case "pos":
 				context = POSHandler(w, r)
 			default:
-				page = "product"
+				page = "dashboard"
 			}
 
 			ParseMultiHTML(w, r, page, context)
@@ -75,12 +77,14 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 			context := map[string]interface{}{}
 
 			switch page {
+			case "dashboard":
+				context = DashboardHandler(w, r)
 			case "admin-account":
 				context = AdminAccountHandler(w, r)
 			case "pos":
 				context = POSHandler(w, r)
 			default:
-				page = "pos"
+				page = "dashboard"
 			}
 
 			ParseMultiHTML(w, r, page, context)

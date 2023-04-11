@@ -25,6 +25,11 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.HasPrefix(r.URL.Path, "get_user") {
+		GetUser(w, r)
+		return
+	}
+
 	if strings.HasPrefix(r.URL.Path, "search") {
 		SearchOrder(w, r)
 		return

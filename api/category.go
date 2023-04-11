@@ -45,6 +45,25 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetUser(w http.ResponseWriter, r *http.Request) {
+
+	db := GormDB()
+
+	item := []models.User{}
+	user, _ := r.Cookie("id")
+	db.Where("id", user.Value).Find(&item)
+
+	data := map[string]interface{}{
+		"status": "ok",
+		"item":   item,
+	}
+	ReturnJSON(w, r, data)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+
+}
+
 func EditCategory(w http.ResponseWriter, r *http.Request) {
 
 	db := GormDB()
