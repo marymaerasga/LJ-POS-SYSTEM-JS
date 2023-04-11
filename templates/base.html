@@ -27,10 +27,10 @@
             <!-- Sidebar Toggle-->
             <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0 text-white" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-0 my-md-0">
                 <div class="searchdiv">
                     <input type="text" placeholder="Search" style="
-                        width: 15rem;
+                        width: 10rem;
                         outline: none;
                         border: none;
                         text-indent: 10px;
@@ -63,6 +63,11 @@
                     </button>
                  </div>
             </form>
+            <!-- Button Notification trigger modal -->
+            <button  class="btn text-white " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-regular fa-bell fs-6"></i><span class="badge text-bg-danger">3</span>
+            </button>
+  
             <!-- Navbar-->
             <h3 style=" color: #f4f4f4;   font-size: 19px;
             margin-top: 11px;
@@ -85,6 +90,34 @@
                     
                 </nav>
             </div>
+
+     <!-- Notification Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Add your notification content here -->
+            <div class="alert alert-warning" role="alert">
+                4 Products are Low In Stock
+              </div> 
+            <div class="alert alert-warning" role="alert">
+                1 Products are Out Of Stock
+              </div>
+            <div class="alert alert-warning" role="alert">
+                100 Products have been Expired!
+              </div>
+            
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
       <!--- JQuery -->
       <script src="/static/lib/jquery-3.6.1.min.js"></script>
       <!--- Popper JS -->
@@ -200,12 +233,13 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/dash/product">Product List</a>
-                                    <a class="nav-link" href="/dash/category">Product Category</a>
-                                    <a class="nav-link" href="/dash/stock-in-entry">Stock In Entry</a>
-                                    <a class="nav-link" href="/dash/stock-in-history">Stock In History</a>
-                                    <a class="nav-link" href="/dash/product-stock-status">Product Stock Status</a>
-                                    <a class="nav-link" href="/dash/pull-out-history">Pull Out Product History</a>
+                                    <a class="nav-link" href="/dash/product" id="product-link">Product List</a>
+                                <a class="nav-link" href="/dash/category" id="category-link">Product Category</a>
+                                <a class="nav-link" href="/dash/stock-in-entry" id="stock-in-link">Stock In Entry</a>
+                                <a class="nav-link" href="/dash/stock-in-history" id="stock-history-link">Stock In History</a>
+                                <a class="nav-link" href="/dash/product-stock-status" id="product-stock-link">Product Stock Status</a>
+                                <a class="nav-link" href="/dash/pull-out-history" id="pull-out-link">Pull Out Product History</a>
+
                                     <!----<a class="nav-link" href="/dash/vat-discount">Vat and Discount</a>-->
                                 </nav>
                             </div>
@@ -233,7 +267,6 @@
                 `)
             }
         })
-        
       </script>
   </body>
 </html>
