@@ -79,7 +79,96 @@
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-left" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
+                    
+                </nav>
+            </div>
+      <!--- JQuery -->
+      <script src="/static/lib/jquery-3.6.1.min.js"></script>
+      <!--- Popper JS -->
+      <script src="/static/lib/popper.min.js"></script>
+      <!--- Bootstrap JS -->
+      <script src="/static/lib/js/bootstrap.min.js"></script>
+      <!--- Sweet Alert -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <!--- JS -->
+      <script src="/static/js/scripts.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+      <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+      <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+      <script>
+        $( document ).ready(function() {
+            $("#sidenavAccordion").empty();
+            var value = $.cookie("position");
+            if (value == "Staff"){
+                $("#sidenavAccordion").append(`
+                <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Product Inventory
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/dash/product">Product List</a>
+                                    <a class="nav-link" href="/dash/category">Product Category</a>
+                                    <a class="nav-link" href="/dash/stock-in-entry">Stock In Entry</a>
+                                    <a class="nav-link" href="/dash/stock-in-history">Stock In History</a>
+                                    <a class="nav-link" href="/dash/product-stock-status">Product Stock Status</a>
+                                    <a class="nav-link" href="/dash/pull-out-history">Pull Out Product History</a>
+                                    <a class="nav-link" href="/dash/vat-discount">Vat and Discount</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link" href="/dash/customer">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Customer
+                            </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Manage Account
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/dash/admin-account">Admin Account</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link" href="/dash/pos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Point of Sale (POS)
+                            </a>
+                        </div>
+                    </div>
+                `)
+                
+            }else if (value == "Cashier"){
+                $("#sidenavAccordion").append(`
+                <div class="sb-sidenav-menu">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Manage Account
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/dash/admin-account">Admin Account</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link" href="/dash/pos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Point of Sale (POS)
+                            </a>
+                        </div>
+                    </div>
+                `)
+            }else{
+                $("#sidenavAccordion").append(`
+                <div class="sb-sidenav-menu">
                         <div class="nav">
                             <a class="nav-link" href="/dash/dashboard">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -112,7 +201,7 @@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/dash/staff-account">Staff Account</a>
+                                     <a class="nav-link" href="/dash/staff-account">Staff Account</a>
                                     <a class="nav-link" href="/dash/admin-account">Admin Account</a>
                                 </nav>
                             </div>
@@ -122,26 +211,11 @@
                             </a>
                         </div>
                     </div>
-                </nav>
-            </div>
-      <!--- JQuery -->
-      <script src="/static/lib/jquery-3.6.1.min.js"></script>
-      <!--- Popper JS -->
-      <script src="/static/lib/popper.min.js"></script>
-      <!--- Bootstrap JS -->
-      <script src="/static/lib/js/bootstrap.min.js"></script>
-      <!--- Sweet Alert -->
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <!--- JS -->
-      <script src="/static/js/scripts.js"></script>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-
-      <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-      <script type="text/javascript"
-      src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+                `)
+            }
+        })
+        
+      </script>
   </body>
 </html>
 
