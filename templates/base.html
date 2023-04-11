@@ -65,7 +65,7 @@
             </form>
             <!-- Button Notification trigger modal -->
             <button  class="btn text-white " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fa-regular fa-bell fs-6"></i><span class="badge text-bg-danger">3</span>
+                <i class="fa-regular fa-bell fs-6"></i><span class="badge text-bg-danger" id="notif"></span>
             </button>
   
             <!-- Navbar-->
@@ -101,14 +101,12 @@
           </div>
           <div class="modal-body">
             <!-- Add your notification content here -->
-            <div class="alert alert-warning" role="alert">
-                4 Products are Low In Stock
+            <div class="alert alert-warning" role="alert" id="low_s">
+                
               </div> 
-            <div class="alert alert-warning" role="alert">
-                1 Products are Out Of Stock
+            <div class="alert alert-warning" role="alert" id="out_s">
               </div>
-            <div class="alert alert-warning" role="alert">
-                100 Products have been Expired!
+            <div class="alert alert-warning" role="alert" id="expired_s">
               </div>
             
           </div>
@@ -138,6 +136,39 @@
       src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
       <script>
         $( document ).ready(function() {
+
+    var low = 0;
+    var out = 0;
+    var expired = 0
+    var low1 = 0;
+    var out1 = 0;
+    var expired1 = 0;
+    var now = new Date();
+var dateString = moment(now).format('YYYY-MM-DD');
+  let date2 = new Date(dateString).getTime();
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+        let date1 = new Date(v.Expiration).getTime();
+      if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        low += parseFloat(1)
+        low1 = 1
+        $("#low_s").html(low + " " +  "Products are Low In Stock")
+      }
+       if(parseFloat(v.Quantity) == 0){
+        out += parseFloat(1)
+        out1 = 1
+        $("#out_s").html(out + " " +  "Products are Out of Stock")
+      }if(date1 <= date2){
+        expired += parseFloat(1)
+        expired1 = 1
+        $("#expired_s").html(expired + " " +  "Products have been Expired!")
+      }
+     
+    })
+    console.log
+    $("#notif").html(parseFloat(low1) + parseFloat(out1) + parseFloat(expired1) )
+  })
 
             $.get("/api/get_user", function(index){
                 var result = JSON.parse(index).item
