@@ -18,7 +18,7 @@
                                         <div class="row g-3">
                                             <div class="col-sm-5">
                                               <!--- Search -->
-                                              <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                                              <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                                 <div class="searchdiv">
                                                     <input type="text" id="search-product" placeholder="Search Product" style="
                                                         width: 14rem;
@@ -39,7 +39,7 @@
                                                         height: 2.5rem;
                                                         border-radius: 0rem 5rem 5rem 0rem;
                                                         background-color: rgb(250, 247, 247);
-                                                        margin-left: -20px;">
+                                                        margin-left: -20px;" onclick="Search()">
                                                         <svg
                                                           xmlns="http://www.w3.org/2000/svg"
                                                           width="16"
@@ -53,23 +53,16 @@
                                                         </svg>
                                                     </button>
                                                  </div>
-                                            </form>
+                                                </div>
                                             </div>
                                             <div class="col-sm">
                                                 <select class="form-select" id="product-category" aria-label="Default select example">
-                                                    <option selected>Select Category</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
                                                   </select>
                                             </div>
                                             <div class="col-sm">
                                                 <div class="input-group mb-3">
                                                     <select class="form-select form-select-md category" id="customer" aria-describedby="button-addon2">
-                                                        <option selected>Walk-in</option>
-                                                        <option value="1">Customer 1</option>
-                                                        <option value="2">Customer 2</option>
-                                                        <option value="3">Customer 3</option>
+                                                        
                                                     </select>
                                                     <button class="btn text-white" id="add-customer" style="background-color: #80190A;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"><i class="fas fa-regular fa-user-plus"></i></i></button>
                                                   </div>
@@ -82,9 +75,22 @@
                                     <!--- Product list display  -->
                                     <div class="card shadow" style=" height: 29rem;">
                                         <div class="card-body">
-                                            <div class="row row-cols-1 row-cols-md-3 g-4 mt-3" id="item_card">
-                                                <!--- Item List Append Here -->
-                                            </div>
+                                             <!--- Tables -->
+                                           <div class="table-responsive py-3 ms-3 me-3">
+                                            <table class="table table-bordered text-center">
+                                                <thead>
+                                                    <th scope="col">Promo Code</th>
+                                                    <th scope="col">Product Name</th>
+                                                    <th scope="col">Category</th>
+                                                    <th scope="col">Description</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Add to Cart</th>
+                                                </thead>
+                                                <tbody id="product_stock_status">
+                                                    
+                                                </tbody>
+                                              </table>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -97,6 +103,9 @@
                                         border-right:solid rgb(240, 240, 240) 1px;
                                         border-bottom:solid rgb(240, 240, 240) 1px;">
                                             <h5 class="text-center mt-1">Order list</h5>
+                                            <div id="itemList">
+                                            
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row mt-1">
@@ -198,8 +207,326 @@
             </div>
             </div>
           </div>
+
+             <!---ADD TO CART--->
+        <div class="modal fade" id="addtocart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="item_name"> </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div style="display: flex;
+                  width: 100%;
+                  justify-content: space-between;">
+                    <span id="price"></span>
+                    <span id="stock"></span>
+                  </div>
+                  <input type="text" id="itemID" value="" hidden>
+                  <input type="text" id="itemname" value="" hidden>
+                  <input type="text" id="itemprice" value="" hidden>
+                  <input type="text" id="itemstock" value="" hidden>
+                  <div class="col-md-auto">
+                    <label for="stock-received" class="col-form-label"
+                      >Quantity:</label
+                    >
+                  </div>
+                  <div class="col">
+                    <input
+                      type="number"
+                      pattern="^[a-zA-Z0-9]+$"
+                      min="0"
+                      oninput="validity.valid||(value='');"
+                      class="form-control"
+                      id="count"
+                    />
+                  </div>
+                  <div class="col" style="width: 100%;
+                  text-align: center;
+                  padding: 1rem;">
+                    <button
+                      class="btn text-white"
+                      id="stock-save"
+                      type="button"
+                      style="background-color: #80190a"
+                      onclick="Save()"
+                    >
+                      SAVE
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
         
         <script>
-            $("#datepicker").datepicker();
-        </script>
+       
+$( document ).ready(function() {
+    $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+    })
+  })
+  $("#customer").empty()
+  $.get("/api/get_customer", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      $("#customer").append(`
+        <option value="`+v.ID+`">`+v.Name+`</option>
+      `)
+    })
+  })
+  $("#product-category").empty()
+  $("#product-category").append(`
+        <option value="0">Select Category</option>
+      `)
+  $.get("/api/get_category", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      $("#product-category").append(`
+        <option value="`+v.ID+`">`+v.Name+`</option>
+      `)
+    })
+  })
+
+
+  var cart = localStorage.getItem("cart");
+
+    if (cart === null || cart === "" || cart === " ") {
+        localStorage.removeItem("discount")
+        localStorage.removeItem("status")
+    } else {
+      cart = JSON.parse(cart);
+      $("#itemList").empty()
+      $.each(cart, function (k, v) {
+        $("#itemList").append(`
+        <div style="display: flex;
+            justify-content: space-between;">
+            <div>
+              <p>`+v.name+`</p>
+            </div>
+            <div>
+              <button onclick="Remove(`+v.itemid+`)">X</button>
+            </div>
+            </div>
+            <div style="display: flex;
+            justify-content: space-between;">
+            <div style="display: flex;
+            gap: 6px;">
+              <p>`+v.price+`</p> <p>x</p> <p>`+v.quantity+`</p>
+            </div>
+            <div>
+              <p>`+v.total+`</p>
+            </div>
+          </div>
+        `)
+      })
+    }
+
+})
+
+
+function appendData(Code,Name,Category,Description,Price,ID){
+ 
+  $("#product_stock_status").append(`
+        <tr class="border">
+              <td>`+Code+`</td>
+              <td>`+Name+`</td>
+              <td>`+Category+`</td>
+              <td>`+Description+`</td>
+              <td>`+Price+`</td>
+              <td><button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#addtocart" style="background-color: #80190A;" onclick="View(`+ID+`)"><i class="fa-solid fa-pen-to-square"></i></button></td>
+          </tr>
+        `)
+     
+}
+
+$("#product-category").change(function () {
+  var result1 = $("#product-category").val()
+  $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(result1 == v.CategoryID){
+        appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+      }
+
+      if(result1 == 0){
+        appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+      }
+     
+    })
+  })
+  })
+
+  function Search(){
+    var result1 = $("#search-product").val()
+    $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(result1 == v.Name){
+        appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+      }
+
+      if(result1 == "" || result1 == " "){
+        appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+      }
+     
+    })
+  })
+  }
+
+  function View(id){
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if (id == v.ID){
+        $("#itemID").val(id)
+        $("#itemname").val(v.Name)
+        $("#itemprice").val(v.Price)
+        $("#itemstock").val(v.Quantity)
+        $("#item_name").html(v.Name)
+        $("#price").html("Price: " + v.Price)
+        $("#stock").html("Stock: " + v.Quantity)
+      }
+      
+    })
+    })
+  }
+
+  function Save(){
+    
+    var cart = localStorage.getItem("cart");
+    var quantity = $("#count").val();
+    var item_quantity = $("#itemstock").val()
+  
+    if (parseFloat(item_quantity) >  parseFloat(quantity)){
+    //  * Initial adding of item in the cart
+    if (cart === null || cart === "" || cart === " ") {
+      cart = [];
+      var name = $("#itemname").val();
+      var quantity = $("#count").val();
+      var id = $("#itemID").val();
+      var price = $("#itemprice").val();
+
+      var total = parseFloat(price) * parseFloat(quantity)
+      cart.push({
+        itemid: id,
+        name: name,
+        quantity: quantity,
+        price: price,
+        total: total,
+      });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      Swal.fire({
+        toast: true,
+        position: "bottom-end",
+        icon: 'success',
+        title: 'Add Item to Cart',
+        showConfirmButton: false,
+        timer: 3000
+      }).then(function(){ 
+          location.reload();
+          }) 
+    }
+    else {
+      cart = JSON.parse(cart);
+      var added = false;
+      var id = $("#itemID").val();
+      //* Adding the quantity of the same item in the cart
+      $.each(cart, function (k, v) {
+        if (v.itemid == id) {
+          var temp = v;
+          var quantity = $("#count").val();
+          temp.quantity = (
+            parseFloat(temp.quantity) + parseFloat(quantity)
+          ).toString();
+          temp.total = (
+            parseFloat(temp.price) * parseFloat(temp.quantity)
+          ).toString();
+
+          cart.push(temp);
+          cart.pop();
+          added = true;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          Swal.fire({
+           toast: true,
+            position: "bottom-end",
+            icon: 'success',
+            title: 'Add Item to Cart',
+            showConfirmButton: false,
+            timer: 3000
+          }).then(function(){ 
+          location.reload();
+          }) 
+        }
+      });
+
+      //* Adding of another item to cart
+      if (!added) {
+        var name = $("#itemname").val();
+        var quantity = $("#count").val();
+        var id = $("#itemID").val();
+        var price = $("#itemprice").val();
+
+        var total = parseFloat(price) * parseFloat(quantity)
+        cart.push({
+          itemid: id,
+          name: name,
+          quantity: quantity,
+          price: price,
+          total: total,
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
+        Swal.fire({
+            toast: true,
+            position: "bottom-end",
+            icon: 'success',
+            title: 'Add Item to Cart',
+            showConfirmButton: false,
+            timer: 3000
+          }).then(function(){ 
+          location.reload();
+          }) 
+        localStorage.removeItem("Cash")
+      }
+    }
+    }else{
+      Swal.fire({
+             toast: true,
+            position: "bottom-end",
+            icon: 'warning',
+            title: 'Insufficient Amount',
+            showConfirmButton: false,
+            timer: 3000
+          }).then(function(){ 
+          location.reload();
+          }) 
+      $("#count").val("");
+     
+    }  
+}
+
+function Remove(id){
+    var cart = JSON.parse(localStorage.getItem("cart"));
+
+      cart = cart.filter((data) => data.itemid != id);
+    console.log(cart,id)
+    localStorage.removeItem("cart");
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    if (cart == null || cart == "" || cart == " ") {
+      localStorage.removeItem("cart")
+    }
+
+    window.location.reload()
+  }
+  
+</script>
 {{end}}
