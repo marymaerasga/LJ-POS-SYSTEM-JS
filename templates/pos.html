@@ -155,7 +155,10 @@
                                             <div class="row mb-3">
                                                 <div class="col">
                                                     <p style="display:inline">Cash Received</p>
-                                                    <input type="text" id="cash-received" class="form-control">
+                                                    <input  type="number"
+                                                    pattern="^[a-zA-Z0-9]+$"
+                                                    min="0"
+                                                    oninput="validity.valid||(value='');" id="cash-received" class="form-control">
                                                 </div>
                                                 <div class="col">
                                                     <p style="display:inline">Change</p>
@@ -167,10 +170,10 @@
                                     <div class="container-fluid mt-2" style="width: 21rem; ">
                                     <div class="row">
                                         <div class="col">
-                                            <button class="btn text-white w-100" id="save" style="background-color: #80190A;">Proceed</button>
+                                            <button class="btn text-white w-100" id="save" style="background-color: #80190A;" onclick="Payment()">Proceed</button>
                                         </div>
                                         <div class="col">
-                                            <button class="btn text-white w-100" id="cancel" style="background-color: #80190A;">Cancel</button>
+                                            <button class="btn text-white w-100" id="cancel" style="background-color: #80190A;" onclick="Cancel()">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -372,7 +375,7 @@ $( document ).ready(function() {
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
       $("#customer").append(`
-        <option value="`+v.ID+`">`+v.Name+`</option>
+        <option value="`+v.Name+`">`+v.Name+`</option>
       `)
     })
   })
@@ -698,7 +701,7 @@ $("#cash-received").on("keypress", function(e){
   if (e.which == 13){
     if (this.value == "" || this.value == " "){
      alert("Input Required Amount")
-    }else if(cash < total){
+    }else if(parseFloat(cash) < parseFloat(total)){
       alert("Input Required Amount")
     } else {
       var change = 0;
@@ -708,6 +711,55 @@ $("#cash-received").on("keypress", function(e){
     }
   }
 })
+
+function Payment(){
+  var name = $("#customer").val()
+    var subtotal = $("#subtotal").html()
+    var discount = $("#total_discount").html()
+    var vat = $("#total_vat").html()
+    var total = $("#grand_total").html()
+    var cash = $("#cash-received").val()
+    var change = $("#change").val()
+    var cart = localStorage.getItem("cart");
+
+    $.ajax({
+        url: "/api/order",
+        data: {
+          "cart": cart,
+          "subtotal": subtotal,
+          "discount": discount,
+          "vat": vat,
+          "total": total,
+          "cash": cash,
+          "change": change,
+          "name": name,
+        },
+        success: function () {
+          Swal.fire({
+            toast: true,
+            position: "bottom-end",
+            icon: 'success',
+            title: 'Order Successful',
+            showConfirmButton: false,
+            timer: 3000
+          }).then(function(){ 
+            localStorage.removeItem("cart")
+    localStorage.removeItem("Discount")
+    localStorage.removeItem("Vat")
+    localStorage.removeItem("Type")
+          location.reload();
+          }) 
+        }
+      })
+  }
+
+  function Cancel(){
+    localStorage.removeItem("cart")
+    localStorage.removeItem("Discount")
+    localStorage.removeItem("Vat")
+    localStorage.removeItem("Type")
+    window.location.reload()
+  }
   
 </script>
 {{end}}
