@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/dafalo/LJ-POS-SYSTEM-JS/models"
 	"github.com/google/uuid"
@@ -64,6 +65,26 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		ReturnJSON(w, r, data)
 	}
 
+}
+
+func EditUser(w http.ResponseWriter, r *http.Request) {
+
+	db := GormDB()
+	user := models.User{}
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	username := r.FormValue("username")
+	password := r.FormValue("password")
+	
+
+	db.Where("id", id).Find(&user)
+
+	user.Username = username
+	user.Password = hashPassword(password)
+
+	db.Save(&user)
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
 }
 
 func GetActiveSession(r *http.Request) string {

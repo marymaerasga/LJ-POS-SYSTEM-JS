@@ -16,23 +16,24 @@
                         <div class="container-fluid d-flex justify-content-center">
                             <div class="card shadow w-50 mt-3 ">
                                 <div class="card-body">
-                                            <form class="row">
+                                            <div class="row">
                                                 <div class="col-12 mb-2">
                                                   <label for="inputEmail4" class="form-label">Username</label>
                                                   <input type="email" class="form-control" id="inputEmail4">
+                                                  <input type="text" class="form-control" id="userID" hidden>
                                                 </div>
                                                 <div class="col-12 mb-2">
                                                   <label for="inputPassword4" class="form-label">Password</label>
                                                   <input type="password" class="form-control" id="inputPassword4">
                                                 </div>
                                                 <div class="col-12 mb-2">
-                                                    <label for="inputPassword4" class="form-label">Confirm Password</label>
-                                                    <input type="password" class="form-control" id="inputPassword4">
+                                                    <label for="inputPassword5" class="form-label">Confirm Password</label>
+                                                    <input type="password" class="form-control" id="inputPassword5">
                                                 </div>
                                                 <div class="col-12 mt-3">
-                                                    <button class="btn text-white" type="button" id="admin-update" style="background-color: #80190A;">UPDATE</button>
+                                                    <button class="btn text-white" type="button" id="admin-update" style="background-color: #80190A;" onclick="Update()">UPDATE</button>
                                                 </div>
-                                            </form>
+                                            </div>
                                 </div>
                               </div>
                         </div>
@@ -40,6 +41,47 @@
                     </main>
                 </div>
             </div>
+<script>
+$( document ).ready(function() {
+    $.get("/api/get_user", function(index){
+        var result = JSON.parse(index).item
+        $.each(result, function(_,v){
+            $("#inputEmail4").val(v.Username)
+            $("#userID").val(v.ID)
+        })
+    })
+})
+
+function Update(){
+    var username = $("#inputEmail4").val()
+    var id = $("#userID").val()
+    var password = $("#inputPassword4").val()
+    var v_password = $("#inputPassword5").val()
+
+    if(username == "" || id == "" || password == "" || v_password == ""){
+        alert("Please input Required Fields")
+    }else if(password != v_password){
+        alert("Password Not Match")
+    }else{
+        $.ajax({
+            url: "/api/edit_user",
+            data: {
+            "id": id,
+            "username": username,
+            "password": password,
+            },
+            success: function () {
+            /*swal({
+                title: "Updated Item Successfully!",
+                icon: "success",
+                });*/
+                alert("Updated Account Successfully!")
+            window.location.reload()
+            }
+        })
+    }
+}
+</script>
 
    {{end}}
 
