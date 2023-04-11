@@ -9,6 +9,7 @@ import (
 	"github.com/dafalo/LJ-POS-SYSTEM-JS/api"
 	"github.com/dafalo/LJ-POS-SYSTEM-JS/models"
 	"github.com/dafalo/LJ-POS-SYSTEM-JS/views"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -24,6 +25,7 @@ func main() {
 
 	CreateDB("pos_system")
 	MigrateDB()
+	CreateDefaultUser()
 	Handlers()
 
 	http.ListenAndServe(Port, nil)
@@ -81,4 +83,56 @@ func MigrateDB() {
 		panic("failed to connect database")
 	}
 	db.AutoMigrate(&employees, &user, &item, &customer, &category,&stockin,&order,&orderlines)
+}
+
+func CreateDefaultUser() {
+	fmt.Println("User")
+	db := GormDB()
+
+	user := []models.User{}
+	db.Find(&user)
+
+	defaultUser := []models.User{
+		{
+			Username: "Master@yahoo.com",
+			Password: hashPassword("Master"),
+			FirstName: "Master",
+			LastName: "Master",
+			Position: "Admin",
+		},
+	}
+
+	isExisting := false
+	for i := range defaultUser {
+		isExisting = false
+
+		for _, users := range user {
+			if defaultUser[i].Username == users.Username {
+				isExisting = true
+				break
+			}
+		}
+
+		if !isExisting {
+			fmt.Println("Create Default User")
+			db.Save(&defaultUser[i])
+		}
+	}
+
+}
+
+func hashPassword(pass string) string {
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(pass), 14)
+	return string(bytes)
+}
+
+func GormDB() *gorm.DB {
+	dsn := "root:a@tcp(127.0.0.1:3306)/pos_system?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		fmt.Println("Faied to Connect to the Database ", err)
+	}
+
+	return db
 }
