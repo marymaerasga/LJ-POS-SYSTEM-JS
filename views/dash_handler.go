@@ -35,11 +35,62 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	} else {
-	
+
+		if(user.Position == "Staff"){
+
 			r.URL.Path = strings.TrimPrefix(r.URL.Path, "/dash/")
 			page := strings.TrimSuffix(r.URL.Path, "/")
 			context := map[string]interface{}{}
 
+			switch page {
+			case "product":
+				context = ProductHandler(w, r)
+			case "stock-in-entry":
+				context = StockEntryHandler(w, r)
+			case "category":
+				context = CategoryHandler(w, r)
+			case "stock-in-history":
+				context = StockHistoryHandler(w, r)
+			case "product-stock-status":
+				context = ProductStockHandler(w, r)
+			case "pull-out-history":
+				context = PulloutHistoryHandler(w, r)
+			case "vat-discount":
+				context = VatDiscountHandler(w, r)
+			case "customer":
+				context = CustomerHandler(w, r)
+			case "admin-account":
+				context = AdminAccountHandler(w, r)
+			case "pos":
+				context = POSHandler(w, r)
+			default:
+				page = "product"
+			}
+
+			ParseMultiHTML(w, r, page, context)
+
+		} else if(user.Position == "Cashier"){
+			r.URL.Path = strings.TrimPrefix(r.URL.Path, "/dash/")
+			page := strings.TrimSuffix(r.URL.Path, "/")
+			context := map[string]interface{}{}
+
+			switch page {
+			case "admin-account":
+				context = AdminAccountHandler(w, r)
+			case "pos":
+				context = POSHandler(w, r)
+			default:
+				page = "pos"
+			}
+
+			ParseMultiHTML(w, r, page, context)
+
+		}else{
+
+			r.URL.Path = strings.TrimPrefix(r.URL.Path, "/dash/")
+			page := strings.TrimSuffix(r.URL.Path, "/")
+			context := map[string]interface{}{}
+	
 			switch page {
 			case "dashboard":
 				context = DashboardHandler(w, r)
@@ -68,8 +119,10 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 			default:
 				page = "dashboard"
 			}
-
+	
 			ParseMultiHTML(w, r, page, context)
+		}
+	
 		}
 
 	

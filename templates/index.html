@@ -9,11 +9,20 @@
     <!--- Styles -->
     <link href="/static/css/index.css" rel="stylesheet" />
     <!--- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
     <!--- Font Awesome -->
-    <script src="https://kit.fontawesome.com/6fa6ee6fa5.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/6fa6ee6fa5.js"
+      crossorigin="anonymous"
+    ></script>
     <!--- SweetAlert -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
   </head>
   <body>
@@ -27,7 +36,9 @@
           width="60rem"
           height="60rem"
         />
-        <a class="navbar-brand text-white" href="#">LJ MOTORGEAR TRADING POS SYSTEM</a>
+        <a class="navbar-brand text-white" href="#"
+          >LJ MOTORGEAR TRADING POS SYSTEM</a
+        >
       </div>
       <!--- Search, Category and Login btn Div -->
       <div class="div2">
@@ -50,7 +61,7 @@
           </button>
         </div>
         <!---Category-->
-        
+
         <select class="category" id="category">
           <option value="All">All</option>
           <option value="1">One</option>
@@ -77,12 +88,15 @@
 
     <!--- Product list display  -->
     <div class="product" id="product">
-      <div class="container-fluid mt-5 px-4 text-center" style="margin-right: -14px;">
-           <div class="row row-cols-1 row-cols-md-4 g-4" id="item_card">
-                <!--- Item List Append Here -->
-            </div>
+      <div
+        class="container-fluid mt-5 px-4 text-center"
+        style="margin-right: -14px"
+      >
+        <div class="row row-cols-1 row-cols-md-4 g-4" id="item_card">
+          <!--- Item List Append Here -->
+        </div>
       </div>
-  </div>
+    </div>
     <!--- Login modal  -->
     <div
       class="modal fade"
@@ -179,16 +193,16 @@
     function Login() {
       var username = $("#floatingInput").val();
       var password = $("#floatingPassword").val();
-    
+
       console.log(username, password);
-    
+
       if (username == "" || password == "") {
         // use SweetAlert2 to show an error dialog
         Swal.fire({
-          title: 'Error!',
-          text: 'Please Complete Required Details',
-          icon: 'error',
-          confirmButtonText: 'OK'
+          title: "Error!",
+          text: "Please Complete Required Details",
+          icon: "error",
+          confirmButtonText: "OK",
         });
       } else {
         $.ajax({
@@ -199,33 +213,39 @@
           },
           success: function (res) {
             var result = JSON.parse(res).results;
-    
+
             if (result == 1) {
               // use SweetAlert2 to show a success dialog
               Swal.fire({
-                title: 'Success!',
-                text: 'Login Successfully!',
-                icon: 'success',
-                confirmButtonText: 'OK'
+                title: "Success!",
+                text: "Login Successfully!",
+                icon: "success",
+                confirmButtonText: "OK",
               }).then((result) => {
                 if (result.isConfirmed) {
-                  window.location.replace("/dash/dashboard");
+                  var value = $.cookie("position");
+                  if (value == "Cashier") {
+                    window.location.replace("/dash/pos");
+                  } else if (value == "Staff") {
+                    window.location.replace("/dash/product");
+                  } else {
+                    window.location.replace("/dash/dashboard");
+                  }
                 }
               });
             } else {
               // use SweetAlert2 to show an error dialog
               Swal.fire({
-                title: 'Error!',
-                text: 'Please Check your Email and Password!',
-                icon: 'error',
-                confirmButtonText: 'OK'
+                title: "Error!",
+                text: "Please Check your Email and Password!",
+                icon: "error",
+                confirmButtonText: "OK",
               });
             }
           },
         });
       }
     }
-    
 
     $(document).ready(function () {
       $("#item_card").empty();
