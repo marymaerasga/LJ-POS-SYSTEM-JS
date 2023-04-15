@@ -3,7 +3,14 @@
 {{end}}
 
 {{define "content"}}
-
+<style>
+  /* Hide the increment and decrement arrows */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
             <!---PRODUCT CONTENT--->
 
             <div id="layoutSidenav_content">
@@ -25,7 +32,7 @@
                                                 <input type="text" id="searchdata" placeholder="Search Product Name" style="
                                                     width: 19rem;
                                                     outline: none;
-                                                    border: none;
+                                                    border:#80190A;
                                                     text-indent: 10px;
                                                     font-family: 'Poppins', sans-serif;
                                                     font-weight: bold;
@@ -61,9 +68,14 @@
                                             <select class="form-select category" id="category_search" >
                                             </select>
                                         </div>
+                                        <div class="col-md-auto">
+                                          <select class="form-select sub-category" id="sub_category_search" >
+                                            <option value="1">Sub-Category</option>
+                                          </select>
+                                      </div>
                                         <div class="col-md-auto px-5 ">
                                             <div class="product_header d-grid d-md-flex mx-auto">
-                                                <button class="btn text-white" type="button" style="background-color: #1fa708" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">ADD PRODUCT</button>
+                                                <button class="btn text-white" type="button" style="background-color: #80190A" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Validate()">ADD PRODUCT</button>
                                                 
                                             </div>
                                         </div>
@@ -121,7 +133,7 @@
 
     <!--- Add/Edit Item Modal  -->
           <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered">
+            <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
                   
@@ -129,7 +141,129 @@
                 </div>
                 <div class="modal-body">
                   <div class="container">
-                    <!-- INPUT FORM -->
+                    <div class="row">
+                      <form>
+                        <div class="row mb-2">
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productName">Product Name*</label>
+                              <input type="text" class="form-control" id="productName" name="productName" required>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productBrand">Brand*</label>
+                              <input type="text" class="form-control" id="productBrand" name="productBrand" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row mb-2">
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productCategory">Category*</label>
+                              <select class="form-control" id="productCategory" name="productCategory" required>
+                                <option value="">Select a category</option>
+                                <option value="motor_gear">Motor Gear</option>
+                                <option value="helmets">Helmets</option>
+                                <!-- Add more options as needed -->
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productSubCategory">Sub-Category*</label>
+                              <select class="form-control" id="productSubCategory" name="productSubCategory" required>
+                                <option value="">Select a sub-category</option>
+                                <option value="motor_gear">Motor Gear</option>
+                                <option value="helmets">Helmets</option>
+                                <option value="helmets">None</option>
+                                <!-- Add more options as needed -->
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group mb-2">
+                          <label for="productColor">Color*</label>
+                          <div>
+                            <label class="checkbox-inline mx-2"><input type="checkbox" id="colorRed" name="productColor" value="Red"> Red</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorBlue" name="productColor" value="Blue"> Blue</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorBlack" name="productColor" value="Black"> Black</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorWhite" name="productColor" value="White"> White</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorGreen" name="productColor" value="Green"> Green</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorYellow" name="productColor" value="Yellow"> Yellow</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorOrange" name="productColor" value="Orange"> Orange</label>
+                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorGray" name="productColor" value="Gray"> Gray</label>
+                            <!-- Add more color options as needed -->
+                          </div>
+                        </div>
+                        <div class="form-group mb-2">
+                          <label for="productColor">Size*</label>
+                          <div>
+                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeXS" name="productColor" value="XL"> Extra Small</label>
+                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeS" name="productColor" value="S"> Small</label>
+                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeM" name="productColor" value="M"> Medium</label>
+                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeL" name="productColor" value="L"> Large</label>
+                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeXL" name="productColor" value="XL"> Extra Large</label>
+                            <!-- Add more color options as needed -->
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="purchasedPrice">Purchased Price</label>
+                              <input type="number" class="form-control" id="purchasedPrice" name="purchasedPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the purchased price of the product" required>
+                              </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="sellingPrice">Selling Price</label>
+                              <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the selling price of the product" required >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input type="checkbox" class="form-check-input" id="expiredCheckbox" name="expiredCheckbox">
+                          <label class="form-check-label" for="expiredCheckbox">Expired Product? </label>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productExpirationDate">Expiration Date</label>
+                              <input type="date" class="form-control" id="productExpirationDate" name="productExpirationDate" disabled>
+                              <small class="form-text text-muted">Leave this field blank if the product does not expire.</small>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="alertDate">Alert Date</label>
+                              <input type="date" class="form-control" id="alertDate" name="alertDate" disabled>
+                              <small class="form-text text-muted">Set the date to receive an alert about the product's expiration.</small>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="form-group mb-2">
+                          <label for="productLowStock">Low Stock Threshold*</label>
+                          <input type="number" class="form-control" id="productLowStock" name="productLowStock" required>
+                          <small class="form-text text-muted">Enter the minimum quantity at which you want to be notified that the product is running low in stock.</small>
+                        </div>
+                        <div class="form-group mb-5">
+                          <label for="productImages">Product Images</label><br>
+                          <input type="file" class="form-control-file" id="productImages" name="productImages[]" multiple>
+                          <small class="form-text text-muted">You can upload up to 3 images for each product.</small>
+                        </div>
+                        
+                        <div class="mt-3">
+                          <a type="submit" id="item_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Save()">ADD PRODUCT</a>
+                          <a type="submit" id="item_edit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Modify()">MODIFY</a>
+                        </div>
+                      </form>
+                      
+                    </div>
+                  </div>
+                  <!-- INPUT FORM
+                  <div class="container">
+                    
                     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
                         <input type="hidden" class="form-control" id="itemID">
                         <div class="form-floating mb-2">
@@ -181,11 +315,12 @@
                             <input class="form-control" type="file" id="image">
                         </div>
                         <div class="mt-3">
-                          <a type="submit" id="item_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #7a7a7a;" onclick="Save()">ADD PRODUCT</a>
-                          <a type="submit" id="item_edit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #7a7a7a;" onclick="Modify()">MODIFY</a>
+                          <a type="submit" id="item_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Save()">ADD PRODUCT</a>
+                          <a type="submit" id="item_edit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Modify()">MODIFY</a>
                         </div>
                     </div>
                 </div>
+                ----->
               </div>
             </div>
             </div>
@@ -476,7 +611,16 @@ function CatSearch(){
   
 }
 
+//Expired Product
+  const expiredCheckbox = document.getElementById('expiredCheckbox');
+  const expirationDateInput = document.getElementById('productExpirationDate');
+  const alertDateInput = document.getElementById('alertDate');
+
+  expiredCheckbox.addEventListener('change', () => {
+    expirationDateInput.disabled = !expiredCheckbox.checked;
+    alertDateInput.disabled = !expiredCheckbox.checked;
+  });
+
  </script>
 
 {{end}}
- 

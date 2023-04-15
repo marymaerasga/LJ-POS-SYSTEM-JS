@@ -15,15 +15,17 @@
         <link href="/static/css/all.min.css" rel="stylesheet">
         <link href="/static/css/fontawesome.min.css" rel="stylesheet">
         <!--- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet">
-        <!--- SweetAlert -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">       
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     </head>
     <body class="sb-nav-fixed" style="background: #f4f4f4;">
         <nav class="sb-topnav navbar navbar-expand navbartop sticky-top">
             <!-- Navbar Brand-->
-            <a class="navbar-brand text-white text-bold ps-3 text-center" href="/dash/dashboard">LJ TRADING POS</a>
+            <a class="navbar-brand text-white text-bold text-center" href="/dash/dashboard">LJ MOTORGEAR POS</a>
             <!-- Sidebar Toggle-->
             <button type="button" class="btn btn-sm order-1 order-lg-0 me-4 me-lg-0 text-white" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -68,10 +70,7 @@
                 <i class=" fas fa-regular fa-bell fs-6"></i><span class="badge text-bg-danger" id="notif"></span>
             </button>
   
-            <!-- Navbar-->
-            <h3 style=" color: #f4f4f4;   font-size: 15px;
-            margin-top: 11px;
-           " id="user_name"></h3>
+            
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -89,7 +88,7 @@
                 <nav class="sb-sidenav accordion sb-sidenav-left" id="sidenavAccordion">
                     
                 </nav>
-            </div>
+        </div>
 
      <!-- Notification Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -194,13 +193,13 @@ var dateString = moment(now).format('YYYY-MM-DD');
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/dash/product">Product List</a>
                                     <a class="nav-link" href="/dash/category">Product Category</a>
+                                    <a class="nav-link" href="/dash/product">Product List</a>
                                     <a class="nav-link" href="/dash/stock-in-entry">Stock In Entry</a>
                                     <a class="nav-link" href="/dash/stock-in-history">Stock In History</a>
                                     <a class="nav-link" href="/dash/product-stock-status">Product Stock Status</a>
                                     <a class="nav-link" href="/dash/pull-out-history">Pull Out Product History</a>
-                                    <a class="nav-link" href="/dash/vat-discount">Vat and Discount</a>
+                                    <a class="nav-link" href="/dash/vat-discount">Stock Out</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="/dash/customer">
@@ -259,6 +258,17 @@ var dateString = moment(now).format('YYYY-MM-DD');
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Product Category
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseCategory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/dash/category" id="category-link">Category</a>
+                                    <a class="nav-link" href="" id="sub-category-link">Sub-Category</a>
+                                </nav>
+                            </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Product Inventory
@@ -267,13 +277,11 @@ var dateString = moment(now).format('YYYY-MM-DD');
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/dash/product" id="product-link">Product List</a>
-                                <a class="nav-link" href="/dash/category" id="category-link">Product Category</a>
-                                <a class="nav-link" href="/dash/stock-in-entry" id="stock-in-link">Stock In Entry</a>
-                                <a class="nav-link" href="/dash/stock-in-history" id="stock-history-link">Stock In History</a>
-                                <a class="nav-link" href="/dash/product-stock-status" id="product-stock-link">Product Stock Status</a>
-                                <a class="nav-link" href="/dash/pull-out-history" id="pull-out-link">Pull Out Product History</a>
-
-                                    <!----<a class="nav-link" href="/dash/vat-discount">Vat and Discount</a>-->
+                                    <a class="nav-link" href="/dash/stock-in-entry" id="stock-in-link">Stock In Entry</a>
+                                    <a class="nav-link" href="/dash/stock-in-history" id="stock-history-link">Stock In History</a>
+                                    <a class="nav-link" href="/dash/product-stock-status" id="product-stock-link">Product Stock Status</a>
+                                    <a class="nav-link" href="/dash/pull-out-history" id="pull-out-link">Pull Out Product History</a>
+                                    <a class="nav-link" href="#">Stock Out</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="/dash/customer">
