@@ -1,12 +1,157 @@
-<form id="stock-out-form">
-    <label for="product-name">Product name:</label>
-    <input type="text" id="product-name" name="product-name" required>
-  
-    <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" required>
-  
-    <label for="reason">Reason:</label>
-    <textarea id="reason" name="reason" required></textarea>
-  
-    <button type="submit">Report Stock Out</button>
-  </form>
+{{define "title"}}
+<title>{{.Title}}</title>
+{{end}}
+
+{{define "content"}}
+
+            <!--Product Content-->
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Product Inventory</h1>
+                        <ol class="breadcrumb ">
+                            <li class="breadcrumb-item active">Stock-out History</li>
+                        </ol>
+                        <hr style="height:3px;border-width:0;color:gray;background-color:gray">
+                        <div class="container-fluid ">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-md-auto">
+                                            <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                                                <div class="searchdiv">
+                                                    <input type="text" id="search-product" placeholder="Search ..." style="
+                                                        width: 42rem;
+                                                        outline: none;
+                                                        border: none;
+                                                        text-indent: 10px;
+                                                        font-family: 'Poppins', sans-serif;
+                                                        font-weight: bold;
+                                                        height: 2.5rem;
+                                                        font-size: 1rem;
+                                                        border-radius: 5rem 0rem 0rem 5rem;
+                                                        background-color: #f8fbfc;
+                                                        text-transform: capitalize;">
+                                                      <button style="
+                                                        width: 3rem;
+                                                        outline: none;
+                                                        border: none;
+                                                        height: 2.5rem;
+                                                        border-radius: 0rem 5rem 5rem 0rem;
+                                                        background-color: #f8fbfc;
+                                                        margin-left: -20px;" onclick="Search()">
+                                                        <svg
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width="16"
+                                                          height="16"
+                                                          fill="currentColor"
+                                                          class="bi bi-search"
+                                                          viewBox="0 0 16 16">
+                                                          <path
+                                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                                          />
+                                                        </svg>
+                                                    </button>
+                                                 </div>
+                                                </div>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn text-white" type="button" id="stock-out-report" style="background-color: #1fa708">GENERATE REPORT</button>
+                                        </div>
+                                      </div>
+                                </div>
+                              </div>
+                        </div>
+
+                        <div class="container-fluid mt-3">
+                            <div class="card shadow">
+                                <!--- Tables -->
+                                <div class="table-responsive py-3 ms-3 me-3" style="max-height: 345px; overflow-y: auto;">
+                                <table class="table table-bordered text-center">
+                                    <thead>
+                                        <th scope="col">Product Code</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Quantity</th>  <!--- Ilan yung product na damaged or ilan yung product na ireremove sa stock-->
+                                        <th scope="col">Remarks</th>
+                                        <th scope="col">Date of Stock Out</th>
+                                    </thead>
+                                    <tbody id= "stock-out-details">
+                                       
+                                    </tbody>
+                                  </table>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </main>
+                </div>
+            </div>
+
+
+    <script>
+$( document ).ready(function() {
+    $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).expired
+    $.each(result, function(_,v){
+     $("#pull-out-details").append(`
+     <tr class="border">
+        <td>`+v.Code+`</td>
+        <td>`+v.Name+`</td>
+        <td>`+v.Category.Name+`</td>
+        <td>`+v.Price+`</td>   
+        <td>`+v.Expiration+`</td>                              
+    </tr>
+     `)
+     
+    })
+  })
+
+})
+
+function Search(){
+
+    var search = $("#search-product").val()
+
+    $("tbody").empty()
+    $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).expired
+    $.each(result, function(_,v){
+        if (search == v.Name){
+    $("#pull-out-details").append(`
+        <tr class="border">
+            <td>`+v.Code+`</td>
+            <td>`+v.Name+`</td>
+            <td>`+v.Category.Name+`</td>
+            <td>`+v.Price+`</td>   
+            <td>`+v.Expiration+`</td>                              
+        </tr>
+    `)
+        }
+    if (search == "" || search == " "){
+        $("#pull-out-details").append(`
+        <tr class="border">
+            <td>`+v.Code+`</td>
+            <td>`+v.Name+`</td>
+            <td>`+v.Category.Name+`</td>
+            <td>`+v.Price+`</td>   
+            <td>`+v.Expiration+`</td>                              
+        </tr>
+        `)
+    }
+   
+     
+     
+    })
+  })
+
+}
+    </script>
+      
+      {{end}}
+
+
+
+
+ 

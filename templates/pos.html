@@ -16,12 +16,29 @@
                                 <div class="card shadow" >
                                     <div class="card-body">
                                         <div class="row g-3">
-                                            <div class="col-sm-5">
+                                            <div class="col-md-auto">
+                                                <select class="form-select" id="product-category" aria-label="Default select example">
+                                                  </select>
+                                            </div>
+                                            <div class="col-md-auto">
+                                              <select class="form-select sub-category" id="sub_category_search" >
+                                                <option value="1">Sub-Category</option>
+                                              </select>
+                                          </div>
+                                            <div class="col-sm">
+                                                <div class="input-group mb-1">
+                                                    <select class="form-select form-select-md category" id="customer" aria-describedby="button-addon2">
+                                                        
+                                                    </select>
+                                                    <button class="btn text-white" id="add-customer" style="background-color: #1fa708;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"><i class="fas fa-regular fa-user-plus"></i></i></button>
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-auto">
                                               <!--- Search -->
                                               <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                                 <div class="searchdiv">
                                                     <input type="text" id="search-product" placeholder="Search Product" style="
-                                                        width: 14rem;
+                                                        width: 40rem;
                                                         outline: none;
                                                         border: none;
                                                         text-indent: 10px;
@@ -55,18 +72,6 @@
                                                  </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm">
-                                                <select class="form-select" id="product-category" aria-label="Default select example">
-                                                  </select>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="input-group mb-3">
-                                                    <select class="form-select form-select-md category" id="customer" aria-describedby="button-addon2">
-                                                        
-                                                    </select>
-                                                    <button class="btn text-white" id="add-customer" style="background-color: #1fa708;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"><i class="fas fa-regular fa-user-plus"></i></i></button>
-                                                  </div>
-                                            </div>
                                           </div>
                                     </div>
                                   </div>
@@ -82,7 +87,7 @@
                                                     <th scope="col">Promo Code</th>
                                                     <th scope="col">Product Name</th>
                                                     <th scope="col">Category</th>
-                                                    <th scope="col">Description</th>
+                                                    <th scope="col">Sub-Category</th> <!--Description--->
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Add to Cart</th>
                                                 </thead>

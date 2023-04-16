@@ -91,6 +91,7 @@
                                         <th scope="col">Mobile No.</th>
                                         <th scope="col">Address</th>
                                         <th scope="col">Email Address</th>
+                                        <th scope="col">Password</th> <!---This is visible if employee forgot his/her password admin can view thier password-->
                                         <th scope="col">Position</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Button</th>
@@ -169,7 +170,7 @@
                 </div>
               </div>
 
-               <!---ADD STAFF MODAL--->
+               <!---EDIT STAFF MODAL--->
             <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -208,6 +209,10 @@
                             <div class="form-floating mb-2">
                                 <input type="email" class="form-control" id="email1" placeholder="Email">
                                 <label for="email">Email Address</label>
+                            </div>
+                            <div class="form-floating mb-2">
+                                <input type="password" class="form-control" id="password1" placeholder="Password">
+                                <label for="password">Password</label>
                             </div>
                             <div class="form-floating mb-2">
                                 <select id="position1" class="form-select">
@@ -334,6 +339,7 @@
             <td>`+v.MobileNo+`</td>
             <td>`+v.Address+` </td>
             <td>`+v.User.Username+`</td>
+            
             <td>`+v.User.Position+`</td>
             <td>`+v.Status+`</td>
             <td>
