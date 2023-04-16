@@ -176,8 +176,8 @@
           v.Date +
           `</td>
           <td>
+            <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #1fa708 ;" onclick="Validate(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-pen-to-square"></i></button>
             <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-trash"></i></button>
-            <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #1357bc ;" onclick="Validate(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)"><i class="fa-solid fa-pen-to-square"></i></button>
             <button type="button" class="btn text-white text-center" id ="stock-out" data-bs-toggle="modal" data-bs-target="#stockOut" style="background-color: #80190A;" onclick="stockOut(`+v.ID+`,`+v.Item.ID+`,`+v.Stock+`)">Stock-out</button>
           </td>
         </tr>
