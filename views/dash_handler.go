@@ -51,6 +51,8 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 				context = StockEntryHandler(w, r)
 			case "category":
 				context = CategoryHandler(w, r)
+			case "sub-category":
+				context = SubCategoryHandler(w, r)
 			case "stock-in-history":
 				context = StockHistoryHandler(w, r)
 			case "product-stock-status":
@@ -104,6 +106,8 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 				context = StockEntryHandler(w, r)
 			case "category":
 				context = CategoryHandler(w, r)
+			case "sub-category":
+				context = SubCategoryHandler(w, r)
 			case "stock-in-history":
 				context = StockHistoryHandler(w, r)
 			case "product-stock-status":
