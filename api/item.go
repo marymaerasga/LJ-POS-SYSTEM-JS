@@ -51,7 +51,7 @@ func ExpiredItem(w http.ResponseWriter, r *http.Request) {
 
 	item := models.Item{}
 	id, _ := strconv.Atoi(r.FormValue("id"))
-	db.Preload("Category").Where("id", id).Find(&item)
+	db.Preload("Category").Preload("SubCategory").Where("id", id).Find(&item)
 
 	item.Status = "1";
 
@@ -71,19 +71,21 @@ func EditItem(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(r.FormValue("id"))
 	name := r.FormValue("name")
 	description := r.FormValue("description")
-	qty, _ := strconv.Atoi(r.FormValue("quantity"))
-	price, _ := strconv.Atoi(r.FormValue("price"))
-	size, _ := strconv.Atoi(r.FormValue("size"))
-	category :=r.FormValue("category")
+	category := r.FormValue("category")
+	sub := r.FormValue("sub")
+	expiration := r.FormValue("expiration")
+	alert := r.FormValue("alert")
+	low := r.FormValue("low")
 
 	item := models.Item{}
 	db.Where("id", id).Find(&item)
 	item.Name = name
 	item.Description = description
-	item.Quantity = uint(qty)
-	item.Price = uint(price)
-	item.Size = models.Size(size)
 	item.CategoryID = category
+	item.SubCategoryID = sub
+	item.Expiration = expiration
+	item.ExpiredDate = alert
+	item.Low = low
 
 	db.Save(&item)
 
@@ -100,6 +102,10 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(r.FormValue("id"))
 	item := models.Item{}
 	db.Where("id", id).Statement.Delete(&item)
+
+	product := models.ProductItem{}
+	db.Where("item_id", id).Statement.Delete(&product)
+
 
 }
 
@@ -158,7 +164,7 @@ func CreateOrder(w http.ResponseWriter, r *http.Request) {
 
 		product := models.Item{}
 		db.Where("id", oiID).Find(&product)
-		product.Quantity = uint(product.Quantity) - uint(oiQTY)
+		// product.Quantity = uint(product.Quantity) - uint(oiQTY)
 		db.Save(&product)
 	}
 

@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="col-md-auto">
                                           <select class="form-select sub-category" id="sub_category_search" >
-                                            <option value="1">Sub-Category</option>
+                              
                                           </select>
                                       </div>
                                         <div class="col-md-auto px-5 ">
@@ -142,12 +142,13 @@
                 <div class="modal-body">
                   <div class="container">
                     <div class="row">
-                      <form>
+                      <div>
                         <div class="row mb-2">
                           <div class="col">
                             <div class="form-group mb-2">
                               <label for="productName">Product Name*</label>
                               <input type="text" class="form-control" id="productName" name="productName" required>
+                              <input type="text" class="form-control" id="itemID" placeholder="Enter Category Name" hidden>
                             </div>
                           </div>
                           <div class="col">
@@ -162,9 +163,7 @@
                             <div class="form-group mb-2">
                               <label for="productCategory">Category*</label>
                               <select class="form-control" id="productCategory" name="productCategory" required>
-                                <option value="">Select a category</option>
-                                <option value="motor_gear">Motor Gear</option>
-                                <option value="helmets">Helmets</option>
+                               
                                 <!-- Add more options as needed -->
                               </select>
                             </div>
@@ -173,53 +172,93 @@
                             <div class="form-group mb-2">
                               <label for="productSubCategory">Sub-Category*</label>
                               <select class="form-control" id="productSubCategory" name="productSubCategory" required>
-                                <option value="">Select a sub-category</option>
-                                <option value="motor_gear">Motor Gear</option>
-                                <option value="helmets">Helmets</option>
-                                <option value="helmets">None</option>
+                                
                                 <!-- Add more options as needed -->
                               </select>
                             </div>
                           </div>
                         </div>
-                        <div class="form-group mb-2">
-                          <label for="productColor">Color*</label>
-                          <div>
-                            <label class="checkbox-inline mx-2"><input type="checkbox" id="colorRed" name="productColor" value="Red"> Red</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorBlue" name="productColor" value="Blue"> Blue</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorBlack" name="productColor" value="Black"> Black</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorWhite" name="productColor" value="White"> White</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorGreen" name="productColor" value="Green"> Green</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorYellow" name="productColor" value="Yellow"> Yellow</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorOrange" name="productColor" value="Orange"> Orange</label>
-                            <label class="checkbox-inline  mx-2"><input type="checkbox" id="colorGray" name="productColor" value="Gray"> Gray</label>
-                            <!-- Add more color options as needed -->
-                          </div>
-                        </div>
-                        <div class="form-group mb-2">
-                          <label for="productColor">Size*</label>
-                          <div>
-                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeXS" name="productColor" value="XL"> Extra Small</label>
-                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeS" name="productColor" value="S"> Small</label>
-                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeM" name="productColor" value="M"> Medium</label>
-                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeL" name="productColor" value="L"> Large</label>
-                            <label class="checkbox-inline mx-2"><input type="checkbox" id="SizeXL" name="productColor" value="XL"> Extra Large</label>
-                            <!-- Add more color options as needed -->
-                          </div>
-                        </div>
-                        <div class="row mb-3">
+
+                        <div style="display: flex;
+                        gap: 10px;" id="itemsource">
                           <div class="col">
                             <div class="form-group mb-2">
-                              <label for="purchasedPrice">Purchased Price</label>
-                              <input type="number" class="form-control" id="purchasedPrice" name="purchasedPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the purchased price of the product" required>
-                              </div>
-                          </div>
-                          <div class="col">
-                            <div class="form-group mb-2">
-                              <label for="sellingPrice">Selling Price</label>
-                              <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the selling price of the product" required >
+                              <label for="productCategory">Color*</label>
+                              <select class="form-control" id="productColor" name="productCategory" required>
+                                <option value="0">Select Color</option>
+                                <option value="Red">Red</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Green">Green</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Other">Other</option>
+                                <!-- Add more options as needed -->
+                              </select>
                             </div>
                           </div>
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productSubCategory">Size*</label>
+                              <select class="form-control" id="productSize" name="productSubCategory" required>
+                                <option value="0">Select a Size</option>
+                                <option value="5">Extra Large</option>
+                                <option value="4">Large</option>
+                                <option value="3">Medium</option>
+                                <option value="2">Small</option>
+                                <option value="1">Extra Small</option>
+                                <option value="6">Other</option>
+                                <!-- Add more options as needed -->
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="form-group mb-2">
+                            <label for="purchasedPrice">Purchased Price</label>
+                            <input type="number" style="    display: block;
+                            width: 80%;
+                            padding: 0.375rem 0.75rem;
+                            font-size: 1rem;
+                            font-weight: 400;
+                            line-height: 1.5;
+                            color: #212529;
+                            background-color: #fff;
+                            background-clip: padding-box;
+                            border: 1px solid #ced4da;
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            appearance: none;
+                            border-radius: 0.375rem;
+                            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" id="purchasedPrice" name="purchasedPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the purchased price of the product" required>
+                            </div>
+                            <div class="form-group mb-2">
+                              <label for="purchasedPrice">Retail Price</label>
+                              <input type="number" style="    display: block;
+                              width: 80%;
+                              padding: 0.375rem 0.75rem;
+                              font-size: 1rem;
+                              font-weight: 400;
+                              line-height: 1.5;
+                              color: #212529;
+                              background-color: #fff;
+                              background-clip: padding-box;
+                              border: 1px solid #ced4da;
+                              -webkit-appearance: none;
+                              -moz-appearance: none;
+                              appearance: none;
+                              border-radius: 0.375rem;
+                              transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" id="retailedPrice" name="retailedPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the retailed price of the product" required>
+                              </div>
+                              
+                        </div>
+                        <div class="mt-3">
+                          <a type="submit" id="item_save1" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="List()">ADD</a>
+                        </div>
+                        <div style="    height: 218px;
+                        border: 1px solid black;
+                        overflow: auto;" id="itemdata1">
+                        <div id="itemdata">
+
+                        </div>
+                         
                         </div>
                         <div class="form-check mb-2">
                           <input type="checkbox" class="form-check-input" id="expiredCheckbox" name="expiredCheckbox">
@@ -257,7 +296,7 @@
                           <a type="submit" id="item_save" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Save()">ADD PRODUCT</a>
                           <a type="submit" id="item_edit" href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Modify()">MODIFY</a>
                         </div>
-                      </form>
+                      </div>
                       
                     </div>
                   </div>
@@ -330,16 +369,17 @@
 
 <script>
   function Save(){
-    var name = $("#name").val();
-    var description = $("#description").val();
-    var price = $("#price").val();
-    var quantity = $("#qty").val();
-    var size = $("#size").val();
-    var category = $("#category_list").val();
-    var expiration = $("#expiration").val();
-    var image = $("#image").val();
+    var name = $("#productName").val();
+    var description = $("#productBrand").val();
+    var category = $("#productCategory").val();
+    var sub = $("#productSubCategory").val();
+    var expiration = $("#productExpirationDate").val();
+    var alert = $("#alertDate").val();
+    var low = $("#productLowStock").val();
+    var image = $("#productImages").val();
+    var data1 = localStorage.getItem("product")
   
-    if (name == "" || description == "" || price == "" || quantity == "" || size == "" || category == ""  || expiration == "" || image == ""){
+    if (name == "" || description == "" || category == "" || sub == ""  || low == "" ){
       // use SweetAlert2 to show an error message
       Swal.fire({
         title: 'Incomplete Details!',
@@ -353,11 +393,12 @@
         data: {
           "name": name,
           "description":description,
-          "price": price,
-          "size": size,
           "category": category,
-          "quantity":quantity,
+          "sub":sub,
+          "cart": data1,
           "expiration": expiration,
+          "alert": alert,
+          "low": low,
         },
         success: function () {
           // use SweetAlert2 to show a success message
@@ -368,6 +409,7 @@
             confirmButtonText: 'OK'
           }).then((result) => {
             if (result.isConfirmed) {
+              localStorage.removeItem("product")
               window.location.reload();
             }
           });
@@ -382,12 +424,12 @@
     $.get("/api/get_item", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-      AppendData(v.Size, v.Name, v.Price, v.ID)
+      AppendData( v.Name,v.Description, v.ID)
     })
   })
-  $("#category_list").empty();
+  $("#productCategory").empty();
   $("#category_search").empty();
-  $("#category_list").append(`
+  $("#productCategory").append(`
       <option value="">Select Category</option>
     `)
     $("#category_search").append(`
@@ -396,7 +438,7 @@
   $.get("/api/get_category", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-      $("#category_list").append(`
+      $("#productCategory").append(`
       <option value="`+v.ID+`">`+v.Name+`</option>
     `)
     $("#category_search").append(`
@@ -407,31 +449,15 @@
 
 });
 
-function AppendData(Size,Name,Price,ID){
-  var size = ""
-  if (Size == 1){
-            size = "Extra Small"
-        }
-        if (Size == 2){
-            size = "Small"
-        }
-        if (Size == 3){
-            size = "Medium"
-        }
-        if (Size == 4){
-            size = "Large"
-        }
-        if (Size == 5){
-            size = "Extra Large"
-        }
+function AppendData(Name,Desc,ID){
+ 
         $("#item_card").append(`
         <div class="col">
         <div class="card border-danger rounded-5 mb-3 " style="max-width: 15rem">
         <img src="/static/assets/img/Product1.jpg" class="img-fluid mx-auto mt-2" style="height: 100px; width:150px" alt="...">
         <div class="card-body">
         <h5 class="card-title bold">`+Name+`</h5>
-        <p class="card-subtitle mb-2 text-muted">`+size+`</p>
-        <h4 class="card-text">P `+Price+`</h4>
+        <h4 class="card-text">`+Desc+`</h4>
         <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="Update('`+ID+`')" style="background-color: #1fa708;">Update</button>
         <button type=button class="btn profilebtn text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="Delete('`+ID+`') " style="background-color: #80190A;">
         Delete
@@ -448,38 +474,44 @@ function Validate(){
 }
 
 function Update(id){
+   
     $("#item_save").hide()
     $("#item_edit").show()
+    $("#itemdata1").hide()
+    $("#itemsource").hide()
+    $("#item_save1").hide()
     size = ""
     $.get("/api/get_item", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
         if (id == v.ID){
      $("#itemID").val(v.ID)
-     $("#name").val(v.Name)
-     $("#description").val(v.Description)
-     $("#price").val(v.Price)
-     $("#qty").val(v.Quantity)
-     $("#size").val(v.Size)
-     $("#category_list").val(v.CategoryID)
-     $("#expiration").val(v.Expiration)
-        }
+     $("#productName").val(v.Name)
+     $("#productBrand").val(v.Description)
+     $("#productCategory").val(v.CategoryID)
+     $("#productSubCategory").append(`
+     <option value="`+v.SubCategoryID+`">`+v.SubCategory.Name+`</option>
+     `)
+     $("#productSubCategory").val(v.SubCategoryID)
+     $("#productExpirationDate").val(v.Expiration)
+     $("#alertDate").val(v.ExpiredDate)
+     $("#productLowStock").val(v.Low)
+    }
     })
 })
 }
 
 function Modify(){
     var   id = $("#itemID").val()
-    var   name = $("#name").val()
-     var   description = $("#description").val()
-     var   price = $("#price").val()
-     var   quantity = $("#qty").val()
-     var   size = $("#size").val()
-     var   category = $("#category_list").val()
-     var   expiration = $("#expiration").val()
-     var   image = $("#image").val()
+    var name = $("#productName").val();
+    var description = $("#productBrand").val();
+    var category = $("#productCategory").val();
+    var sub = $("#productSubCategory").val();
+    var expiration = $("#productExpirationDate").val();
+    var alert = $("#alertDate").val();
+    var low = $("#productLowStock").val();
 
-     if ( name == "" || description == "" || price == "" || quantity == "" || size == "" || category == "" || expiration == "" || image == ""){
+    if (name == "" || description == "" || category == "" || sub == ""  || low == "" ){
        // use SweetAlert2 to show an error message
       Swal.fire({
         title: 'Incomplete Details!',
@@ -492,13 +524,13 @@ function Modify(){
          url: "/api/edit_item",
          data: {
             "id": id,
-           "name": name,
-           "description":description,
-           "price": price,
-           "size": size,
-           "category": category,
-           "quantity":quantity,
-           "expiration": expiration,
+            "name":name,
+            "description":description,
+          "category": category,
+          "sub":sub,
+          "expiration": expiration,
+          "alert": alert,
+          "low": low,
          },
          success: function () {
           // use SweetAlert2 to show a success message
@@ -584,10 +616,67 @@ $("#category_search").change(function () {
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
       if(search == v.CategoryID){
-        AppendData(v.Size, v.Name, v.Price, v.ID)
+        AppendData( v.Name,v.Description, v.ID)
       }
       if (search == 0){
-        AppendData(v.Size, v.Name, v.Price, v.ID)
+        AppendData( v.Name,v.Description, v.ID)
+      }
+    })
+  })
+})
+
+$("#sub_category_search").change(function () {        
+  var search = $("#sub_category_search").val()
+
+ $("#item_card").empty()
+    var size = ""
+  $.get("/api/get_item", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(search == v.SubCategoryID){
+        AppendData( v.Name,v.Description, v.ID)
+      }
+      if (search == 0){
+        AppendData( v.Name,v.Description, v.ID)
+      }
+    })
+  })
+})
+
+
+$("#productCategory").change(function () {        
+  var search = $("#productCategory").val()
+
+ $("#productSubCategory").empty()
+ $("#productSubCategory").append(`
+      <option value="">Select Sub-Category</option>
+    `)
+  $.get("/api/get_subcategory", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(search == v.CategoryID){
+        $("#productSubCategory").append(`
+      <option value="`+v.ID+`">`+v.Name+`</option>
+    `)
+      }
+    })
+  })
+})
+
+$("#category_search").change(function () {        
+  var search = $("#category_search").val()
+
+ $("#sub_category_search").empty()
+ $("#sub_category_search").append(`
+      <option value="">Select Sub-Category</option>
+    `)
+  $.get("/api/get_subcategory", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      if(search == v.CategoryID){
+        $("#sub_category_search").append(`
+      <option value="`+v.ID+`">`+v.Name+`</option>
+    `)
       }
     })
   })
@@ -601,10 +690,10 @@ function CatSearch(){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
       if(search == v.Name){
-        AppendData(v.Size, v.Name, v.Price, v.ID)
+        AppendData( v.Name,v.Description, v.ID)
       }
       if (search == ""){
-        AppendData(v.Size, v.Name, v.Price, v.ID)
+        AppendData( v.Name,v.Description, v.ID)
       }
     })
   })
@@ -620,6 +709,145 @@ function CatSearch(){
     expirationDateInput.disabled = !expiredCheckbox.checked;
     alertDateInput.disabled = !expiredCheckbox.checked;
   });
+
+
+  function List(){
+    var product = localStorage.getItem("product");
+    var color = $("#productColor").val();
+    var size = $("#productSize").val()
+    var p_price = $("#purchasedPrice").val();
+    var r_price = $("#retailedPrice").val()
+
+    if (color == 0 || size == 0 || p_price == "" || r_price == ""){
+      alert("Please Input Required Details")
+    }else{
+    //  * Initial adding of item in the cart
+    if (product === null || product === "" || product === " ") {
+      cart = [];
+      var color = $("#productColor").val();
+    var size = $("#productSize").val()
+    var p_price = $("#purchasedPrice").val();
+    var r_price = $("#retailedPrice").val()
+  
+      cart.push({
+        color: color,
+        size: size,
+        p_price: p_price,
+        r_price: r_price,
+      });
+      localStorage.setItem("product", JSON.stringify(cart));
+      DataItem()
+      Swal.fire({
+        toast: true,
+        position: "bottom-end",
+        icon: 'success',
+        title: 'Add Item',
+        showConfirmButton: false,
+        timer: 3000
+      }).then(function(){ 
+     
+          }) 
+    }
+    else {
+      cart = JSON.parse(product);
+      var added = false;
+      var color = $("#productColor").val();
+      var size = $("#productSize").val();
+
+   
+      //* Adding the quantity of the same item in the cart
+      $.each(cart, function (k, v) {
+        if (v.color == color && v.size == size) {
+          added = true;
+          DataItem()
+          Swal.fire({
+           toast: true,
+            position: "bottom-end",
+            icon: 'warning',
+            title: 'Item Already Exist',
+            showConfirmButton: false,
+            timer: 3000
+          }).then(function(){ 
+      
+          }) 
+        }
+      });
+
+      //* Adding of another item to cart
+      if (!added) {
+        var color = $("#productColor").val();
+    var size = $("#productSize").val()
+    var p_price = $("#purchasedPrice").val();
+    var r_price = $("#retailedPrice").val()
+  
+
+
+      cart.push({
+        color: color,
+        size: size,
+        p_price: p_price,
+        r_price: r_price,
+      });
+      localStorage.setItem("product", JSON.stringify(cart));
+      DataItem()
+      Swal.fire({
+        toast: true,
+        position: "bottom-end",
+        icon: 'success',
+        title: 'Add Item',
+        showConfirmButton: false,
+        timer: 3000
+      }).then(function(){ 
+     
+          }) 
+    
+      }
+    }
+  }
+    
+  }
+
+  function DataItem(){
+    $("#productColor").val(0);
+      $("#productSize").val(0)
+      $("#purchasedPrice").val("");
+      $("#retailedPrice").val("")
+  
+      product = localStorage.getItem("product");
+      item = JSON.parse(product);
+      console.log(item)
+      $("#itemdata").empty()
+      $.each(item, function (k, v) {
+        var sizedata  
+        if (v.size == 1){
+          sizedata = "Extra_Small"
+        }else if(v.size == 2){
+          sizedata = "Small"
+        }else if(v.size == 3){
+          sizedata = "Medium"
+        }else if(v.size == 4){
+          sizedata = "Large"
+        }else if (v.size == 5){
+          sizedata = "Extra_Large"
+        }else{
+          sizedata = "Others"
+        }
+        $("#itemdata").append(`
+        <div style="    display: flex;
+    justify-content: space-between;
+    margin: 12px; 
+    overflow: auto;
+">
+        <p>Color: `+v.color+`</p>
+        <p>Size: `+sizedata+`</p>
+        <p>Purchased Price: `+v.p_price+`</p>
+        <p>Retailed Price: `+v.r_price+`</p>
+        </div>
+        `)
+      })
+  }
+
+
 
  </script>
 

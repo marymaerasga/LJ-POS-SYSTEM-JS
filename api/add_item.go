@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -22,25 +23,49 @@ func CreateItem(w http.ResponseWriter, r *http.Request) {
 
 	name := r.FormValue("name")
 	description := r.FormValue("description")
-	qty, _ := strconv.Atoi(r.FormValue("quantity"))
-	price, _ := strconv.Atoi(r.FormValue("price"))
-	size, _ := strconv.Atoi(r.FormValue("size"))
 	category := r.FormValue("category")
+	sub := r.FormValue("sub")
 	user, _ := r.Cookie("id")
 	expiration := r.FormValue("expiration")
+	alert := r.FormValue("alert")
+	low := r.FormValue("low")
 	
 
 	item.Name = name
 	item.Description = description
-	item.Quantity = uint(qty)
-	item.Price = uint(price)
-	item.Size = models.Size(size)
 	item.CategoryID = category
+	item.SubCategoryID = sub
+	item.ExpiredDate = alert
+	item.Low = low
 	item.Expiration = expiration
 	item.UserID = user.Value
 	item.Status = "0"
 	item.Code = "I" + category + name[0:2] ;
 
 	db.Save(&item)
+	db.Where("id = ?", item.ID).Find(&item)
+
+	
+
+	new_order := r.FormValue("cart")
+	var c []map[string]string
+	json.Unmarshal([]byte(new_order), &c)
+
+	for i := range c {
+		product := models.ProductItem{}
+		fmt.Println(c[i]["size"])
+		data, _ := strconv.Atoi(c[i]["size"])
+
+		
+
+		product.ItemID = int(item.ID)
+		product.Size = models.Size(data)
+		product.Color = c[i]["color"]
+		product.PurchasePrice = c[i]["p_price"]
+		product.RetailedPrice = c[i]["r_price"]
+
+		db.Save(&product)
+
+	}
 
 }
