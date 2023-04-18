@@ -2,13 +2,14 @@ package models
 
 import "gorm.io/gorm"
 
-type StockIn struct {
+type StockOut struct {
 	ID          uint `gorm:"primaryKey"`
 	User    	User
 	UserID  	string
-	ProductItem    	ProductItem
-	ProductItemID  	string
-	Stock 		int
+	StockIn    	StockIn
+	StockInID  	int
+	QTY			string
+	Remarks		string
 	Date       string
 	Deleted gorm.DeletedAt
 }
