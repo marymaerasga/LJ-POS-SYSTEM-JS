@@ -163,4 +163,9 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		DeleteSubCategory(w, r)
 		return
 	}
+
+	if strings.HasPrefix(r.URL.Path, "get_subitem") {
+		GetSubItem(w, r)
+		return
+	}
 }

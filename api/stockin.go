@@ -17,19 +17,20 @@ func CreateStockin(w http.ResponseWriter, r *http.Request) {
 	user, _ := r.Cookie("id")
 	date := r.FormValue("date")
 
-	stock.ItemID = id
+	stock.ProductItemID = id
 	stock.Stock = total
 	stock.UserID = user.Value
 	stock.Date = date
 	db.Save(&stock)
 
 
-	item := models.Item{}
+	item := models.ProductItem{}
 	db.Where("id", id).Find(&item)
+	println("result",item.Quantity)
 
-	//  temp,_ := strconv.Atoi(r.FormValue("total"))
+	 temp,_ := strconv.Atoi(r.FormValue("total"))
 
-	// item.Quantity += uint(temp)
+	item.Quantity += int(temp)
 	db.Save(&item)
 
 	sqlDB, _ := db.DB()

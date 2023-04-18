@@ -26,6 +26,15 @@
                 <h5 class="text-center">STOCK IN ENTRY</h5>
                 <form class="row" id="stock_in">
                   <div class="row">
+                    <div class="form-group mb-2">
+                      <label for="productCategory">Item</label>
+                      <select
+                        class="form-control"
+                        id="productItem"
+                        name="productCategory"
+                        required
+                      ></select>
+                    </div>
                     <div class="col-md-auto">
                       <label for="stock-received" class="col-form-label"
                         >Total Stock Received:</label
@@ -122,7 +131,7 @@
                               display: flex;
                               flex-direction: column;
                               justify-content: space-between;
-                             
+
                               gap: 1.5 rem;
                             "
                           ></div>
@@ -149,13 +158,18 @@
                     "
                   >
                     <!--- Tables -->
-                    <div class="table-responsive py-3 ms-3 me-3" style="max-height: 345px; overflow-y: auto;">
-
+                    <div
+                      class="table-responsive py-3 ms-3 me-3"
+                      style="max-height: 345px; overflow-y: auto"
+                    >
                       <table class="table table-bordered text-center">
                         <thead>
                           <th scope="col">ID</th>
                           <th scope="col">Product Name</th>
-                          <th scope="col">Category</th>
+                          <th scope="col">Color</th>
+                          <th scope="col">Size</th>
+                          <th scope="col">Purchase Price</th>
+                          <th scope="col">Retail Price</th>
                           <th scope="col">Stock</th>
                         </thead>
                         <tbody id="stock-in-product-list"></tbody>
@@ -203,15 +217,42 @@
       $("#date-received").attr("disabled", "disabled");
       $("tbody").empty();
 
+      $("#productItem").empty();
+      $("#productItem").append(`
+      <option value="0">Select Item</option>
+      `);
       $.get("/api/get_item", function (index) {
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
-          appendData(v.Code, v.Name, v.Category.Name, v.Quantity);
+          $("#productItem").append(
+            `
+         <option value="` +
+              v.ID +
+              `">` +
+              v.Name +
+              `</option>
+           `
+          );
         });
       });
     });
 
-    function appendData(ID, Name, Category, Quantity) {
+    function appendData(ID, Name, Color, Size, RPrice, PPrice, QTY) {
+      var sizedata;
+      if (Size == 1) {
+        sizedata = "Extra_Small";
+      } else if (Size == 2) {
+        sizedata = "Small";
+      } else if (Size == 3) {
+        sizedata = "Medium";
+      } else if (Size == 4) {
+        sizedata = "Large";
+      } else if (Size == 5) {
+        sizedata = "Extra_Large";
+      } else {
+        sizedata = "Others";
+      }
+
       $("#stock-in-product-list").append(
         `
           <tr>
@@ -222,10 +263,19 @@
           Name +
           ` </td>
             <td>` +
-          Category +
+          Color +
+          `</td>
+          <td>` +
+          sizedata +
           `</td>
             <td>` +
-          Quantity +
+          RPrice +
+          ` </td>
+            <td>` +
+          PPrice +
+          `</td>
+            <td>` +
+          QTY +
           `</td>
           </tr>
           `
@@ -237,23 +287,31 @@
       $("tbody").empty();
       $("#product-display").empty();
       var search = $("#search-product").val();
-      $.get("/api/get_item", function (index) {
+      $.get("/api/get_subitem", function (index) {
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
-          if (search == v.Name) {
+          if (search == v.ID) {
             $("#stock-received").removeAttr("disabled");
             $("#date-received").removeAttr("disabled");
-            appendData(v.Code, v.Name, v.Category.Name, v.Quantity);
+            appendData(
+              v.ID,
+              v.Item.Name,
+              v.Color,
+              v.size,
+              v.RetailedPrice,
+              v.PurchasePrice,
+              v.Quantity
+            );
             $("#product-display").append(
               `
             <span id="pID">` +
                 v.ID +
                 `</span>
             <span>Product: ` +
-                v.Name +
+                v.Item.Name +
                 `</span>
-            <span>Category: ` +
-                v.Category.Name +
+            <span>Color: ` +
+                v.Color +
                 `</span>
             <span>Stock: ` +
                 v.Quantity +
@@ -301,6 +359,31 @@
         });
       }
     }
+
+    $("#productItem").change(function (e) {
+      var search = $("#productItem").val();
+      $("#stock-in-product-list").empty();
+      $.get("/api/get_subitem", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          console.log(result);
+          if (search == v.ItemID) {
+            appendData(
+              v.ID,
+              v.Item.Name,
+              v.Color,
+              v.size,
+              v.RetailedPrice,
+              v.PurchasePrice,
+              v.Quantity
+            );
+          }
+          if (search == 0) {
+            $("#stock-in-product-list").empty();
+          }
+        });
+      });
+    });
   </script>
   {{end}}
 </div>

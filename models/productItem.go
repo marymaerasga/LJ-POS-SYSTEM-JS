@@ -8,6 +8,7 @@ type ProductItem struct {
 	ItemID 	int
 	Color 	string
 	Size        Size
+	Quantity	  int
 	PurchasePrice string
 	RetailedPrice string
 
