@@ -77,13 +77,14 @@ func MigrateDB() {
 	order := models.Order{}
 	orderlines := models.Orderlines{}
 	subcategory := models.SubCategory{}
+	subitem := models.ProductItem{}
 
 	dsn := "root:a@tcp(127.0.0.1:3306)/pos_system?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.AutoMigrate(&employees, &user, &item, &customer, &category,&stockin,&order,&orderlines,&subcategory)
+	db.AutoMigrate(&employees, &user, &item, &customer, &category,&stockin,&order,&orderlines,&subcategory,&subitem)
 }
 
 func CreateDefaultUser() {

@@ -27,9 +27,9 @@ func CreateStockin(w http.ResponseWriter, r *http.Request) {
 	item := models.Item{}
 	db.Where("id", id).Find(&item)
 
-	 temp,_ := strconv.Atoi(r.FormValue("total"))
+	//  temp,_ := strconv.Atoi(r.FormValue("total"))
 
-	item.Quantity += uint(temp)
+	// item.Quantity += uint(temp)
 	db.Save(&item)
 
 	sqlDB, _ := db.DB()
@@ -61,12 +61,12 @@ func EditStockin(w http.ResponseWriter, r *http.Request) {
 	item := models.Item{}
 	id, _ := strconv.Atoi(r.FormValue("itemID"))
 	sid, _ := strconv.Atoi(r.FormValue("stockID"))
-	current, _ := strconv.Atoi(r.FormValue("CurrentCount"))
-	new, _ := strconv.Atoi(r.FormValue("NewCount"))
+	// current, _ := strconv.Atoi(r.FormValue("CurrentCount"))
+	// new, _ := strconv.Atoi(r.FormValue("NewCount"))
 
 	db.Where("id", id).Find(&item)
-	item.Quantity -= uint(current)
-	item.Quantity += uint(new)
+	// item.Quantity -= uint(current)
+	// item.Quantity += uint(new)
 	db.Save(&item)
 
 	stockin := models.StockIn{}
@@ -84,10 +84,10 @@ func DeleteStockin(w http.ResponseWriter, r *http.Request) {
 	item := models.Item{}
 	id, _ := strconv.Atoi(r.FormValue("itemID"))
 	sid, _ := strconv.Atoi(r.FormValue("stockID"))
-	count, _ := strconv.Atoi(r.FormValue("new"))
+	// count, _ := strconv.Atoi(r.FormValue("new"))
 
 	db.Where("id", id).Find(&item)
-	item.Quantity -= uint(count)
+	// item.Quantity -= uint(count)
 	db.Save(&item)
 
 
