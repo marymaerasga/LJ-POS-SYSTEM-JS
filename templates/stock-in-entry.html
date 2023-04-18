@@ -352,7 +352,29 @@
               confirmButtonText: "OK",
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.reload();
+                $("#stock-received").attr("disabled", "disabled");
+                $("#date-received").attr("disabled", "disabled");
+                $("#stock-received").val("");
+                $("#date-received").val("");
+                var search = $("#productItem").val();
+                $("#stock-in-product-list").empty();
+                $.get("/api/get_subitem", function (index) {
+                  var result = JSON.parse(index).item;
+                  $.each(result, function (_, v) {
+                    console.log(result);
+                    if (search == v.ItemID) {
+                      appendData(
+                        v.ID,
+                        v.Item.Name,
+                        v.Color,
+                        v.size,
+                        v.RetailedPrice,
+                        v.PurchasePrice,
+                        v.Quantity
+                      );
+                    }
+                  });
+                });
               }
             });
           },
