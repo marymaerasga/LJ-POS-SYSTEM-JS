@@ -100,12 +100,12 @@
           </div>
           <div class="modal-body">
             <!-- Add your notification content here -->
-            <div class="alert alert-warning" role="alert" id="low_s">
+            <div class="alert alert-warning" role="alert" id="low_s" onclick="Redirect()">
                 
               </div> 
-            <div class="alert alert-warning" role="alert" id="out_s">
+            <div class="alert alert-warning" role="alert" id="out_s" onclick="Redirect()">
               </div>
-            <div class="alert alert-warning" role="alert" id="expired_s">
+            <div class="alert alert-warning" role="alert" id="expired_s" onclick="Redirect()">
               </div>
             
           </div>
@@ -318,6 +318,10 @@ var dateString = moment(now).format('YYYY-MM-DD');
                 `)
             }
         })
+
+        function Redirect(){
+            window.location.replace("/dash/product-stock-status")
+        }
       </script>
   </body>
 </html>

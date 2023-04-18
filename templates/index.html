@@ -99,6 +99,46 @@
         </div>
       </div>
     </div>
+
+    <!-- View Modal -->
+    <div
+      class="modal fade"
+      id="viewProduct"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!--- Tables -->
+            <div
+              class="table-responsive py-3 ms-3 me-3"
+              style="max-height: 345px; overflow-y: auto"
+            >
+              <table class="table table-bordered text-center">
+                <thead>
+                  <th scope="col">Color</th>
+                  <th scope="col">Size</th>
+                  <th scope="col">Retail Price</th>
+                </thead>
+                <tbody id="product-details"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--- Login modal  -->
     <div
       class="modal fade"
@@ -264,51 +304,79 @@
       $.get("/api/get_item", function (index) {
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
-          AppendData(v.Size, v.Name, v.Price, v.ID);
+          AppendData(v.Name, v.Description, v.ID);
         });
       });
     });
 
-    function AppendData(Size, Name, Price, ID) {
-      var size = "";
-      if (Size == 1) {
-        size = "Extra Small";
-      }
-      if (Size == 2) {
-        size = "Small";
-      }
-      if (Size == 3) {
-        size = "Medium";
-      }
-      if (Size == 4) {
-        size = "Large";
-      }
-      if (Size == 5) {
-        size = "Extra Large";
-      }
+    function AppendData(Name, Desc, ID) {
       $("#item_card").append(
         `
         <div class="col">
-        <div class="card border-danger rounded-5 mb-3 " style="max-width: 15rem">
+        <div class="card border-danger rounded-5 mb-3 " style="max-width: 18rem">
         <img src="/static/assets/img/Product1.jpg" class="img-fluid mx-auto mt-2" style="height: 100px; width:150px" alt="...">
         <div class="card-body">
         <h5 class="card-title bold">` +
           Name +
           `</h5>
-        <p class="card-subtitle mb-2 text-muted">` +
-          size +
-          `</p>
-        <h4 class="card-text">P ` +
-          Price +
+        <h4 class="card-text">` +
+          Desc +
           `</h4>
-    </div>
-    </div>
-    </div>
+        <div class="mt-3">
+        <button type="button" class="btn text-white btn-sm" data-bs-toggle="modal" data-bs-target="#viewProduct" style="background-color: #1fa708;" onclick="View('` +
+          ID +
+          `')"><i class="fas fa-light fa-eye"></i></button>
+        
+        </div>
+        </div>
+        </div>
+        </div>
         `
       );
     }
 
-    $("#category_search").change(function () {
+    function View(id) {
+      $("#product-details").empty();
+      $.get("/api/get_subitem", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          if (v.ItemID == id) {
+            var sizedata = "";
+            if (v.Size == 1) {
+              sizedata = "Extra_Small";
+            } else if (v.Size == 2) {
+              sizedata = "Small";
+            } else if (v.Size == 3) {
+              sizedata = "Medium";
+            } else if (v.Size == 4) {
+              sizedata = "Large";
+            } else if (v.Size == 5) {
+              sizedata = "Extra_Large";
+            } else {
+              sizedata = "Others";
+            }
+            $("#product-details").append(
+              `
+            <tr>
+              <td>` +
+                v.Color +
+                `</td>
+              <td>` +
+                sizedata +
+                `</td>
+              <td>` +
+                v.RetailedPrice +
+                `</td>
+            </tr>
+          
+            `
+            );
+          }
+        });
+      });
+    }
+
+    $("#category").change(function () {
       var search = $("#category").val();
 
       $("#item_card").empty();
@@ -317,10 +385,10 @@
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
           if (search == v.CategoryID) {
-            AppendData(v.Size, v.Name, v.Price, v.ID);
+            AppendData(v.Name, v.Description, v.ID);
           }
           if (search == 0) {
-            AppendData(v.Size, v.Name, v.Price, v.ID);
+            AppendData(v.Name, v.Description, v.ID);
           }
         });
       });
@@ -334,10 +402,10 @@
         var result = JSON.parse(index).item;
         $.each(result, function (_, v) {
           if (search == v.Name) {
-            AppendData(v.Size, v.Name, v.Price, v.ID);
+            AppendData(v.Name, v.Description, v.ID);
           }
           if (search == "") {
-            AppendData(v.Size, v.Name, v.Price, v.ID);
+            AppendData(v.Name, v.Description, v.ID);
           }
         });
       });
