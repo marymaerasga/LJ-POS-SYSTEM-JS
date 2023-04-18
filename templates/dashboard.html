@@ -281,15 +281,15 @@ $( document ).ready(function() {
             <tr class="border">
                 <td>`+v.Date+`</td>
                 <td>`+v.ID+`</td>
-                <td>`+v.GrandTotal+`</td>
-                <td>`+v.Payment+`</td>
-                <td>`+v.Change+`</td>
+                <td>`+v.GrandTotal.toLocaleString("en-US")+`</td>
+                <td>`+v.Payment.toLocaleString("en-US")+`</td>
+                <td>`+v.Change.toLocaleString("en-US")+`</td>
                 <td>`+v.User.FirstName+` `+v.User.LastName+`</td>
             </tr>
         `)
         })
         $("#transaction-count").html(count)
-        $("#sales-gtotal").html(total.toFixed(2))
+        $("#sales-gtotal").html(total.toLocaleString("en-US"))
 
         var result1 = JSON.parse(index).orderlines
         var count1 = 0;
@@ -305,7 +305,7 @@ $( document ).ready(function() {
 
             <td>`+v.Item.Name+`</td>
             <td>`+v.Quantity+`</td>
-            <td>`+total1+`</td>
+            <td>`+total1.toLocaleString("en-US")+`</td>
             <td>
                 `+v.Date+`
             </td>
@@ -314,7 +314,7 @@ $( document ).ready(function() {
         `)
         })
         $("#pcs").html(count1)
-        $("#pcs_total").html(result2.toFixed(2))
+        $("#pcs_total").html(result2.toLocaleString("en-US"))
     })
         
 })
@@ -338,16 +338,16 @@ $("tbody").empty()
                 <tr class="border">
                     <td>`+v.Date+`</td>
                     <td>`+v.ID+`</td>
-                    <td>`+v.GrandTotal+`</td>
-                    <td>`+v.Payment+`</td>
-                    <td>`+v.Change+`</td>
+                    <td>`+v.GrandTotal.toLocaleString("en-US")+`</td>
+                    <td>`+v.Payment.toLocaleString("en-US")+`</td>
+                    <td>`+v.Change.toLocaleString("en-US")+`</td>
                     <td>`+v.User.FirstName+` `+v.User.LastName+`</td>
                 </tr>
             `)
             }
         })
         $("#transaction-count").html(count)
-        $("#sales-gtotal").html(total.toFixed(2))
+        $("#sales-gtotal").html(total.toLocaleString("en-US"))
 
     })
 
@@ -378,15 +378,15 @@ $.ajax({
         <tr class="border">
             <td>`+v.Date+`</td>
             <td>`+v.ID+`</td>
-            <td>`+v.GrandTotal+`</td>
-            <td>`+v.Payment+`</td>
-            <td>`+v.Change+`</td>
+            <td>`+v.GrandTotal.toLocaleString("en-US")+`</td>
+            <td>`+v.Payment.toLocaleString("en-US")+`</td>
+            <td>`+v.Change.toLocaleString("en-US")+`</td>
             <td>`+v.User.FirstName+` `+v.User.LastName+`</td>
         </tr>
         `)
       })
       $("#transaction-count").html(count)
-        $("#sales-gtotal").html(total.toFixed(2))
+        $("#sales-gtotal").html(total.toLocaleString("en-US"))
     }
     })
 })
@@ -421,7 +421,7 @@ $("tbody").empty()
 
            <td>`+v.Item.Name+`</td>
            <td>`+v.Quantity+`</td>
-           <td>`+total1+`</td>
+           <td>`+total1.toLocaleString("en-US")+`</td>
            <td>
                `+v.Date+`
            </td>
@@ -431,7 +431,7 @@ $("tbody").empty()
             }
         })
         $("#pcs").html(count1)
-        $("#pcs_total").html(result2.toFixed(2))
+        $("#pcs_total").html(result2.toLocaleString("en-US"))
 
     })
 
@@ -465,7 +465,7 @@ $.ajax({
 
            <td>`+v.Item.Name+`</td>
            <td>`+v.Quantity+`</td>
-           <td>`+total1+`</td>
+           <td>`+total1.toLocaleString("en-US")+`</td>
            <td>
                `+v.Date+`
            </td>
@@ -474,7 +474,7 @@ $.ajax({
        `)
       })
       $("#pcs").html(count1)
-        $("#pcs_total").html(result2.toFixed(2))
+        $("#pcs_total").html(result2.toLocaleString("en-US"))
     }
     })
 })

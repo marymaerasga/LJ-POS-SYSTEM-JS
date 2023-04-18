@@ -143,4 +143,24 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		DeleteStockin(w, r)
 		return
 	}
+
+	if strings.HasPrefix(r.URL.Path, "sub_category") {
+		CreateSubCategory(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "get_subcategory") {
+		GetSubCategory(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "edit_subcategory") {
+		EditSubCategory(w, r)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "delete_subcategory") {
+		DeleteSubCategory(w, r)
+		return
+	}
 }

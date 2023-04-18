@@ -29,7 +29,7 @@
                         </div>
                         <div class="container-fluid mt-3">
                             <div class="card shadow">
-                                    <div class="category" id="category">
+                                    <div class="category" id="categorylist">
                                            <!--- Tables -->
                                            <div class="table-responsive py-3 ms-3 me-3">
                                           <div id="divToExport">
@@ -64,9 +64,9 @@
                                                     <div class="mb-3">
                                                       <label for="category-name" class="form-label">Category id (Name):</label>
                                                       <!----Select Catgeory-->
-                                                      <select class="form-select">
-                                                        <option selected>Select</option>
-                                                        <option value="1">Helmet</option>
+                                                      <select class="form-select" id="category">
+                                                     
+                                                      
                                                       </select>
                                                     </div>
                                                   </div>
@@ -74,6 +74,7 @@
                                                     <div class="mb-3">
                                                       <label for="sub-category-name" class="form-label">Name:</label>
                                                       <input type="category" class="form-control" id="sub-category-name" placeholder="Enter Category Name">
+                                                      <input type="text" class="form-control" id="itemID" placeholder="Enter Category Name" hidden>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -135,8 +136,9 @@
 
 <script>
     function Save() {
-        var name = $("#category-name").val();
-        if (name == "") {
+        var name = $("#sub-category-name").val();
+        var sub = $("#category").val();
+        if (name == "" || sub == 0) {
           // use SweetAlert2 to show an error dialog
           Swal.fire({
             title: 'Error!',
@@ -146,15 +148,16 @@
           });
         } else {
           $.ajax({
-            url: "/api/category",
+            url: "/api/sub_category",
             data: {
               "name": name,
+              "id": sub
             },
             success: function () {
               // use SweetAlert2 to show a success dialog
               Swal.fire({
                 title: 'Success!',
-                text: 'Category Added Successfully!',
+                text: 'Sub-Category Added Successfully!',
                 icon: 'success',
                 confirmButtonText: 'OK'
               }).then((result) => {
@@ -167,16 +170,17 @@
         }
       }
  $( document ).ready(function() {
-        $("#category-modify").hide();
+        $("#sub-category-modify").hide();
     $("#category-details").empty()
-    $.get("/api/get_category", function(index){
+    $.get("/api/get_subcategory", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-        $("#category-details").append(`
+        $("#sub-category-details").append(`
         <tr class="border">
             <td>`+v.ID+`</td>
             <td>`+v.User.FirstName+` `+v.User.LastName+` </td>
             <td>`+v.Name+`</td>
+            <td>`+v.Category.Name+`</td>
             <td>
                <button type="button" class="btn text-white text-center" id ="edit-category" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #1fa708" onclick="Validate(`+v.ID+`)"><i class="fa-solid fa-pen-to-square"></i></button>
                <button type="button" class="btn text-white text-center" id ="delete-category" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #80190A;" onclick="Delete(`+v.ID+`)"><i class="fa-solid fa-trash"></i></button>
@@ -186,25 +190,38 @@
         `)
     })
     })
-});
+    $("#category").empty()
+    $("#category").append(`
+    <option selected value="0">Select</option>
+    `)
+    $.get("/api/get_category", function(index){
+    var result = JSON.parse(index).item
+    $.each(result, function(_,v){
+      $("#category").append(`
+    <option value="`+v.ID+`">`+v.Name+`</option>
+    `)
+    })
+    });
+ })
 
 
 
 function Validate(id){
     if (id > 0){
-        $("#category-save").hide()
-        $("#category-modify").show()
+        $("#sub-category-save").hide()
+        $("#sub-category-modify").show()
     }else{
-        $("#category-modify").hide()
-        $("#category-save").show()
+        $("#sub-category-modify").hide()
+        $("#sub-category-save").show()
     }
    
-    $.get("/api/get_category", function(index){
+    $.get("/api/get_subcategory", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
         if (id == v.ID){
         $("#itemID").val(v.ID)
-        $("#category-name").val(v.Name)
+        $("#sub-category-name").val(v.Name)
+        $("#category").val(v.CategoryID)
         }
     })
 })
@@ -212,9 +229,11 @@ function Validate(id){
 
 function Modify() {
     var id = $("#itemID").val();
-    var name = $("#category-name").val();
+    var name = $("#sub-category-name").val();
+    var sub = $("#category").val();
   
-    if (name == "") {
+  
+    if (name == "" || sub == 0) {
       // use SweetAlert2 to show an error dialog
       Swal.fire({
         title: 'Error!',
@@ -224,10 +243,11 @@ function Modify() {
       });
     } else {
       $.ajax({
-        url: "/api/edit_category",
+        url: "/api/edit_subcategory",
         data: {
           "id": id,
           "name": name,
+          "cat": sub
         },
         success: function () {
           // use SweetAlert2 to show a success dialog
@@ -247,7 +267,7 @@ function Modify() {
   }
 
 function Delete(id){
-    $.get("/api/get_category", function(index){
+    $.get("/api/get_subcategory", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
         if (id == v.ID){
@@ -265,7 +285,7 @@ function Delete_No(){
 function Delete_Yes() {
     var id = $("#itemID_delete").val();
     $.ajax({
-      url: "/api/delete_category",
+      url: "/api/delete_subcategory",
       data: {
         "id": id,
       },
