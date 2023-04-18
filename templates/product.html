@@ -116,6 +116,7 @@
                                 <th scope="col">Color</th>
                                 <th scope="col">Size</th>
                                 <th scope="col">Retail Price</th>
+                                <th scope="col">Action</th>
                             </thead>
                             <tbody id= "product-details">
                                
@@ -127,6 +128,134 @@
                 </div>
               </div>
             </div>
+
+            <!--- EDIT VIEW Modal  -->
+            <div class="modal fade" id="editView" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md  modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="container">
+                    <div class="row">
+                      <div style="display: flex;
+                        gap: 10px;" id="itemsource">
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productCategory">Color*</label>
+                              <select class="form-control" id="productColor" name="productCategory" required>
+                                <option value="0">Select Color</option>
+                                <option value="Red">Red</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Green">Green</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Other">Other</option>
+                                <!-- Add more options as needed -->
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group mb-2">
+                              <label for="productSubCategory">Size*</label>
+                              <select class="form-control" id="productSize" name="productSubCategory" required>
+                                <option value="0">Select a Size</option>
+                                <option value="5">Extra Large</option>
+                                <option value="4">Large</option>
+                                <option value="3">Medium</option>
+                                <option value="2">Small</option>
+                                <option value="1">Extra Small</option>
+                                <option value="6">Other</option>
+                                <!-- Add more options as needed -->
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                  <div class="row">
+                          <div class="form-group mb-2">
+                            <label for="purchasedPrice">Purchased Price</label>
+                            <input type="number" style="    display: block;
+                            width: 100%;
+                            padding: 0.375rem 0.75rem;
+                            font-size: 1rem;
+                            font-weight: 400;
+                            line-height: 1.5;
+                            color: #212529;
+                            background-color: #fff;
+                            background-clip: padding-box;
+                            border: 1px solid #ced4da;
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            appearance: none;
+                            border-radius: 0.375rem;
+                            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" id="purchasedPrice" name="purchasedPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the purchased price of the product" required>
+                            </div>
+                            <div class="form-group mb-2">
+                              <label for="purchasedPrice">Retail Price</label>
+                              <input type="number" style="    display: block;
+                              width: 100%;
+                              padding: 0.375rem 0.75rem;
+                              font-size: 1rem;
+                              font-weight: 400;
+                              line-height: 1.5;
+                              color: #212529;
+                              background-color: #fff;
+                              background-clip: padding-box;
+                              border: 1px solid #ced4da;
+                              -webkit-appearance: none;
+                              -moz-appearance: none;
+                              appearance: none;
+                              border-radius: 0.375rem;
+                              transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" id="retailedPrice" name="retailedPrice" step="0.01" min="0" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Enter the retailed price of the product" required>
+                              </div>
+                              
+                        </div>
+                      </div>
+                    <div class="row">
+                      <div class="col">
+                        <a type="submit" id="category-save" href="#" class="btn mb-2 w-100 btn-block rounded text-white"
+                        style="background-color: #80190A;" onclick="Save()">Save</a>
+                     </div>
+                  </div>
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
+
+              <!--- Delete View Modal  -->
+        <div class="modal fade" id="deleteView" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="container-sm">
+                  <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab" tabindex="0">
+                      <input type="hidden" class="form-control" id="itemID_delete">
+                      <div class="form-floating mb-3">
+                          <div class="delete_nam">
+                              <span>Do you want to delete this ?</span>
+                          </div>
+                      </div>
+                      <div class="mt-3">
+                          <div class="delete_btn">
+                              <a type="submit"  href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Delete_Yes()">YES</a>
+                              <a type="submit"  href="#" class="btn w-100 btn-block rounded text-white" style="background-color: #80190A;" onclick="Delete_No()">NO</a>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
 
         <!--- Delete Item Modal  -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -898,22 +1027,21 @@ function CatSearch(){
       }
             $("#product-details").append(`
             <tr>
-            <td>` +
-          v.Color +
-          `</td>
-            <td>` +
-          sizedata +
-          ` </td>
-            <td>` +
-          v.RetailedPrice +
-          `</td>
+              <td>`+v.Color+`</td>
+              <td>`+sizedata+`</td>
+              <td>`+v.RetailedPrice+`</td>
+              <td>
+                <button type="button" class="btn text-white text-center btn-sm" id ="editProductDetails" data-bs-toggle="modal" data-bs-target="#editView" style="background-color: #0F52BA" onclick="Validate(`+v.ID+`)"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button type="button" class="btn text-white text-center btn-sm" id ="deleteProductDetails" data-bs-toggle="modal" data-bs-target="#deleteView" style="background-color: #80190A;" onclick="Delete(`+v.ID+`)"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>
+          
             `)
           }
 
         })
       })
   }
-
 
 
  </script>
