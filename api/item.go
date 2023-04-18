@@ -26,8 +26,8 @@ func GetItem(w http.ResponseWriter, r *http.Request) {
 	item := []models.Item{}
 	db.Preload("Category").Where("status", "0").Find(&item)
 
-	expired := []models.Item{}
-	db.Preload("Category").Where("status", "1").Find(&expired)
+	expired := []models.ProductItem{}
+	db.Preload("Item").Where("status", "1").Find(&expired)
 
 	data := map[string]interface{}{
 		"status": "ok",
@@ -49,9 +49,10 @@ func ExpiredItem(w http.ResponseWriter, r *http.Request) {
 
 	
 
-	item := models.Item{}
+	item := models.ProductItem{}
 	id, _ := strconv.Atoi(r.FormValue("id"))
-	db.Preload("Category").Preload("SubCategory").Where("id", id).Find(&item)
+
+	db.Preload("Item").Where("id", id).Find(&item)
 
 	item.Status = "1";
 

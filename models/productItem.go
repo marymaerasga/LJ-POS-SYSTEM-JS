@@ -11,6 +11,7 @@ type ProductItem struct {
 	Quantity	  int
 	PurchasePrice string
 	RetailedPrice string
+	Status		string
 
 	Deleted gorm.DeletedAt
 }

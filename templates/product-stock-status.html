@@ -114,9 +114,8 @@
                                                 <thead>
                                                     <th scope="col">Product Code</th>
                                                     <th scope="col">Product Name</th>
-                                                    <th scope="col">Category</th>
-                                                    <th scope="col">Description</th>
-                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Color</th>
+                                                    <th scope="col">Size</th>
                                                     <th scope="col">Stocks</th>
                                                     <th scope="col">Expiration</th>
                                                 </thead>
@@ -142,19 +141,19 @@ $( document ).ready(function() {
     var low = 0;
     var out = 0;
     var expired = 0
-    $.get("/api/get_item", function(index){
+    $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-      if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+      if (parseFloat(v.Quantity) <= parseFloat(v.Item.Low) && parseFloat(v.Quantity)> parseFloat(0)){
         low += parseFloat(1)
         $("#low-stock-count").html(low)
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"yellow")
       }else if(parseFloat(v.Quantity) == 0){
         out += parseFloat(1)
         $("#out-stock-count").html(out)
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"red")
       }else{
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration)
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration)
       }
      
     })
@@ -162,40 +161,51 @@ $( document ).ready(function() {
 
 })
 
-function AppendData(code,name,category,desc,price,count,expiration,color){
+function AppendData(code,name,color1,Size,QTY,expiration,color){
+  var sizedata;
+      if (Size == 1) {
+        sizedata = "Extra_Small";
+      } else if (Size == 2) {
+        sizedata = "Small";
+      } else if (Size == 3) {
+        sizedata = "Medium";
+      } else if (Size == 4) {
+        sizedata = "Large";
+      } else if (Size == 5) {
+        sizedata = "Extra_Large";
+      } else {
+        sizedata = "Others";
+      }
   if (color == "yellow"){
     $("#product_stock_status").append(`
         <tr class="border" style="background-color:yellow">
               <td>`+code+`</td>
               <td>`+name+`</td>
-              <td>`+category+`</td>
-              <td>`+desc+`</td>
-              <td>`+price+`</td>
-              <td>`+count+`</td>
+              <td>`+color1+`</td>
+              <td>`+sizedata+`</td>
+              <td>`+QTY+`</td>
               <td>`+expiration+`</td>
           </tr>
         `)
   }else if(color == "red"){
     $("#product_stock_status").append(`
         <tr class="border" style="background-color:red">
-              <td>`+code+`</td>
+          <td>`+code+`</td>
               <td>`+name+`</td>
-              <td>`+category+`</td>
-              <td>`+desc+`</td>
-              <td>`+price+`</td>
-              <td>`+count+`</td>
+              <td>`+color1+`</td>
+              <td>`+sizedata+`</td>
+              <td>`+QTY+`</td>
               <td>`+expiration+`</td>
           </tr>
         `)
   }else{
     $("#product_stock_status").append(`
         <tr class="border">
-              <td>`+code+`</td>
+          <td>`+code+`</td>
               <td>`+name+`</td>
-              <td>`+category+`</td>
-              <td>`+desc+`</td>
-              <td>`+price+`</td>
-              <td>`+count+`</td>
+              <td>`+color1+`</td>
+              <td>`+sizedata+`</td>
+              <td>`+QTY+`</td>
               <td>`+expiration+`</td>
           </tr>
         `)
@@ -209,10 +219,10 @@ var dateString = moment(now).format('YYYY-MM-DD');
      
   let date2 = new Date(dateString).getTime();
   var count = 0;
-  $.get("/api/get_item", function(index){
+  $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-      let date1 = new Date(v.Expiration).getTime();
+      let date1 = new Date(v.Item.ExpiredDate).getTime();
       if (date1 <= date2){
         count += parseFloat(1)
         $.ajax({
@@ -260,14 +270,14 @@ var dateString = moment(now).format('YYYY-MM-DD');
     var low = 0;
     var out = 0;
     var expired = 0
-    $.get("/api/get_item", function(index){
+    $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
       if (status == 1){
-        if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        if (parseFloat(v.Quantity) <= parseFloat(v.Item.Low) && parseFloat(v.Quantity)> 0){
         low += parseFloat(1)
         $("#low-stock-count").html(low)
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"yellow")
       }
     }
 
@@ -275,23 +285,23 @@ var dateString = moment(now).format('YYYY-MM-DD');
         if(parseFloat(v.Quantity) == 0){
         out += parseFloat(1)
         $("#out-stock-count").html(out)
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"red")
         }
       }
 
       else{
-        if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        if (parseFloat(v.Quantity) <= parseFloat(v.Item.Low) && parseFloat(v.Quantity)> 0){
         low += parseFloat(1)
         $("#low-stock-count").html(low)
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"yellow")
          }
         else if(parseFloat(v.Quantity) == 0){
         out += parseFloat(1)
         $("#out-stock-count").html(out)
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
+        AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"red")
         }
         else{
-          AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration)
+          AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration)
         }
       }
     })
@@ -304,18 +314,18 @@ function Search(){
     var search = $("#search-product").val()
 
     $("tbody").empty()
-  $.get("/api/get_item", function(index){
+  $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
       if (search == v.Name){
-        if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"yellow")
+        if (parseFloat(v.Quantity) <= parseFloat(v.Item.Low) && parseFloat(v.Quantity)> 0){
+          AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"yellow")
          }
         else if(parseFloat(v.Quantity) == 0){
-        AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration,"red")
+          AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration,"red")
         }
         else{
-          AppendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.Quantity,v.Expiration)
+          AppendData(v.Item.Code,v.Item.Name,v.Color,v.Size,v.Quantity,v.Item.Expiration)
         }
       }
 

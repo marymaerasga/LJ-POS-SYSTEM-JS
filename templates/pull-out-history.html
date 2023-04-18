@@ -71,8 +71,8 @@
                                     <thead>
                                         <th scope="col">Code</th>
                                         <th scope="col">Product Name</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Price</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Quantity</th>
                                         <th scope="col">Expiration</th>
                                     </thead>
                                     <tbody id= "pull-out-details">
@@ -96,11 +96,11 @@ $( document ).ready(function() {
     $.each(result, function(_,v){
      $("#pull-out-details").append(`
      <tr class="border">
-        <td>`+v.Code+`</td>
-        <td>`+v.Name+`</td>
-        <td>`+v.Category.Name+`</td>
-        <td>`+v.Price+`</td>   
-        <td>`+v.Expiration+`</td>                              
+        <td>`+v.Item.Code+`</td>
+        <td>`+v.Item.Name+`</td>
+        <td>`+v.Color+`</td>
+        <td>`+v.Quantity+`</td>    
+        <td>`+v.Item.Expiration+`</td>                               
     </tr>
      `)
      
@@ -117,25 +117,25 @@ function Search(){
     $.get("/api/get_item", function(index){
     var result = JSON.parse(index).expired
     $.each(result, function(_,v){
-        if (search == v.Name){
+        if (search == v.Item.Name){
     $("#pull-out-details").append(`
         <tr class="border">
-            <td>`+v.Code+`</td>
-            <td>`+v.Name+`</td>
-            <td>`+v.Category.Name+`</td>
-            <td>`+v.Price+`</td>   
-            <td>`+v.Expiration+`</td>                              
+            <td>`+v.Item.Code+`</td>
+        <td>`+v.Item.Name+`</td>
+        <td>`+v.Color+`</td>
+        <td>`+v.Quantity+`</td>   
+        <td>`+v.Item.Expiration+`</td>                             
         </tr>
     `)
         }
     if (search == "" || search == " "){
         $("#pull-out-details").append(`
         <tr class="border">
-            <td>`+v.Code+`</td>
-            <td>`+v.Name+`</td>
-            <td>`+v.Category.Name+`</td>
-            <td>`+v.Price+`</td>   
-            <td>`+v.Expiration+`</td>                              
+            <td>`+v.Item.Code+`</td>
+        <td>`+v.Item.Name+`</td>
+        <td>`+v.Color+`</td>
+        <td>`+v.Quantity+`</td>    
+        <td>`+v.Item.Expiration+`</td>                               
         </tr>
         `)
     }

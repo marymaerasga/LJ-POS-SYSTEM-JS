@@ -64,6 +64,7 @@ func CreateItem(w http.ResponseWriter, r *http.Request) {
 		product.PurchasePrice = c[i]["p_price"]
 		product.RetailedPrice = c[i]["r_price"]
 		product.Quantity = 0
+		product.Status = "0"
 		db.Save(&product)
 
 	}
@@ -78,11 +79,9 @@ func GetSubItem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Faied to Connect to the Database ", err)
 	}
-
 	
-
 	item := []models.ProductItem{}
-	db.Preload("Item").Find(&item)
+	db.Preload("Item").Where("status", 0).Find(&item)
 
 	data := map[string]interface{}{
 		"status": "ok",
