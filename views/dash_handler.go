@@ -59,6 +59,8 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 				context = ProductStockHandler(w, r)
 			case "pull-out-history":
 				context = PulloutHistoryHandler(w, r)
+			case "stockout":
+				context = StockOutHistoryHandler(w, r)
 			case "vat-discount":
 				context = VatDiscountHandler(w, r)
 			case "customer":
@@ -114,6 +116,8 @@ func DashHandler(w http.ResponseWriter, r *http.Request) {
 				context = ProductStockHandler(w, r)
 			case "pull-out-history":
 				context = PulloutHistoryHandler(w, r)
+			case "stockout":
+				context = StockOutHistoryHandler(w, r)
 			case "vat-discount":
 				context = VatDiscountHandler(w, r)
 			case "customer":

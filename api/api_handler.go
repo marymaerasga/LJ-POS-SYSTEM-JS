@@ -173,4 +173,9 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		CreateStocOut(w, r)
 		return
 	}
+
+	if strings.HasPrefix(r.URL.Path, "get_stockout") {
+		GetStockOut(w, r)
+		return
+	}
 }

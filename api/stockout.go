@@ -53,8 +53,8 @@ func GetStockOut(w http.ResponseWriter, r *http.Request) {
 
 	db := GormDB()
 
-	item := []models.StockIn{}
-	db.Preload("ProductItem").Find(&item)
+	item := []models.StockOut{}
+	db.Preload("User").Find(&item)
 
 	data := map[string]interface{}{
 		"status": "ok",

@@ -146,11 +146,11 @@
     var now = new Date();
 var dateString = moment(now).format('YYYY-MM-DD');
   let date2 = new Date(dateString).getTime();
-    $.get("/api/get_item", function(index){
+    $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-        let date1 = new Date(v.Expiration).getTime();
-      if (parseFloat(v.Quantity) <= 10 && parseFloat(v.Quantity)> 0){
+        let date1 = new Date(v.Item.Expiration).getTime();
+      if (parseFloat(v.Quantity) <= parseFloat(v.Item.Low) && parseFloat(v.Quantity)> 0){
         low += parseFloat(1)
         low1 = 1
         $("#low_s").html(low + " " +  "Products are Low In Stock")
@@ -209,7 +209,7 @@ var dateString = moment(now).format('YYYY-MM-DD');
                                     <a class="nav-link" href="/dash/stock-in-history">Stock In History</a>
                                     <a class="nav-link" href="/dash/product-stock-status">Product Stock Status</a>
                                     <a class="nav-link" href="/dash/pull-out-history">Pull Out Product History</a>
-                                    <a class="nav-link" href="/dash/vat-discount">Stock Out History</a>
+                                    <a class="nav-link" href="/dash/stockout">Stock Out History</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="/dash/customer">
@@ -291,7 +291,7 @@ var dateString = moment(now).format('YYYY-MM-DD');
                                     <a class="nav-link" href="/dash/stock-in-history" id="stock-history-link">Stock In History</a>
                                     <a class="nav-link" href="/dash/product-stock-status" id="product-stock-link">Product Stock Status</a>
                                     <a class="nav-link" href="/dash/pull-out-history" id="pull-out-link">Pull Out Product History</a>
-                                    <a class="nav-link" href="#">Stock Out History</a>
+                                    <a class="nav-link" href="/dash/stockout">Stock Out History</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="/dash/customer">
