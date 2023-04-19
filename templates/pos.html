@@ -643,7 +643,7 @@ $("#product-category").change(function () {
     var quantity = $("#count").val();
     var item_quantity = $("#itemstock").val()
   
-    if (parseFloat(item_quantity) >  parseFloat(quantity)){
+    if (parseFloat(item_quantity) >=  parseFloat(quantity)){
     //  * Initial adding of item in the cart
     if (cart === null || cart === "" || cart === " ") {
       cart = [];
@@ -740,7 +740,7 @@ $("#product-category").change(function () {
         localStorage.removeItem("Cash")
       }
     }
-    }else{
+  }else{
       Swal.fire({
              toast: true,
             position: "bottom-end",

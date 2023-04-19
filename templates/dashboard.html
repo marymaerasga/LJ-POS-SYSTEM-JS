@@ -298,12 +298,12 @@ $( document ).ready(function() {
         $.each(result1, function(_,v){
             count1 += parseFloat(v.Quantity)
            
-            total1 = parseFloat(v.Quantity) * parseFloat(v.Item.Price)
+            total1 = parseFloat(v.Quantity) * parseFloat(v.ProductItem.RetailedPrice)
             result2 += parseFloat(total1)
             $("#product-sold-details").append(`
             <tr class="border">
 
-            <td>`+v.Item.Name+`</td>
+            <td>`+v.ProductItem.Color+`</td>
             <td>`+v.Quantity+`</td>
             <td>`+total1.toLocaleString("en-US")+`</td>
             <td>
