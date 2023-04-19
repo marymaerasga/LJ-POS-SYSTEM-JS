@@ -643,7 +643,7 @@ $("#product-category").change(function () {
     var quantity = $("#count").val();
     var item_quantity = $("#itemstock").val()
   
-    if (parseFloat(item_quantity) >  parseFloat(quantity)){
+    if (parseFloat(item_quantity) >=  parseFloat(quantity)){
     //  * Initial adding of item in the cart
     if (cart === null || cart === "" || cart === " ") {
       cart = [];
@@ -745,7 +745,7 @@ $("#product-category").change(function () {
              toast: true,
             position: "bottom-end",
             icon: 'warning',
-            title: 'Insufficient Amount',
+            title: 'Out of Stock',
             showConfirmButton: false,
             timer: 3000
           }).then(function(){ 
@@ -809,10 +809,10 @@ $("#cash-received").on("keypress", function(e){
   var cash = $("#cash-received").val()
   if (e.which == 13){
     if (this.value == "" || this.value == " "){
-     alert("Input Required Amount")
+     alert("Insufficient Amount!")
      $("#save").attr("disabled", "disabled");
     }else if(parseFloat(cash) < parseFloat(total)){
-      alert("Input Required Amount")
+      alert("Insufficient Amount!")
     } else {
       $("#save").removeAttr("disabled");
       var change = 0;

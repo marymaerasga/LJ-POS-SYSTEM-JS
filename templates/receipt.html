@@ -7,17 +7,16 @@
     <title>Receipt</title>
   </head>
   <body>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="/dash/pos" role="button"><h4>Back</h4></a>
+        </div>
+    </div>
     <div id="invoice-pos">
       <div id="printed_content">
         <center id="top">
-          <img
-            width="80px"
-            height="80px"
-            alt="Image"
-            class="img img-responsive"
-          />
           <div class="info text-center"></div>
-          <h5>LJ MotorGear Trading</h5>
+          <h3>LJ MotorGear Trading</h3>
           <p>
             Triplet Road Claret, Zamboanga City ljmotorgeartrading@gmail.com
             09654721134
@@ -36,7 +35,7 @@
                 <td class="Hours"><h2>Qty</h2></td>
                 <td class="Rate"><h2>Total</h2></td>
               </tr>
-              <tr class="service" id="data"></tr>
+              <tr class="service f-20" id="data"></tr>
             </table>
             <div class="row">
               <div id="subTotal">Sub-Total :</div>
@@ -62,7 +61,7 @@
         box-shadow: 0 0 1in -0.25in rgb(0, 0, 0.5);
         padding: 2mm;
         margin: 0 auto;
-        width: 100%;
+        width: 30%;
         background: #fff;
       }
 
@@ -142,6 +141,9 @@
         margin-top: 5mm;
         text-align: center;
       }
+      #invoice-pos #data{
+        font-size: 0.9em;
+      }
     </style>
 
     <!--- JQuery -->
@@ -207,15 +209,15 @@
             $("#data").append(
               `
             
-            <td class="tableitem"><p class="itemtext">` +
+            <td class="tableitem"><h4 class="itemtext">` +
                 f.ProductItem.Color +
-                `</p></td>
-            <td class="tableitem"><p class="itemtext">` +
+                `</h4></td>
+            <td class="tableitem"><h4 class="itemtext">` +
                 f.Quantity +
-                `</p></td>
-            <td class="tableitem"><p class="itemtext">` +
+                `</h4></td>
+            <td class="tableitem"><h4 class="itemtext">` +
                 total +
-                `</p></td>`
+                `</h4></td>`
             );
           }
         });
