@@ -16,7 +16,7 @@
                                 <div class="card shadow" >
                                     <div class="card-body">
                                         <div class="row g-3">
-                                            <div class="col-md-auto">
+                                            <!-- <div class="col-md-auto">
                                                 <select class="form-select" id="product-category" aria-label="Default select example">
                                                   </select>
                                             </div>
@@ -24,7 +24,7 @@
                                               <select class="form-select sub-category" id="sub_category_search" >
                                                 <option value="1">Sub-Category</option>
                                               </select>
-                                          </div>
+                                          </div> -->
                                             <div class="col-sm">
                                                 <div class="input-group mb-1">
                                                     <select class="form-select form-select-md category" id="customer" aria-describedby="button-addon2">
@@ -79,16 +79,26 @@
                                     <div class="col">
                                     <!--- Product list display  -->
                                     <div class="card shadow" style=" height: 29rem;">
-                                        <div class="card-body">
+                                        <div class="card-body" style="    overflow: auto;">
+
+                                          <div class="form-group mb-2">
+                                            <label for="productCategory">Item</label>
+                                            <select
+                                              class="form-control"
+                                              id="productItem"
+                                              name="productCategory"
+                                              required
+                                            ></select>
+                                          </div>
                                              <!--- Tables -->
                                            <div class="table-responsive py-3 ms-3 me-3">
                                             <table class="table table-bordered text-center">
                                                 <thead>
-                                                    <th scope="col">Promo Code</th>
-                                                    <th scope="col">Product Name</th>
-                                                    <th scope="col">Category</th>
-                                                    <th scope="col">Sub-Category</th> <!--Description--->
-                                                    <th scope="col">Price</th>
+                                                  <th scope="col">ID</th>
+                                                  <th scope="col">Product Name</th>
+                                                  <th scope="col">Color</th>
+                                                  <th scope="col">Size</th>
+                                                  <th scope="col">Retail Price</th>
                                                     <th scope="col">Add to Cart</th>
                                                 </thead>
                                                 <tbody id="product_stock_status">
@@ -364,14 +374,9 @@
         <script>
        
 $( document ).ready(function() {
-  $("#changed").attr("disabled", "disabled");
+
     $("tbody").empty()
-    $.get("/api/get_item", function(index){
-    var result = JSON.parse(index).item
-    $.each(result, function(_,v){
-      appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
-    })
-  })
+
   $("#customer").empty()
   $.get("/api/get_customer", function(index){
     var result = JSON.parse(index).item
@@ -394,13 +399,37 @@ $( document ).ready(function() {
     })
   })
 
+  $("#productItem").empty();
+      $("#productItem").append(`
+      <option value="0">Select Item</option>
+      `);
+      $.get("/api/get_item", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          $("#productItem").append(
+            `
+         <option value="` +
+              v.ID +
+              `">` +
+              v.Name +
+              `</option>
+           `
+          );
+        });
+      });
+
 
   var cart = localStorage.getItem("cart");
 
     if (cart === null || cart === "" || cart === " ") {
         localStorage.removeItem("discount")
         localStorage.removeItem("status")
+        $("#save").attr("disabled", "disabled");
+  $("#cash-received").attr("disabled", "disabled");
+  $("#changed").attr("disabled", "disabled");
     } else {
+      $("#cash-received").removeAttr("disabled");
+           
       cart = JSON.parse(cart);
       $("#itemList").empty()
       var subtotal = 0.00
@@ -472,15 +501,54 @@ $( document ).ready(function() {
 
 })
 
+$("#productItem").change(function (e) {
+      var search = $("#productItem").val();
+      $("#product_stock_status").empty();
+      $.get("/api/get_subitem", function (index) {
+        var result = JSON.parse(index).item;
+        $.each(result, function (_, v) {
+          console.log(result);
+          if (search == v.ItemID) {
+            appendData(
+              v.Item.Code,
+              v.Item.Name,
+              v.Color,
+              v.size,
+              v.RetailedPrice,
+              v.ID
+            );
+          }
+          if (search == 0) {
+            $("#product_stock_status").empty();
+          }
+        });
+      });
+    });
 
-function appendData(Code,Name,Category,Description,Price,ID){
+
+function appendData(Code,Name,Color,Size,Price,ID){
+
+  var sizedata;
+      if (Size == 1) {
+        sizedata = "Extra_Small";
+      } else if (Size == 2) {
+        sizedata = "Small";
+      } else if (Size == 3) {
+        sizedata = "Medium";
+      } else if (Size == 4) {
+        sizedata = "Large";
+      } else if (Size == 5) {
+        sizedata = "Extra_Large";
+      } else {
+        sizedata = "Others";
+      }
  
   $("#product_stock_status").append(`
         <tr class="border">
               <td>`+Code+`</td>
               <td>`+Name+`</td>
-              <td>`+Category+`</td>
-              <td>`+Description+`</td>
+              <td>`+Color+`</td>
+              <td>`+sizedata+`</td>
               <td>`+Price+`</td>
               <td><button type="button" class="btn text-white text-center text-white" id ="edit-category" data-bs-toggle="modal" data-bs-target="#addtocart" style="background-color: #1fa708;" onclick="View(`+ID+`)"><i class="fas fa-regular fa-cart-shopping" ></i></button></td>
           </tr>
@@ -509,15 +577,29 @@ $("#product-category").change(function () {
   function Search(){
     var result1 = $("#search-product").val()
     $("tbody").empty()
-    $.get("/api/get_item", function(index){
+    $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
-      if(result1 == v.Name){
-        appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+      if(result1 == v.Item.Name){
+        appendData(
+              v.Item.Code,
+              v.Item.Name,
+              v.Color,
+              v.size,
+              v.RetailedPrice,
+              v.ID
+            );
       }
 
       if(result1 == "" || result1 == " "){
-        appendData(v.Code,v.Name,v.Category.Name,v.Description,v.Price,v.ID)
+        appendData(
+              v.Item.Code,
+              v.Item.Name,
+              v.Color,
+              v.size,
+              v.RetailedPrice,
+              v.ID
+            );
       }
      
     })
@@ -525,21 +607,34 @@ $("#product-category").change(function () {
   }
 
   function View(id){
-    $.get("/api/get_item", function(index){
+    $.get("/api/get_subitem", function(index){
     var result = JSON.parse(index).item
     $.each(result, function(_,v){
       if (id == v.ID){
         $("#itemID").val(id)
-        $("#itemname").val(v.Name)
-        $("#itemprice").val(v.Price)
+        $("#itemname").val(v.Item.Name)
+        $("#itemprice").val(v.RetailedPrice)
         $("#itemstock").val(v.Quantity)
-        $("#item_name").html(v.Name)
-        $("#price").html("Price: " + v.Price)
+        $("#item_name").html(v.Item.Name)
+        $("#price").html("Price: " + v.RetailedPrice)
         $("#stock").html("Stock: " + v.Quantity)
       }
       
     })
     })
+  }
+
+  function LessCount(id,count,func){
+    $.ajax({
+         url: "/api/lesscount",
+         data: {
+            "id": id,
+            "count":count,
+            "func": func
+         },
+         success: function () {
+        }
+       })
   }
 
   function Save(){
@@ -565,6 +660,7 @@ $("#product-category").change(function () {
         price: price,
         total: total,
       });
+      LessCount(id,quantity,0)
       localStorage.setItem("cart", JSON.stringify(cart));
       Swal.fire({
         toast: true,
@@ -574,6 +670,7 @@ $("#product-category").change(function () {
         showConfirmButton: false,
         timer: 3000
       }).then(function(){ 
+        
           location.reload();
           }) 
     }
@@ -596,6 +693,7 @@ $("#product-category").change(function () {
           cart.push(temp);
           cart.pop();
           added = true;
+          LessCount(id,quantity,0)
           localStorage.setItem("cart", JSON.stringify(cart));
           Swal.fire({
            toast: true,
@@ -605,6 +703,7 @@ $("#product-category").change(function () {
             showConfirmButton: false,
             timer: 3000
           }).then(function(){ 
+           
           location.reload();
           }) 
         }
@@ -625,6 +724,7 @@ $("#product-category").change(function () {
           price: price,
           total: total,
         });
+        LessCount(id,quantity,0)
         localStorage.setItem("cart", JSON.stringify(cart));
         Swal.fire({
             toast: true,
@@ -634,6 +734,7 @@ $("#product-category").change(function () {
             showConfirmButton: false,
             timer: 3000
           }).then(function(){ 
+       
           location.reload();
           }) 
         localStorage.removeItem("Cash")
@@ -657,6 +758,12 @@ $("#product-category").change(function () {
 
 function Remove(id){
     var cart = JSON.parse(localStorage.getItem("cart"));
+      $.each(cart, function (k, v) {
+        if (id == v.itemid){
+          LessCount(id,v.quantity,1)
+        }
+
+      })
 
       cart = cart.filter((data) => data.itemid != id);
     console.log(cart,id)
@@ -703,9 +810,11 @@ $("#cash-received").on("keypress", function(e){
   if (e.which == 13){
     if (this.value == "" || this.value == " "){
      alert("Input Required Amount")
+     $("#save").attr("disabled", "disabled");
     }else if(parseFloat(cash) < parseFloat(total)){
       alert("Input Required Amount")
     } else {
+      $("#save").removeAttr("disabled");
       var change = 0;
      change = parseFloat(cash) - parseFloat(total)
      $("#change").val(change.toFixed(2))
@@ -715,6 +824,7 @@ $("#cash-received").on("keypress", function(e){
 })
 
 function Payment(){
+  localStorage.removeItem("OrderID")
   var name = $("#customer").val()
     var subtotal = $("#subtotal").html()
     var discount = $("#total_discount").html()
@@ -724,35 +834,43 @@ function Payment(){
     var change = $("#change").val()
     var cart = localStorage.getItem("cart");
 
-    $.ajax({
-        url: "/api/order",
-        data: {
-          "cart": cart,
-          "subtotal": subtotal,
-          "discount": discount,
-          "vat": vat,
-          "total": total,
-          "cash": cash,
-          "change": change,
-          "name": name,
-        },
-        success: function () {
-          Swal.fire({
-            toast: true,
-            position: "bottom-end",
-            icon: 'success',
-            title: 'Order Successful',
-            showConfirmButton: false,
-            timer: 3000
-          }).then(function(){ 
-            localStorage.removeItem("cart")
-    localStorage.removeItem("Discount")
-    localStorage.removeItem("Vat")
-    localStorage.removeItem("Type")
-          location.reload();
-          }) 
-        }
-      })
+    if (cash == ""){
+      alert("Plese Input Amount")
+    }else{
+
+      $.ajax({
+          url: "/api/order",
+          data: {
+            "cart": cart,
+            "subtotal": subtotal,
+            "discount": discount,
+            "vat": vat,
+            "total": total,
+            "cash": cash,
+            "change": change,
+            "name": name,
+          },
+          success: function (res) {
+            var result = JSON.parse(res).id
+            localStorage.setItem("OrderID",result)
+            Swal.fire({
+              toast: true,
+              position: "bottom-end",
+              icon: 'success',
+              title: 'Order Successful',
+              showConfirmButton: false,
+              timer: 3000
+            }).then(function(){ 
+              localStorage.removeItem("cart")
+      localStorage.removeItem("Discount")
+      localStorage.removeItem("Vat")
+      localStorage.removeItem("Type")
+            location.replace("/item");
+            }) 
+          }
+        })
+    }
+
   }
 
   function Cancel(){

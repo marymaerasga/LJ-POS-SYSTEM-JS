@@ -38,6 +38,7 @@ func Handlers() {
 
 	http.HandleFunc("/", views.LoginHandler)
 	http.HandleFunc("/register", views.RegisterHandler)
+	http.HandleFunc("/item", views.ItemHandler)
 	http.HandleFunc("/dash/", views.DashHandler)
 	http.HandleFunc("/api/", api.APIHandler)
 	http.HandleFunc("/logout", views.LogoutHandler)

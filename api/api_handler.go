@@ -178,4 +178,9 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		GetStockOut(w, r)
 		return
 	}
+
+	if strings.HasPrefix(r.URL.Path, "lesscount") {
+		LessCount(w, r)
+		return
+	}
 }

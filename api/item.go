@@ -110,6 +110,29 @@ func DeleteItem(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func LessCount(w http.ResponseWriter, r *http.Request) {
+	db := GormDB()
+
+	id, _ := strconv.Atoi(r.FormValue("id"))
+	count, _ := strconv.Atoi(r.FormValue("count"))
+	fun, _ := strconv.Atoi(r.FormValue("func"))
+
+	countdata := models.ProductItem{}
+	db.Preload("Item").Where("id", id).Find(&countdata)
+
+	if (fun == 1){
+		countdata.Quantity += int(count)
+		db.Save(&countdata)
+	}else{
+		countdata.Quantity -= int(count)
+		db.Save(&countdata)
+	}
+	
+
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+}
+
 func CreateOrder(w http.ResponseWriter, r *http.Request) {
 	db := GormDB()
 
@@ -158,19 +181,16 @@ func CreateOrder(w http.ResponseWriter, r *http.Request) {
 
 		orderlines.OrderID = orders.ID
 		orderlines.Date = date
-		orderlines.ItemID = uint(oiID)
+		orderlines.ProductItemID = uint(oiID)
 		orderlines.Quantity = float64(oiQTY)
 		orderlines.UserID = user.Value
 		db.Save(&orderlines)
-
-		product := models.Item{}
-		db.Where("id", oiID).Find(&product)
-		// product.Quantity = uint(product.Quantity) - uint(oiQTY)
-		db.Save(&product)
+	
 	}
 
 	res := map[string]interface{}{
 		"status": "ok",
+		"id": orders.ID,
 	}
 	ReturnJSON(w, r, res)
 	sqlDB, _ := db.DB()
@@ -199,9 +219,9 @@ func GetOrder(w http.ResponseWriter, r *http.Request) {
 
 	orderlines := []models.Orderlines{}
 	if(position.Value == "" || position.Value == " " || position.Value == "Admin"){
-	db.Preload("Order").Preload("Item").Find(&orderlines)
+	db.Preload("Order").Preload("ProductItem").Find(&orderlines)
 	}else{
-		db.Preload("Order").Preload("Item").Where("user_id", user.Value).Find(&orderlines)
+		db.Preload("Order").Preload("ProductItem").Where("user_id", user.Value).Find(&orderlines)
 	}
 
 	data := map[string]interface{}{

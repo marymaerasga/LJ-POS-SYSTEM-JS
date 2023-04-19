@@ -1,154 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receipt</title>
+  </head>
+  <body>
     <div id="invoice-pos">
-        <div id="printed_content">
-            <center id="top">
-                <img src="{{ asset('assets/images/logo.png') }}" width='80px' height='80px' alt="Image" class="img img-responsive">
-                <div class="info text-center"></div>
-                <h5>LJ MotorGear Trading</h5>
-                <p>
-                    Triplet Road Claret, Zamboanga City
-                    ljmotorgeartrading@gmail.com
-                    09654721134
-                </p>
-            </center>
-            <div class="row">
-                <div id="transacID">Transaction ID : </div>
-                <div id="cashier">Cashier : </div>
-                <div id="date">Date : </div>
-                <div id="time">Time : </div>
-            </div>
+      <div id="printed_content">
+        <center id="top">
+          <img
+            width="80px"
+            height="80px"
+            alt="Image"
+            class="img img-responsive"
+          />
+          <div class="info text-center"></div>
+          <h5>LJ MotorGear Trading</h5>
+          <p>
+            Triplet Road Claret, Zamboanga City ljmotorgeartrading@gmail.com
+            09654721134
+          </p>
+        </center>
+        <div class="row">
+          <div id="transacID"></div>
+          <div id="cashier"></div>
+          <div id="date"></div>
+        </div>
         <div class="bot">
-            <div id="table">
-                <table>
-                    <tr class="tabletitle">
-                        <td class="item"><h2>Item</h2></td>
-                        <td class="Hours"><h2>Qty</h2></td>
-                        <td class="Rate"><h2>Category</h2></td>
-                        <td class="Rate"><h2>Total</h2></td>
-                    </tr>
-                    <tr class="service">
-                        <td class="tableitem"><p class="itemtext"></p></td>
-                        <td class="tableitem"><p class="itemtext"></p></td>
-                        <td class="tableitem"><p class="itemtext"></p></td>
-                        <td class="tableitem"><p class="itemtext"></p></td>
-                      
-                    </tr>
-                </table>
-                <div class="row">
-                    <div id="subTotal">Sub-Total : </div>
-                    <div id="vat">Vat : </div>
-                    <div id="discount">Discount : </div>
-                    <div id="grandTotal">Grand Total : </div>
-                    <div id="cash">Cash : </div>
-                    <div id="change">Change: </div>
-                </div>
-               
-                <div class="legalcopy mt-5">
-                    <p class="legal ">
-                        <strong>
-                            ** Thank you for visiting **
-                        </strong><br>
-                        Everything looks better from the inside of a motorcycle helmet.
-                    </p>
-                </div>
-                
+          <div id="table">
+            <table>
+              <tr class="tabletitle">
+                <td class="item"><h2>Color</h2></td>
+                <td class="Hours"><h2>Qty</h2></td>
+                <td class="Rate"><h2>Total</h2></td>
+              </tr>
+              <tr class="service" id="data"></tr>
+            </table>
+            <div class="row">
+              <div id="subTotal">Sub-Total :</div>
+              <div id="vat">Vat :</div>
+              <div id="discount">Discount :</div>
+              <div id="grandTotal">Grand Total :</div>
+              <div id="cash">Cash :</div>
+              <div id="change">Change:</div>
             </div>
+
+            <div class="legalcopy mt-5">
+              <p class="legal">
+                <strong> ** Thank you for visiting ** </strong><br />
+                Everything looks better from the inside of a motorcycle helmet.
+              </p>
             </div>
+          </div>
         </div>
       </div>
+    </div>
     <style>
-        #invoice-pos{
-            box-shadow: 0 0 1in -0.25in rgb(0, 0, 0.5);
-            padding: 2mm;
-            margin: 0 auto;
-            width: 100%;
-            background: #fff;
-        }
-    
-        #invoice-pos ::Selection {
-            background: #f5491e;
-            color:#fff;
-        }
-    
-        #invoice-pos h2{
-            font-size: 1em;
-        }
-        #invoice-pos h3{
-            font-size: 1.2em;
-            font-weight: 300;
-            line-height: 2em;
-        }
-        #invoice-pos p{
-            font-size: 0.9em;
-            font-weight: 300;
-            line-height: 1.2em;
-            text-align:center;
-        }
-    
-        #invoice-pos #top, #invoice-pos #mid, #invoice-pos #bot{
-            border-bottom: 1px solod #eee;
-        }
-        #invoice-pos #top{
-            min-height: 100px;
-        }
-        #invoice-pos #mid{
-            min-height: 100px;
-        }
-        #invoice-pos #bot{
-            min-height: 100px;
-        }
-    
-        #invoice-pos #top .logo{
-            height: 60px;
-            width: 60px;
-            background-image: url() no-repeat;
-            background-size: 60px 60px;
-            border-radius: 50px;
-        }
-    
-        #invoice-pos .info{
-            display: block;
-            margin-left: 0;
-            text-align: center;
-        }
-        #invoice-pos .title{
-        float: right;
-        }
-        #invoice-pos .title p{
-            text-align: right;
-        }
-        #invoice-pos table{
-            width: 100%;
-            border-collapse: collapse;
-        }
-      
-        #invoice-pos .service{
-            border-bottom: 1px solid #eee;
-         }
-         #invoice-pos .item{
-           width: 25mm;
-         }
-         #invoice-pos .itemtext{
-            font-size: 0.6em;
-          }
-          #invoice-pos #legalcopy{
-            margin-top: 5mm;
-            text-align: center;
-          }
-          #invoice-pos #legalcopy p{
-            margin-top: 5mm;
-            text-align: center;
-          }
-</style>
+      #invoice-pos {
+        box-shadow: 0 0 1in -0.25in rgb(0, 0, 0.5);
+        padding: 2mm;
+        margin: 0 auto;
+        width: 100%;
+        background: #fff;
+      }
 
-</body>
+      #invoice-pos ::selection {
+        background: #f5491e;
+        color: #fff;
+      }
+
+      #invoice-pos h2 {
+        font-size: 1em;
+      }
+      #invoice-pos h3 {
+        font-size: 1.2em;
+        font-weight: 300;
+        line-height: 2em;
+      }
+      #invoice-pos p {
+        font-size: 0.9em;
+        font-weight: 300;
+        line-height: 1.2em;
+        text-align: center;
+      }
+
+      #invoice-pos #top,
+      #invoice-pos #mid,
+      #invoice-pos #bot {
+        border-bottom: 1px solod #eee;
+      }
+      #invoice-pos #top {
+        min-height: 100px;
+      }
+      #invoice-pos #mid {
+        min-height: 100px;
+      }
+      #invoice-pos #bot {
+        min-height: 100px;
+      }
+
+      #invoice-pos #top .logo {
+        height: 60px;
+        width: 60px;
+        background-image: url() no-repeat;
+        background-size: 60px 60px;
+        border-radius: 50px;
+      }
+
+      #invoice-pos .info {
+        display: block;
+        margin-left: 0;
+        text-align: center;
+      }
+      #invoice-pos .title {
+        float: right;
+      }
+      #invoice-pos .title p {
+        text-align: right;
+      }
+      #invoice-pos table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      #invoice-pos .service {
+        border-bottom: 1px solid #eee;
+      }
+      #invoice-pos .item {
+        width: 25mm;
+      }
+      #invoice-pos .itemtext {
+        font-size: 0.6em;
+      }
+      #invoice-pos #legalcopy {
+        margin-top: 5mm;
+        text-align: center;
+      }
+      #invoice-pos #legalcopy p {
+        margin-top: 5mm;
+        text-align: center;
+      }
+    </style>
+
+    <!--- JQuery -->
+    <script src="/static/lib/jquery-3.6.1.min.js"></script>
+    <!--- Popper JS -->
+    <script src="/static/lib/popper.min.js"></script>
+    <!--- Bootstrap JS -->
+    <script src="/static/lib/js/bootstrap.min.js"></script>
+    <!--- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--- JS -->
+    <script src="/static/js/scripts.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+    <script>
+      var order = localStorage.getItem("OrderID");
+
+      $.get("/api/get_order", function (index) {
+        var result = JSON.parse(index).order;
+        $.each(result, function (_, v) {
+          if (v.ID == order) {
+            $("#transacID").html("Transaction ID:" + " " + v.ID);
+            $("#cashier").html(
+              "Cashier:" + " " + v.User.FirstName + " " + v.User.LastName
+            );
+            $("#date").html("Date:" + " " + v.Date);
+            $("#subTotal").html(
+              "Sub-Total:" + " " + v.SubTotal.toLocaleString("en-US")
+            );
+            $("#discount").html(
+              "Discount:" + " " + v.Discount.toLocaleString("en-US")
+            );
+            $("#vat").html("Vat:" + " " + v.Vat.toLocaleString("en-US"));
+            $("#grandTotal").html(
+              "GrandTotal:" + " " + v.GrandTotal.toLocaleString("en-US")
+            );
+            $("#cash").html("Cash:" + " " + v.Payment.toLocaleString("en-US"));
+            $("#change").html(
+              "Change:" + " " + v.Change.toLocaleString("en-US")
+            );
+          }
+        });
+        var result1 = JSON.parse(index).orderlines;
+        $("#data").empty();
+        var total = 0;
+        $.each(result1, function (_, f) {
+          if (order == f.OrderID) {
+            total =
+              parseFloat(f.Quantity) * parseFloat(f.ProductItem.RetailedPrice);
+            $("#data").append(
+              `
+            
+            <td class="tableitem"><p class="itemtext">` +
+                f.ProductItem.Color +
+                `</p></td>
+            <td class="tableitem"><p class="itemtext">` +
+                f.Quantity +
+                `</p></td>
+            <td class="tableitem"><p class="itemtext">` +
+                total +
+                `</p></td>`
+            );
+          }
+        });
+      });
+    </script>
+  </body>
 </html>

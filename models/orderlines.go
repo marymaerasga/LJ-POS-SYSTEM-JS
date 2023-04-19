@@ -7,8 +7,8 @@ type Orderlines struct {
 	Date      string
 	Order     Order
 	OrderID   uint
-	Item      Item
-	ItemID	 uint
+	ProductItem      ProductItem
+	ProductItemID	 uint
 	Quantity  float64
 	User      User
 	UserID    string
