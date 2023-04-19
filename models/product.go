@@ -16,6 +16,8 @@ type Item struct {
 	ExpiredDate string
 	Low			string
 	Image       string
+	Image2       string
+	Image3       string
 	Status		string
 	Code 		string
 	Deleted gorm.DeletedAt

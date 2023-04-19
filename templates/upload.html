@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{.Title}}</title>
+    <!--- Bootstrap CSS -->
+    <link href="/static/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <!--- Styles -->
+    <link href="/static/css/index.css" rel="stylesheet" />
+    <!--- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <!--- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/6fa6ee6fa5.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--- SweetAlert -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <form method="post" enctype="multipart/form-data">
+          <div class="form-group mb-5">
+            <input
+              type="hidden"
+              class="form-control"
+              name="itemID"
+              id="itemID"
+            />
+            <label for="productImages">Product Image</label><br />
+            <input
+              type="file"
+              class="form-control-file"
+              id="productImages"
+              name="productImages"
+            />
+            <small class="form-text text-muted"
+              >You can upload up to 1 image for each product.</small
+            >
+          </div>
+
+          <div class="form-group mb-5">
+            <label for="productImages">Product Image 2</label><br />
+            <input
+              type="file"
+              class="form-control-file"
+              id="productImages"
+              name="productImages1"
+              multiple
+            />
+            <small class="form-text text-muted"
+              >You can upload up to 1 image for each product.</small
+            >
+          </div>
+
+          <div class="form-group mb-5">
+            <label for="productImages">Product Image 3</label><br />
+            <input
+              type="file"
+              class="form-control-file"
+              id="productImages"
+              name="productImages2"
+              multiple
+            />
+            <small class="form-text text-muted"
+              >You can upload up to 1 image for each product.</small
+            >
+          </div>
+
+          <div class="mt-3">
+            <button
+              type="submit"
+              id="item_save"
+              class="btn w-100 btn-block rounded text-white"
+              style="background-color: #80190a"
+            >
+              UPLOAD
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--- JQuery -->
+    <script src="/static/lib/jquery-3.6.1.min.js"></script>
+    <!--- Popper JS -->
+    <script src="/static/lib/popper.min.js"></script>
+    <!--- Bootstrap JS -->
+    <script src="/static/lib/js/bootstrap.min.js"></script>
+    <!--- JS -->
+    <script src="/static/js/index/app.js"></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+    ></script>
+  </body>
+
+  <script>
+    id = localStorage.getItem("PicImage");
+    $("#itemID").val(id);
+  </script>
+</html>
